@@ -1,18 +1,26 @@
 {
-  "extends": "eslint:recommended",
   "env": {
+    "es6": true,
     "browser": true,
-    "commonjs": true,
-    "node": true,
-    "es6": true
+    "node": true
   },
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
+  "extends": [
+    "eslint:recommended",
+    "react-app"
+  ],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "plugins": [
+    "babel"
+  ],
   "rules": {
-    "no-console": "off",
-    "no-constant-condition": "off",
-    "no-unused-vars": ["warn", { "args": "none" }]
+    "no-unused-expressions": "off",
+    "babel/no-unused-expressions": "babel/no-unused-expressions"
   }
 }
