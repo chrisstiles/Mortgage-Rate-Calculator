@@ -1,0 +1,26 @@
+@font-face {
+  font-family: 'NoeDisplay';
+  font-style:  normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("NoeDisplay-Bold.woff2") format("woff2"),
+       url("NoeDisplay-Bold.woff") format("woff");
+}
+
+@font-face {
+  font-family: 'Interstate';
+  font-style:  normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("Interstate-Regular.woff2") format("woff2"),
+       url("Interstate-Regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: 'Interstate';
+  font-style:  normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("Interstate-Bold.woff2") format("woff2"),
+       url("Interstate-Bold.woff") format("woff");
+}

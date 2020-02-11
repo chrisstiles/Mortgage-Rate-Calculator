@@ -75,6 +75,18 @@ const config = {
             }
           }
         ]
+      },
+      {
+        test: /\.(png|jpg|gif|svg|woff|woff2)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              name: '[name].[hash:20].[ext]',
+              limit: 8192
+            }
+          }
+        ]
       }
     ]
   },

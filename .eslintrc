@@ -9,8 +9,8 @@
     "sourceType": "module"
   },
   "extends": [
-    "eslint:recommended",
-    "react-app"
+    "react-app",
+    "eslint:recommended"
   ],
   "globals": {
     "Atomics": "readonly",

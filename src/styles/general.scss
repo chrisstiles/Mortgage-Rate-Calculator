@@ -22,8 +22,18 @@ html {
 body {
   margin:0;
   padding:0;
+  font-family: 'Interstate', Helvetica, Verdana, Arial, sans-serif;
 }
 
 a {
   -webkit-tap-highlight-color:rgba(0,0,0,.2);
+}
+
+h1 {
+  font-family: 'NoeDisplay', serif;
+}
+
+p {
+  // Fix for Interstate's odd letter spacing
+  letter-spacing: -.02em;
 }
