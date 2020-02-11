@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const sassRegex = /\.(scss|sass|css)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
+const loaderUtils = require('loader-utils');
 
 const config = {
   entry: './src/index.js',
@@ -60,10 +61,29 @@ const config = {
           {
             loader: 'css-loader',
             options: {
-              modules: true,
-              localIdentName: '[path][name]__[local]--[hash:base64:5]',
-              getLocalIdent: (context, localIdentName) => {
-                return localIdentName.toLowerCase();
+              modules: {
+                getLocalIdent: (context, localIdentName, localName, options) => {
+                  const fileNameOrFolder = context.resourcePath.match(
+                    /index\.module\.(css|scss|sass)$/
+                  )
+                    ? '[folder]'
+                    : '[name]';
+
+                  const hash = loaderUtils.getHashDigest(
+                    path.posix.relative(context.rootContext, context.resourcePath) + localName,
+                    'md5',
+                    'base64',
+                    5
+                  );
+
+                  const className = loaderUtils.interpolateName(
+                    context,
+                    fileNameOrFolder + '_' + localName + '__' + hash,
+                    options
+                  );
+
+                  return className.replace('.module_', '_').toLowerCase();
+                }
               },
               sourceMap: true
             }
