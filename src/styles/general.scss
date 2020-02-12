@@ -1,5 +1,15 @@
 /*---------------------------*/
 /* General */
+/*---------------------------*/
+
+/*---------------------------*/
+/* Variables */
+
+$serif: 'NoeDisplay', serif;
+$sansSerif: 'Interstate', Helvetica, Verdana, Arial, sans-serif;
+
+/*---------------------------*/
+/* Shared Styles */
 
 * {
   margin:0;
@@ -25,18 +35,23 @@ html {
 body {
   margin:0;
   padding:0;
-  font-family: 'Interstate', Helvetica, Verdana, Arial, sans-serif;
+  background-color:#E5E5E5;
 }
 
-a {
+#mortgage-rates-wrapper {
+  font-family: $sansSerif;
+
+  *:not(h1) {
+    font-family: $sansSerif;
+    letter-spacing: -.02em; // Fix for Interstate's odd letter spacing
+  }
+
+  h1 {
+    font-family: $serif;
+    letter-spacing: normal;
+  }
+
+  a {
   -webkit-tap-highlight-color:rgba(0,0,0,.2);
-}
-
-h1 {
-  font-family: 'NoeDisplay', serif;
-}
-
-p {
-  // Fix for Interstate's odd letter spacing
-  letter-spacing: -.02em;
+  }
 }
