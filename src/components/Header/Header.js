@@ -1,16 +1,22 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styles from './Header.module.scss';
 
-export default function Header() {
+export default memo(function Header({ setControlsOpen }) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>
         <Top />
-        {(new Date().toISOString())}
+        <button
+          onClick={() => {
+            setControlsOpen(isOpen => !isOpen);
+          }}
+        >
+          Toggle Controls
+        </button>
       </div>
     </div>
   )
-}
+});
 
 function Top() {
   return (
