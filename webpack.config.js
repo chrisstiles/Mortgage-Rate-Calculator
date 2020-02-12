@@ -154,7 +154,7 @@ module.exports = (env, argv) => {
     // Production settings
     Object.assign(config, {
       output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'docs'),
         filename: 'js/bundle.js'
       },
       devtool: 'source-map',
