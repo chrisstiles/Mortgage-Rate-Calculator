@@ -1,18 +1,19 @@
 import React, { memo } from 'react';
 import styles from './Header.module.scss';
+import Button from '@components/Button';
 
 export default memo(function Header({ setControlsOpen }) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>
         <Top />
-        <button
+        <Button
           onClick={() => {
             setControlsOpen(isOpen => !isOpen);
           }}
         >
           Toggle Controls
-        </button>
+        </Button>
       </div>
     </div>
   )

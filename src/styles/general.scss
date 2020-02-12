@@ -2,6 +2,8 @@
 /* General */
 /*---------------------------*/
 
+@import 'colors';
+
 /*---------------------------*/
 /* Variables */
 
@@ -35,20 +37,26 @@ html {
 body {
   margin:0;
   padding:0;
-  background-color:#FBFBFB;
+  background-color:$pageBackground;
 }
 
 #mortgage-rates-wrapper {
   font-family: $sansSerif;
 
-  *:not(h1) {
+  p,
+  label,
+  div {
     font-family: $sansSerif;
     letter-spacing: -.02em; // Fix for Interstate's odd letter spacing
   }
 
+  button {
+    letter-spacing: -.01em;
+  }
+
   h1 {
     font-family: $serif;
-    letter-spacing: normal;
+    letter-spacing: normal !important;
   }
 
   a {
