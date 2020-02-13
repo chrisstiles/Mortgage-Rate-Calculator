@@ -53,8 +53,9 @@ module.exports = (env, argv) => {
     entry: './src/index.js',
     resolve: {
       alias: {
-        '@styles': path.join(__dirname, 'src/styles'),
-        '@components': path.join(__dirname, 'src/components')
+        '@components': path.join(__dirname, 'src/components'),
+        '@hooks': path.join(__dirname, 'src/hooks'),
+        '@styles': path.join(__dirname, 'src/styles')
       }
     },
     stats: {

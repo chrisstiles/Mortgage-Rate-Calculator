@@ -8,27 +8,28 @@
   position:relative;
   z-index: 700;
   padding:0 50px 100px 50px;
-  margin-top:-200px;
-  transform: translateY(-200px);
-  overflow:hidden;
   transition: transform .4s cubic-bezier(.55,.15,.24,.98);
   will-change: transform;
 
   &.shifted {
-    transform: translateY(0);
+    transform: translateY(0) !important;
   }
 
-  &:before {
-    content:"";
-    position: absolute;
-    z-index: -2;
-    top:100px;
-    left:0;
-    right:0;
-    bottom:0;
-    background-color:$pageBackground;
-    transform:skewY(-1deg);
+  &.noAnimation {
+    transition:none !important;
   }
+}
+
+.angle {
+  position: absolute;
+  z-index: -2;
+  top:-40px;
+  left:0;
+  right:0;
+  height:80px;
+  background-color:$pageBackground;
+  transform:skewY(-1deg);
+  pointer-events: none;
 }
 
 .content {
@@ -36,6 +37,8 @@
   max-width:800px;
   margin: 0 auto;
   background-color:#fff;
+  position:relative;
+  top:-140px;
   border-radius:4px;
   box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.03), 0px 1px 4px rgba(0, 0, 0, 0.04);
   padding:20px;

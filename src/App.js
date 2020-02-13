@@ -6,11 +6,18 @@ import Content from './components/Content';
 
 export default function App() {
   const [controlsOpen, setControlsOpen] = useState(false);
+  const [controlsHeight, setControlsHeight] = useState(null);
 
   return (
     <React.Fragment>
-      <Header setControlsOpen={setControlsOpen} />
-      <Content controlsOpen={controlsOpen} />
+      <Header
+        setControlsOpen={setControlsOpen}
+        setControlsHeight={setControlsHeight}
+      />
+      <Content
+        controlsHeight={controlsHeight}
+        controlsOpen={controlsOpen}
+      />
     </React.Fragment>
   );
 }
