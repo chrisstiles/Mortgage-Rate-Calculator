@@ -105,12 +105,12 @@
   &:focus {
     .content {
       &:before {
-        transition: transform .45s cubic-bezier(.18, .76, .43, 1) .2s;
+        transition: transform .45s cubic-bezier(.18, .76, .43, 1) .2s, background-color .3s;
         transform:scaleX(1);
       }
 
       &:after {
-        transition: transform .2s cubic-bezier(.34, 0, .85, .10) 0s;
+        transition: transform .2s cubic-bezier(.34, 0, .85, .10) 0s, background-color .1s;
         transform:scaleX(0);
       }
     }

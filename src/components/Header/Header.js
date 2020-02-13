@@ -1,7 +1,7 @@
-import React, { memo, useRef, useCallback } from 'react';
+import React, { memo } from 'react';
+import Inputs from './Inputs';
 import styles from './Header.module.scss';
 import Button from '@components/Button';
-import useResizeObserver from '@hooks/useResizeObserver';
 import { Phone } from './icons';
 
 export default memo(function Header({ setControlsOpen, controlsHeight, setControlsHeight }) {
@@ -44,34 +44,6 @@ function Top() {
         >
           Apply Now
         </Button>
-      </div>
-    </div>
-  );
-}
-
-function Inputs({
-  children,
-  controlsHeight,
-  setControlsHeight
-}) {
-  const ref = useRef(null);
-  useResizeObserver(ref, ({ height }) => setControlsHeight(height));
-
-  return (
-    <div
-      className={styles.inputWrapper}
-      style={{ marginBottom: controlsHeight + 100 }}
-    >
-      <div
-        ref={ref}
-        className={styles.inputs}
-        style={{
-          height: 300,
-          border: '2px dashed #fff',
-          padding: 50
-        }}
-      >
-        {children}
       </div>
     </div>
   );
