@@ -8,10 +8,7 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "extends": [
-    "react-app",
-    "eslint:recommended"
-  ],
+  "extends": "react-app",
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
@@ -20,7 +17,7 @@
     "babel"
   ],
   "rules": {
-    "no-unused-expressions": "off",
-    "babel/no-unused-expressions": "babel/no-unused-expressions"
+    "no-unused-expressions": 0,
+    "babel/no-unused-expressions": 0
   }
 }
