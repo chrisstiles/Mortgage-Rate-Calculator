@@ -11,10 +11,6 @@
   transition: transform .4s cubic-bezier(.55,.15,.24,.98);
   will-change: transform;
 
-  &.shifted {
-    transform: translateY(0) !important;
-  }
-
   &.noAnimation {
     transition:none !important;
   }
@@ -35,7 +31,7 @@
 .content {
   height:800px;
   max-width:800px;
-  margin: 0 auto;
+  margin: 0 auto -140px auto;
   background-color:#fff;
   position:relative;
   top:-140px;

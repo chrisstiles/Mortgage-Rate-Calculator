@@ -4,7 +4,7 @@ import Button from '@components/Button';
 import useResizeObserver from '@hooks/useResizeObserver';
 import { Phone } from './icons';
 
-export default memo(function Header({ setControlsOpen, setControlsHeight }) {
+export default memo(function Header({ setControlsOpen, controlsHeight, setControlsHeight }) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>
@@ -13,11 +13,16 @@ export default memo(function Header({ setControlsOpen, setControlsHeight }) {
           onClick={() => {
             setControlsOpen(isOpen => !isOpen);
           }}
-          style={{ marginBottom: 50 }}
         >
           Toggle Controls
         </Button>
-        <Inputs setControlsHeight={setControlsHeight}>
+        <div>
+          Top Controls
+        </div>
+        <Inputs 
+          controlsHeight={controlsHeight}
+          setControlsHeight={setControlsHeight}
+        >
           Inputs will go here
         </Inputs>
       </div>
@@ -44,20 +49,30 @@ function Top() {
   );
 }
 
-function Inputs({ children, setControlsHeight }) {
+function Inputs({
+  children,
+  controlsHeight,
+  setControlsHeight
+}) {
   const ref = useRef(null);
   useResizeObserver(ref, ({ height }) => setControlsHeight(height));
 
   return (
     <div
-      ref={ref}
-      style={{
-        height: 300,
-        border: '2px dashed #fff',
-        padding: 50,
-      }}
+      className={styles.inputWrapper}
+      style={{ marginBottom: controlsHeight + 100 }}
     >
-      {children}
+      <div
+        ref={ref}
+        className={styles.inputs}
+        style={{
+          height: 300,
+          border: '2px dashed #fff',
+          padding: 50
+        }}
+      >
+        {children}
+      </div>
     </div>
   );
 }

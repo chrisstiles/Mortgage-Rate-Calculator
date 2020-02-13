@@ -11,6 +11,7 @@ export default function App() {
   return (
     <React.Fragment>
       <Header
+        controlsHeight={controlsHeight}
         setControlsOpen={setControlsOpen}
         setControlsHeight={setControlsHeight}
       />

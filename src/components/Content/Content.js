@@ -3,7 +3,8 @@ import styles from './Content.module.scss';
 import classNames from 'classnames';
 
 export default memo(function ContentWrapper({ controlsOpen, controlsHeight }) {
-  const offset = controlsHeight ? -controlsHeight : 0;
+  const shiftY = controlsHeight ?? 0;
+  const translateY = controlsOpen ? shiftY : 0;
   const [hasInitialized, setHasInitialized] = useState(false);
   
   useEffect(() => {
@@ -13,16 +14,16 @@ export default memo(function ContentWrapper({ controlsOpen, controlsHeight }) {
   return (
     <div
       className={classNames(styles.wrapper, {
-        [styles.shifted]: controlsOpen,
         [styles.noAnimation]: !hasInitialized
       })}
       style={{
-        transform: `translateY(${offset}px)`
+        transform: `translateY(${translateY}px)`,
+        marginTop: -shiftY
       }}
     >
       <div
         className={styles.angle}
-        style={{ height: controlsHeight + 100 }}
+        style={{ height: controlsHeight + 150 }}
       />
       <Content />
     </div>

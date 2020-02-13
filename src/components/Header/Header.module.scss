@@ -4,7 +4,7 @@
 
 .wrapper {
   background-color:#4B4B4B;
-  padding: 80px 60px 180px 60px;
+  padding: 80px 60px;
   color:#fff;
 
   h1 {
@@ -54,5 +54,13 @@
 /*---------------------------*/
 /* Inputs */
 
+.inputWrapper {
+  position:relative;
+}
 
-
+.inputs {
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+}
