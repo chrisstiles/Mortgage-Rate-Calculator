@@ -1,0 +1,13 @@
+/*---------------------------*/
+/* Loan Type Tabs */
+/*---------------------------*/
+
+.wrapper {
+  display:inline-flex;
+}
+
+.button {
+  &.current {
+    pointer-events:none;
+  }
+}

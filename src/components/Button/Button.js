@@ -6,11 +6,17 @@ export default function Button({
   children,
   className,
   href,
+  showArrow: _showArrow,
   ...restProps
 }) {
+  const showArrow = _showArrow ?? !!href;
   const props = {
     ...restProps,
-    className: classNames(styles.button, className)
+    className: classNames(
+      styles.button,
+      className,
+      { [styles.arrow]: showArrow }
+    )
   };
 
   return (

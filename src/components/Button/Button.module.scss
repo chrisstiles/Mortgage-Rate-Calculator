@@ -26,22 +26,40 @@
     letter-spacing: -.01em !important;
   }
 
-  &:before {
-    content:"";
-    z-index: 2;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 15 14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M.402 5.542h12.232v1.944H.402V5.542z' fill='%23fff'/%3E%3Cpath d='M9.241 13.03l-1.105-1.363 4.183-5.152-4.183-5.153L9.24 0l5.287 6.515-5.287 6.514z' fill='%23fff'/%3E%3C/svg%3E");
-    position:absolute;
-    background-size:17px 16px;
-    background-position:center center;
-    background-repeat:no-repeat;
-    pointer-events: none;
-    top:0;
-    right:0;
-    bottom:0;
-    width:50px;
-    opacity:.9;
-    transition: opacity .3s;
-    z-index: 5;
+  &.arrow {
+    &:before {
+      content:"";
+      z-index: 2;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 15 14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M.402 5.542h12.232v1.944H.402V5.542z' fill='%23fff'/%3E%3Cpath d='M9.241 13.03l-1.105-1.363 4.183-5.152-4.183-5.153L9.24 0l5.287 6.515-5.287 6.514z' fill='%23fff'/%3E%3C/svg%3E");
+      position:absolute;
+      background-size:17px 16px;
+      background-position:center center;
+      background-repeat:no-repeat;
+      pointer-events: none;
+      top:0;
+      right:0;
+      bottom:0;
+      width:50px;
+      opacity:.9;
+      transition: opacity .3s;
+      z-index: 5;
+    }
+
+    .content {
+      padding: 15px 75px 15px 25px;
+    }
+  }
+
+  &:not(.arrow) {
+    .content {
+      &:before {
+        transition: transform .4s cubic-bezier(.63,.03,.16,1) 0s, background-color .3s !important;
+      }
+
+      &:after {
+        display:none;
+      }
+    }
   }
 
   &:hover,
@@ -63,7 +81,7 @@
   display:flex;
   align-items: center;
   justify-content: center;
-  padding: 15px 75px 15px 25px;
+  padding: 15px 25px;
   overflow:hidden;
 
   &:focus {
@@ -85,14 +103,14 @@
   &:before {
     transform:scaleX(0);
     transform-origin:left center;
-    transition: transform .4s cubic-bezier(.34, 0, .85, .10) 0s;
+    transition: transform .4s cubic-bezier(.34, 0, .85, .10) 0s, background-color .3s;
     left:0;
     right:-2px;
   }
 
   &:after {
     transform-origin:right center;
-    transition: transform .4s cubic-bezier(.09, .83, .26, 1) .4s;
+    transition: transform .4s cubic-bezier(.09, .83, .26, 1) .4s, background-color .3s;
     transform:scaleX(1);
     right:0;
     width:50px;
@@ -105,7 +123,7 @@
   &:focus {
     .content {
       &:before {
-        transition: transform .45s cubic-bezier(.18, .76, .43, 1) .2s, background-color .3s;
+        transition: transform .45s cubic-bezier(.18, .76, .43, 1) .2s, background-color .1s;
         transform:scaleX(1);
       }
 
@@ -122,7 +140,7 @@
     }
   }
 
-  &:active {
+  &:hover:active {
     .content {
       &:before,
       &:after {

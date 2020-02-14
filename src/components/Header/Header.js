@@ -2,22 +2,32 @@ import React, { memo } from 'react';
 import Inputs from './Inputs';
 import styles from './Header.module.scss';
 import Button from '@components/Button';
+import LoanTypeTabs from './LoanTypeTabs';
 import { Phone } from './icons';
 
-export default memo(function Header({ setControlsOpen, controlsHeight, setControlsHeight }) {
+export default memo(function Header({
+  loanType,
+  controlsHeight,
+  setLoanType,
+  setControlsOpen,
+  setControlsHeight
+}) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>
         <Top />
-        <Button
-          onClick={() => {
-            setControlsOpen(isOpen => !isOpen);
-          }}
-        >
-          Toggle Controls
+        <div className={styles.controlsWrapper}>
+          <LoanTypeTabs
+            loanType={loanType}
+            setLoanType={setLoanType}
+          />
+          <Button
+            onClick={() => {
+              setControlsOpen(isOpen => !isOpen);
+            }}
+          >
+            Toggle Controls
         </Button>
-        <div>
-          Top Controls
         </div>
         <Inputs 
           controlsHeight={controlsHeight}

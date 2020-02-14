@@ -10,7 +10,7 @@ const loaderUtils = require('loader-utils');
 
 const views = [
   {
-    title: 'My Application',
+    title: 'Fremont Bank Mortgage Rates',
     template: path.join(__dirname, 'src/views/index.html'),
     filename: 'index.html'
   }
@@ -54,8 +54,11 @@ module.exports = (env, argv) => {
     resolve: {
       alias: {
         '@components': path.join(__dirname, 'src/components'),
+        '@config$': path.resolve(__dirname, 'src/config.json'),
+        '@helpers$': path.join(__dirname, 'src/utils/helpers'),
         '@hooks': path.join(__dirname, 'src/hooks'),
-        '@styles': path.join(__dirname, 'src/styles')
+        '@styles': path.join(__dirname, 'src/styles'),
+        '@utils': path.join(__dirname, 'src/utils')
       }
     },
     stats: {
