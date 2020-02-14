@@ -1,8 +1,6 @@
 import './fonts/fonts.scss';
 import './styles/general.scss';
-
 import React, { useEffect, useState } from 'react';
-
 import Content from './components/Content';
 import Header from './components/Header';
 import config from '@config';
