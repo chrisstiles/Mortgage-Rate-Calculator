@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './fonts/fonts.scss';
 import './styles/general.scss';
 import Header from './components/Header';
@@ -19,6 +19,22 @@ export default function App() {
     return 'purchase';
   });
 
+  // TODO Get user's location with https://freegeoip.app/ if not passed from Kentico
+
+  const [zipCodes, setZipCodes] = useState(getCachedZipCodes());
+
+  useEffect(() => {
+    if (!window.localStorage.getItem('zipCodes')) {
+      import(
+        /* webpackChunkName: "zipcodes" */
+        '@utils/zipcodes.json'
+      ).then(data => {
+        setZipCodes(data);
+        setCachedZipCodes(data);
+      });
+    }
+  }, []);
+
   return (
     <React.Fragment>
       <Header
@@ -34,4 +50,18 @@ export default function App() {
       />
     </React.Fragment>
   );
+}
+
+function getCachedZipCodes() {
+  try {
+    return JSON.parse(window.localStorage.getItem('zipCodes'));
+  } catch {
+    return null;
+  }
+}
+
+function setCachedZipCodes(data) {
+  try {
+    window.localStorage.setItem('zipCodes', JSON.stringify(data));
+  } catch {}
 }

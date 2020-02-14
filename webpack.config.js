@@ -12,7 +12,8 @@ const views = [
   {
     title: 'Fremont Bank Mortgage Rates',
     template: path.join(__dirname, 'src/views/index.html'),
-    filename: 'index.html'
+    filename: 'index.html',
+    favicon: path.resolve(__dirname, 'src/images/favicon.ico')
   }
 ];
 
@@ -50,6 +51,10 @@ module.exports = (env, argv) => {
   }
 
   const config =  {
+    // entry: {
+    //   main: './src/index.js',
+    //   zipcodes: './src/utils/zipcodes.json'
+    // },
     entry: './src/index.js',
     resolve: {
       alias: {
@@ -135,7 +140,8 @@ module.exports = (env, argv) => {
           use: ['@svgr/webpack', 'url-loader'],
         }
       ]
-    }
+    },
+    // plugins: [new CopyPlugin([{ from: 'src/images', to: 'images' }])]
   };
 
   if (isDev) {
@@ -159,24 +165,24 @@ module.exports = (env, argv) => {
     Object.assign(config, {
       output: {
         path: path.resolve(__dirname, 'docs'),
-        filename: 'js/bundle.js'
+        filename: 'js/[name].js'
       },
       devtool: 'source-map',
       plugins: [
         new CleanWebpackPlugin(),
         ...htmlWebpackPlugins,
         new MiniCssExtractPlugin({
-          filename: 'css/[name].css',
-        })
+          filename: 'css/[name].css'
+        }),
       ],
       optimization: {
+        usedExports: true,
         minimizer: [
           new UglifyJsPlugin({
             cache: true,
-            parallel: true,
-            sourceMap: true
+            parallel: true
           }),
-          new OptimizeCssAssetsPlugin()
+          new OptimizeCssAssetsPlugin(),
         ]
       }
     });
