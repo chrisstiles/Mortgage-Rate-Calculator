@@ -2,12 +2,56 @@
 /* Loan Type Tabs */
 /*---------------------------*/
 
+@import '@styles/colors';
+
 .wrapper {
   display:inline-flex;
 }
 
-.button {
-  &.current {
-    pointer-events:none;
+.tab {
+  background-color:#F6F6F6;
+  appearance: none;
+  border: none;
+  letter-spacing: -.01em !important;
+  border-radius:0;
+  cursor: pointer;
+  line-height:1;
+  font-size:14px;
+  color:#525252;
+  text-transform: uppercase;
+  font-weight:800;
+
+  &:focus {
+    outline:none;
+
+    .content {
+      box-shadow: 0 0 0 2px rgba(25, 58, 60, 0.7), 0 0 0 6px rgba(162, 237, 241, 0.3);
+    }
+  }
+
+  &.active {
+    background-color: $teal;
+    color:#fff;
+    cursor:default;
+  }
+
+  &:not(.active) {
+    &:hover {
+      color:#434343;
+      background-color:#e7e7e7;
+    }
+  }
+}
+
+.content {
+  position:relative;
+  z-index: 3;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 25px;
+
+  &:focus {
+    outline:none;
   }
 }

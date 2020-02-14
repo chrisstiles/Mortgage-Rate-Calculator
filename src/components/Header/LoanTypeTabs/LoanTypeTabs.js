@@ -1,28 +1,54 @@
-import React from 'react';
 import Button from '@components/Button';
-import styles from './LoanTypeTabs.module.scss';
+import React from 'react';
 import classNames from 'classnames';
+import styles from './LoanTypeTabs.module.scss';
 
 export default function LoanTypeTabs({
   loanType,
   setLoanType
 }) {
+  const purchaseIsActive = loanType === 'purchase';
+
   return (
     <div className={styles.wrapper}>
-      <Button
-        className={classNames(styles.button, {
-          [styles.current]: loanType === 'purchase'
-        })}
+      <Tab
+        loanType="purchase"
+        isActive={purchaseIsActive}
+        setLoanType={setLoanType}
       >
         Purchase
-      </Button>
-      <Button
-        className={classNames(styles.button, {
-          [styles.current]: loanType === 'refinance'
-        })}
+      </Tab>
+      <Tab
+        loanType="refinance"
+        isActive={!purchaseIsActive}
+        setLoanType={setLoanType}
       >
         Refinance
-      </Button>
+      </Tab>
     </div>
+  );
+}
+
+function Tab({
+  className,
+  loanType,
+  isActive,
+  children,
+  setLoanType
+}) {
+  return (
+    <button
+      className={classNames(styles.tab, className, {
+        [styles.active]: isActive
+      })}
+      onClick={() => setLoanType(loanType)}
+    >
+      <div
+        className={styles.content}
+        tabIndex="-1"
+      >
+        {children}
+      </div>
+    </button>
   );
 }
