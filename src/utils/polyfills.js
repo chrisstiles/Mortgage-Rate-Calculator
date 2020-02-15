@@ -1,5 +1,6 @@
 /* eslint-disable */
 import 'url-search-params-polyfill';
+import 'promise-polyfill/src/polyfill';
 
 // http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes
 if (!String.prototype.includes) {
