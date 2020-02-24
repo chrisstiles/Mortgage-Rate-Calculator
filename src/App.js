@@ -39,6 +39,7 @@ export default function App() {
     <React.Fragment>
       <Header
         loanType={loanType}
+        controlsOpen={controlsOpen}
         controlsHeight={controlsHeight}
         setLoanType={setLoanType}
         setControlsOpen={setControlsOpen}

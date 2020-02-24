@@ -7,6 +7,7 @@ import { Phone } from './icons';
 
 export default memo(function Header({
   loanType,
+  controlsOpen,
   controlsHeight,
   setLoanType,
   setControlsOpen,
@@ -29,12 +30,11 @@ export default memo(function Header({
             Toggle Controls
         </Button>
         </div>
-        <Inputs 
+        <Inputs
+          controlsOpen={controlsOpen}
           controlsHeight={controlsHeight}
           setControlsHeight={setControlsHeight}
-        >
-          Inputs will go here
-        </Inputs>
+        />
       </div>
     </div>
   )

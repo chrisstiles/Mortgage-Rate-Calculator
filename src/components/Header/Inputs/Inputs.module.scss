@@ -11,4 +11,57 @@
   left:0;
   right:0;
   top:0;
+  padding-bottom:30px;
+}
+
+@mixin addDelay($baseDelay: 0, $delay: 200) {
+  @for $i from 1 through 4 {
+
+    &:nth-child(#{$i}) {
+      transition-delay: #{($i - 1) * $delay + $baseDelay}ms;
+    }
+  }
+}
+
+.row {
+  display:flex;
+  margin-bottom:30px;
+  pointer-events:none;
+
+  &:last-child {
+    margin-bottom:0;
+  }
+
+  > * {
+    width:100%;
+    flex-grow:1;
+    margin-right:30px;
+    transform:translateY(100px);
+    opacity:0;
+    transition: all .5s cubic-bezier(.29, .02, .31, 1);
+
+    &:last-child {
+      margin-right:0;
+    }
+  }
+}
+
+.open {
+  .row {
+    pointer-events:auto;
+
+    > * {
+      opacity: 1;
+      transform:translateY(0);
+      transition: all .4s cubic-bezier(.09, .51, .39, 1);
+    }
+
+    &:nth-child(1) > * {
+      @include addDelay;
+    }
+
+    &:nth-child(2) > * {
+      @include addDelay(80);
+    }
+  }
 }
