@@ -5,7 +5,15 @@
 @import '@styles/colors';
 
 .wrapper {
-  display:inline-flex;
+  width:100%;
+  margin-right:30px;
+  max-width:360px;
+}
+
+.tabWrapper {
+  flex-grow:1;
+  width:100%;
+  display:flex;
 }
 
 .tab {
@@ -16,10 +24,14 @@
   border-radius:0;
   cursor: pointer;
   line-height:1;
-  font-size:14px;
+  font-size:15px;
   color:#525252;
   text-transform: uppercase;
   font-weight:800;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
 
   &:focus {
     outline:none;
@@ -49,9 +61,25 @@
   display:flex;
   align-items: center;
   justify-content: center;
-  padding: 15px 25px;
+  padding: 12px 25px;
+  line-height:1.2;
+  color:inherit;
 
   &:focus {
     outline:none;
   }
+
+  svg,
+  path {
+    fill: currentColor;
+  }
+
+  svg {
+    margin-right:4px;
+    position:relative;
+  }
+}
+
+.purchaseIcon {
+  top:-1px;
 }

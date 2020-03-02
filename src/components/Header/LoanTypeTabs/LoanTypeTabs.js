@@ -1,7 +1,8 @@
-import Button from '@components/Button';
 import React from 'react';
-import classNames from 'classnames';
 import styles from './LoanTypeTabs.module.scss';
+import { Purchase, Refinance } from '../icons';
+import Label from '@components/Label';
+import classNames from 'classnames';
 
 export default function LoanTypeTabs({
   loanType,
@@ -11,20 +12,25 @@ export default function LoanTypeTabs({
 
   return (
     <div className={styles.wrapper}>
-      <Tab
-        loanType="purchase"
-        isActive={purchaseIsActive}
-        setLoanType={setLoanType}
-      >
-        Purchase
-      </Tab>
-      <Tab
-        loanType="refinance"
-        isActive={!purchaseIsActive}
-        setLoanType={setLoanType}
-      >
-        Refinance
-      </Tab>
+      <Label>What type of loan are you looking for?</Label>
+      <div className={styles.tabWrapper}>
+        <Tab
+          loanType="purchase"
+          isActive={purchaseIsActive}
+          setLoanType={setLoanType}
+        >
+          <Purchase className={styles.purchaseIcon} />
+          Purchase
+        </Tab>
+        <Tab
+          loanType="refinance"
+          isActive={!purchaseIsActive}
+          setLoanType={setLoanType}
+        >
+          <Refinance />
+          Refinance
+        </Tab>
+      </div>
     </div>
   );
 }
