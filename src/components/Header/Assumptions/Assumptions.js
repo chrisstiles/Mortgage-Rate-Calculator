@@ -25,6 +25,11 @@ export default function Assumptions({ controlsOpen, setControlsOpen }) {
     setControlsOpen(!controlsOpen);
   };
 
+  const pulseProps = {
+    className: styles.pulse,
+    style: { animationIterationCount: pulseCount }
+  };
+
   return (
     <div className={styles.wrapper}>
       <Label>Get personalized rates by letting us know a little about your loan.</Label>
@@ -36,10 +41,8 @@ export default function Assumptions({ controlsOpen, setControlsOpen }) {
           <Home />
           {pulseIsVisible && !controlsOpen &&
             <div className={styles.pulseWrapper}>
-              <div
-                className={styles.pulse}
-                style={{ animationIterationCount: pulseCount }}
-              />
+              <div {...pulseProps} />
+              {/* <div {...pulseProps} /> */}
             </div>
           }
         </div>

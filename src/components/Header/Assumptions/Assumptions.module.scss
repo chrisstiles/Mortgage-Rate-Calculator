@@ -34,7 +34,6 @@
 
   svg {
     position:relative;
-    // top:1px;
   }
 }
 
@@ -89,6 +88,13 @@
   height: 29px;
   z-index: 1;
   pointer-events: none;
+  transition: opacity .4s;
+}
+
+.wrapper:hover {
+  .pulseWrapper {
+    opacity: 0;
+  }
 }
 
 .pulse {
@@ -101,9 +107,9 @@
   left:50%;
   top:50%;
   display: block;
-  border-radius: 45px;
+  border-radius: 50%;
   background-color: #5ec6cc;
-  animation: pulse 2s cubic-bezier(.19, .74, .64, 1) infinite;
+  animation: pulse 1.6s cubic-bezier(.41, .28, .53, 1) infinite;
   animation-fill-mode: forwards;
   animation-iteration-count: 4;
   animation-delay: 1s;
@@ -116,11 +122,11 @@
     opacity:0;
   }
 
-  10% {
+  25% {
     opacity: .35;
   }
 
-  80%, 100% {
+  70%, 100% {
     opacity: 0;
   }
 }
