@@ -1,3 +1,4 @@
 {
-  "defaultLoanType": "purchase"
+  "defaultLoanType": "purchase",
+  "displayDefaultTabFirst": true
 }
