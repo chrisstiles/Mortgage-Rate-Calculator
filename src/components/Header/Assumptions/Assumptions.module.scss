@@ -10,16 +10,12 @@
 
 .button {
   background-color:#fff;
-  display:flex;
   width:100%;
-  align-items:center;
   color:#383838;
   appearance: none;
   border: none;
   border-radius:0;
   cursor:pointer;
-  min-height:46px;
-  padding: 12px 0 13px 18px;
   font-size:14px;
   text-align:left;
   line-height:1;
@@ -35,6 +31,17 @@
     .content {
       box-shadow: 0 0 0 2px rgba(25, 58, 60, 0.7), 0 0 0 6px rgba(162, 237, 241, 0.3);
     }
+  }
+}
+
+.content {
+  display:flex;
+  align-items:center;
+  min-height:46px;
+  padding: 12px 0 13px 18px;
+
+  &:focus {
+    outline:none;
   }
 }
 

@@ -60,23 +60,28 @@ export default function Assumptions({ controlsOpen, setControlsOpen }) {
         className={styles.button}
         onClick={handleClick}
       >
-        <div className={styles.home}>
-          <Home />
-          {pulseIsVisible && !controlsOpen &&
-            <div className={styles.pulseWrapper}>
-              <div {...pulseProps} />
-            </div>
-          }
-        </div>
-        <div className={styles.text}>
-          Purchasing a $500,000 home in Livermore, CA. Excellent credit score with 20% down.
-        </div>
-        <div className={styles.arrowWrapper}>
-          <div className={classNames(styles.arrow, styles.down)}>
-            <Arrow />
+        <div
+          className={styles.content}
+          tabIndex="-1"
+        >
+          <div className={styles.home}>
+            <Home />
+            {pulseIsVisible && !controlsOpen &&
+              <div className={styles.pulseWrapper}>
+                <div {...pulseProps} />
+              </div>
+            }
           </div>
-          <div className={classNames(styles.arrow, styles.up)}>
-            <Arrow />
+          <div className={styles.text}>
+            Purchasing a $500,000 home in Livermore, CA. Excellent credit score with 20% down.
+        </div>
+          <div className={styles.arrowWrapper}>
+            <div className={classNames(styles.arrow, styles.down)}>
+              <Arrow />
+            </div>
+            <div className={classNames(styles.arrow, styles.up)}>
+              <Arrow />
+            </div>
           </div>
         </div>
       </button>
