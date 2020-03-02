@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Label from '@components/Label';
+import Tooltip from '@components/Tooltip';
 import { Home, Arrow } from '../icons';
 import styles from './Assumptions.module.scss';
 import { displayPulse, hidePulseAfterFirstVisit, pulseCount } from '@config';
@@ -31,11 +32,28 @@ export default function Assumptions({ controlsOpen, setControlsOpen }) {
     style: { animationIterationCount: pulseCount }
   };
 
+  const [canShowTooltip, setCanShowTooltip] = useState(true);
+
+  useEffect(() => {
+    if (controlsOpen) {
+      setCanShowTooltip(false);
+    }
+  }, [controlsOpen]);
+
+  const handleMouseLeave = () => {
+    if (!controlsOpen && !canShowTooltip) {
+      setCanShowTooltip(true);
+    }
+  };
+
   return (
-    <div
+    <Tooltip
+      text="Edit Loan Details"
       className={classNames(styles.wrapper, {
         [styles.open]: controlsOpen
       })}
+      forceHidden={controlsOpen || !canShowTooltip}
+      onMouseLeave={handleMouseLeave}
     >
       <Label>Get personalized rates by letting us know a little about your loan.</Label>
       <button
@@ -62,6 +80,6 @@ export default function Assumptions({ controlsOpen, setControlsOpen }) {
           </div>
         </div>
       </button>
-    </div>
+    </Tooltip>
   );
 }
