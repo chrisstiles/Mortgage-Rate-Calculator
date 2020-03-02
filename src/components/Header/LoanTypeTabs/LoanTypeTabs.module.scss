@@ -32,6 +32,7 @@
   align-items:center;
   justify-content:center;
   width:100%;
+  height:46px;
 
   &:focus {
     outline:none;
@@ -64,6 +65,7 @@
   padding: 12px 25px;
   line-height:1.2;
   color:inherit;
+  width:100%;
 
   &:focus {
     outline:none;

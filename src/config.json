@@ -1,4 +1,7 @@
 {
   "defaultLoanType": "purchase",
-  "displayDefaultTabFirst": true
+  "displayDefaultTabFirst": true,
+  "displayPulse": true,
+  "hidePulseAfterFirstVisit": false,
+  "pulseCount": 40
 }

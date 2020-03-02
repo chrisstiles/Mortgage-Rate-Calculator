@@ -1,8 +1,9 @@
 import React, { memo } from 'react';
 import Inputs from './Inputs';
+import LoanTypeTabs from './LoanTypeTabs';
+import Assumptions from './Assumptions';
 import styles from './Header.module.scss';
 import Button from '@components/Button';
-import LoanTypeTabs from './LoanTypeTabs';
 import { Phone } from './icons';
 
 export default memo(function Header({
@@ -22,13 +23,10 @@ export default memo(function Header({
             loanType={loanType}
             setLoanType={setLoanType}
           />
-          <Button
-            onClick={() => {
-              setControlsOpen(isOpen => !isOpen);
-            }}
-          >
-            Toggle Controls
-        </Button>
+        <Assumptions
+          controlsOpen={controlsOpen}
+          setControlsOpen={setControlsOpen}
+        />
         </div>
         <Inputs
           controlsOpen={controlsOpen}

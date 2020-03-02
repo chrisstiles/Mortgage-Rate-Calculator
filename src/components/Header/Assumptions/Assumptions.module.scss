@@ -1,0 +1,126 @@
+/*---------------------------*/
+/* Assumptions */
+/*---------------------------*/
+
+@import '@styles/colors';
+
+.wrapper {
+  width:100%;
+}
+
+.button {
+  background-color:#fff;
+  display:flex;
+  width:100%;
+  align-items:center;
+  color:#383838;
+  appearance: none;
+  border: none;
+  border-radius:0;
+  cursor:pointer;
+  min-height:46px;
+  padding: 12px 15px 13px 18px;
+  font-size:14px;
+  text-align:left;
+  line-height:1;
+
+  &:focus {
+    outline:none;
+
+    .content {
+      box-shadow: 0 0 0 2px rgba(25, 58, 60, 0.7), 0 0 0 6px rgba(162, 237, 241, 0.3);
+    }
+  }
+
+  svg {
+    position:relative;
+    // top:1px;
+  }
+}
+
+.home {
+  margin-right:8px;
+  position:relative;
+  width:19px;
+  height:18px;
+  flex-grow:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  svg {
+    position:relative;
+    z-index: 300;
+  }
+}
+
+.text {
+  flex-grow:1;
+}
+
+.arrow {
+  padding-left:13px;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content: center;
+
+  &:before {
+    content:"";
+    position:absolute;
+    left:0;
+    top:-3px;
+    bottom:-3px;
+    width:1px;
+    background-color:#D6D6D6;
+  }
+}
+
+
+/*---------------------------*/
+/* Pulsing Circle Animation */
+
+.pulseWrapper {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: 29px;
+  height: 29px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.pulse {
+  $size: 80;
+  width: #{$size}px;
+  height: #{$size}px;
+  margin-left: -#{$size / 2}px;
+  margin-top: -#{$size / 2}px;
+  position:absolute;
+  left:50%;
+  top:50%;
+  display: block;
+  border-radius: 45px;
+  background-color: #5ec6cc;
+  animation: pulse 2s cubic-bezier(.19, .74, .64, 1) infinite;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 4;
+  animation-delay: 1s;
+  opacity:0;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(.2);
+    opacity:0;
+  }
+
+  10% {
+    opacity: .35;
+  }
+
+  80%, 100% {
+    opacity: 0;
+  }
+}
