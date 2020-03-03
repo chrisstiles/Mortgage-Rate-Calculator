@@ -39,6 +39,8 @@
   align-items:center;
   min-height:46px;
   padding: 12px 0 13px 18px;
+  position:relative;
+  z-index: 100;
 
   &:focus {
     outline:none;
@@ -58,11 +60,15 @@
   svg {
     position:relative;
     z-index: 300;
+    top:-1px;
   }
 }
 
 .text {
   flex-grow:1;
+  padding-right:15px;
+  line-height:1.2;
+  padding-bottom:1px;
 }
 
 .arrowWrapper {
@@ -126,11 +132,15 @@
 
 .pulseWrapper {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  width: 29px;
-  height: 29px;
+  // left: 50%;
+  // top: 50%;
+  // transform: translateX(-50%) translateY(-50%);
+  // width: 29px;
+  // height: 29px;
+  top:0;
+  right:0;
+  bottom:0;
+  width:46px;
   z-index: 1;
   pointer-events: none;
   transition: opacity .5s;

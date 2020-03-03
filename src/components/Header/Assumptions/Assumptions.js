@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Label from '@components/Label';
 import Tooltip from '@components/Tooltip';
 import { Home, Arrow } from '../icons';
@@ -66,11 +66,6 @@ export default function Assumptions({ controlsOpen, setControlsOpen }) {
         >
           <div className={styles.home}>
             <Home />
-            {pulseIsVisible && !controlsOpen &&
-              <div className={styles.pulseWrapper}>
-                <div {...pulseProps} />
-              </div>
-            }
           </div>
           <div className={styles.text}>
             Purchasing a $500,000 home in Livermore, CA. Excellent credit score with 20% down.
@@ -84,6 +79,11 @@ export default function Assumptions({ controlsOpen, setControlsOpen }) {
             </div>
           </div>
         </div>
+        {pulseIsVisible && !controlsOpen &&
+          <div className={styles.pulseWrapper}>
+            <div {...pulseProps} />
+          </div>
+        }
       </button>
     </Tooltip>
   );
