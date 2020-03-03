@@ -4,4 +4,76 @@
 
 .wrapper {
   padding:35px;
+  // padding:30px 30px 25px 30px;
+  // position:relative;
+  
+  // &:after {
+  //   content:"";
+  //   position:absolute;
+  //   left:30px;
+  //   right:30px;
+  //   bottom:0;
+  //   height:1px;
+  //   background-color:#D6D6D6;
+  // }
+}
+
+.top {
+  display:flex;
+  align-items:center;
+  border-bottom:1px solid #D6D6D6;
+  padding-bottom:30px;
+}
+
+.rateIcon {
+  width:60px;
+  height:60px;
+  flex-grow:0;
+  flex-shrink:0;
+  margin-left:-3px;
+}
+
+.title {
+  font-weight:600;
+  color:#252525;
+  margin-bottom:2px;
+}
+
+.subtitle {
+  color:#585858;
+}
+
+.info {
+  margin:0 12px;
+  flex-grow:1;
+
+  .title {
+    font-size:18px;
+    text-transform: uppercase;
+  }
+
+  .subtitle {
+    font-size:11px;
+  }
+}
+
+.chat {
+  display:flex;
+  margin-right:5px;
+
+  .title {
+    font-size:14px;
+  }
+
+  .subtitle {
+    font-size:11px;
+  }
+}
+
+.chatIcon {
+  width:40px;
+  height:40px;
+  margin-right:10px;
+  position:relative;
+  top:-4px;
 }

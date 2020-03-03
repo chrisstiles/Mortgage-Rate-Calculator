@@ -1,4 +1,7 @@
 {
+  "plugins": [
+    "lodash"
+  ],
   "presets": [
     "@babel/preset-react",
     "@babel/preset-env"

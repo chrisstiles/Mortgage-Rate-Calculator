@@ -51,10 +51,6 @@ module.exports = (env, argv) => {
   }
 
   const config =  {
-    // entry: {
-    //   main: './src/index.js',
-    //   zipcodes: './src/utils/zipcodes.json'
-    // },
     entry: './src/index.js',
     resolve: {
       alias: {
@@ -68,6 +64,9 @@ module.exports = (env, argv) => {
     },
     stats: {
       children: false
+    },
+    performance: {
+      hints: false
     },
     module: {
       rules: [
