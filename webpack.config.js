@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const sassRegex = /\.(scss|sass|css)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
@@ -140,8 +140,7 @@ module.exports = (env, argv) => {
           use: ['@svgr/webpack', 'url-loader'],
         }
       ]
-    },
-    // plugins: [new CopyPlugin([{ from: 'src/images', to: 'images' }])]
+    }
   };
 
   if (isDev) {
@@ -178,10 +177,7 @@ module.exports = (env, argv) => {
       optimization: {
         usedExports: true,
         minimizer: [
-          new UglifyJsPlugin({
-            cache: true,
-            parallel: true
-          }),
+          new TerserPlugin(),
           new OptimizeCssAssetsPlugin(),
         ]
       }
