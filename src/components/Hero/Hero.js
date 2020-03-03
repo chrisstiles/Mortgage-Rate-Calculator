@@ -2,11 +2,11 @@ import React, { memo } from 'react';
 import Inputs from './Inputs';
 import LoanTypeTabs from './LoanTypeTabs';
 import Assumptions from './Assumptions';
-import styles from './Header.module.scss';
+import styles from './Hero.module.scss';
 import Button from '@components/Button';
 import { Phone } from './icons';
 
-export default memo(function Header({
+export default memo(function Hero({
   loanType,
   controlsOpen,
   controlsHeight,

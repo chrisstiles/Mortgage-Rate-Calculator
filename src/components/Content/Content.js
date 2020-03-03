@@ -1,8 +1,13 @@
 import React, { useState, memo, useEffect } from 'react';
+import Header from './Header';
 import styles from './Content.module.scss';
 import classNames from 'classnames';
 
-export default memo(function ContentWrapper({ controlsOpen, controlsHeight }) {
+export default memo(function ContentWrapper({
+  controlsOpen,
+  controlsHeight,
+  loanType
+}) {
   const shiftY = controlsHeight ?? 0;
   const translateY = controlsOpen ? shiftY : 0;
   const [hasInitialized, setHasInitialized] = useState(false);
@@ -25,15 +30,15 @@ export default memo(function ContentWrapper({ controlsOpen, controlsHeight }) {
         className={styles.angle}
         style={{ height: controlsHeight + 150 }}
       />
-      <Content />
+      <Content loanType={loanType} />
     </div>
   );
 });
 
-const Content = memo(() => {
+const Content = memo(({ loanType }) => {
   return (
     <div className={styles.content}>
-      Content here
+      <Header loanType={loanType} />
     </div>
   );
 });

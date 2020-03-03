@@ -2,7 +2,7 @@ import './fonts/fonts.scss';
 import './styles/general.scss';
 import React, { useEffect, useState } from 'react';
 import Content from './components/Content';
-import Header from './components/Header';
+import Hero from './components/Hero';
 import config from '@config';
 import { getUrlParam } from '@helpers';
 
@@ -37,7 +37,7 @@ export default function App() {
 
   return (
     <React.Fragment>
-      <Header
+      <Hero
         loanType={loanType}
         controlsOpen={controlsOpen}
         controlsHeight={controlsHeight}
@@ -48,6 +48,7 @@ export default function App() {
       <Content
         controlsHeight={controlsHeight}
         controlsOpen={controlsOpen}
+        loanType={loanType}
       />
     </React.Fragment>
   );

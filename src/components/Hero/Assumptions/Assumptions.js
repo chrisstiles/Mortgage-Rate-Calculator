@@ -48,7 +48,7 @@ export default function Assumptions({ controlsOpen, setControlsOpen }) {
 
   return (
     <Tooltip
-      text="Edit Loan Details"
+      text="Edit this loan's details"
       className={classNames(styles.wrapper, {
         [styles.open]: controlsOpen
       })}
