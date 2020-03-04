@@ -21,6 +21,11 @@ export default function App() {
 
   // TODO Get user's location with https://freegeoip.app/ if not passed from Kentico
 
+  // fetch('https://freegeoip.app/json/').then(response => {
+  //   const data = response.json();
+  //   console.log(data)
+  // });
+
   const [zipCodes, setZipCodes] = useState(getCachedZipCodes());
 
   useEffect(() => {
@@ -33,6 +38,10 @@ export default function App() {
         setCachedZipCodes(data);
       });
     }
+
+    fetch('https://freegeoip.app/', { mode: 'no-cors' }).then(response => {
+      console.log(response.body)
+    })
   }, []);
 
   return (
