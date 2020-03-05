@@ -3,7 +3,7 @@
 /*---------------------------*/
 
 .wrapper {
-  background-color:#4B4B4B;
+  background-color:#444444;
   padding: 80px 60px 110px 60px;
   color:#fff;
   position:relative;
@@ -15,7 +15,7 @@
 }
 
 .content {
-  max-width:1200px;
+  max-width:1150px;
   margin:0 auto;
   position: relative;
   z-index: 2;
@@ -35,21 +35,21 @@
 
   div {
     $skewX: 36deg;
-    width:620px;
-    height:146%;
+    width:610px;
+    height:150%;
     position:relative;
     flex-grow:0;
     flex-shrink:0;
 
     &:nth-child(even) {
       transform:skewX(-#{$skewX});
-      background-color:rgba(#fff, .02);
+      background-color:rgba(#fff, .018);
     }
 
     &:nth-child(odd) {
       transform:skewX($skewX);
-      background-color:rgba(#fff, .014);
-      left:-150px;
+      background-color:rgba(#fff, .015);
+      left:-100px;
       margin-right:-40px;
     }
   }
