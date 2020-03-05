@@ -23,17 +23,20 @@ export default memo(function Inputs({
         ref={ref}
         className={styles.inputs}
       >
-        <Row>
-          <Text defaultValue="Test" />
-          <Text defaultValue="Test" />
-          <Text defaultValue="Test" />
-        </Row>
+        <Outline />
+        <div className={styles.inner}>
+          <Row>
+            <Text defaultValue="Test" />
+            <Text defaultValue="Test" />
+            <Text defaultValue="Test" />
+          </Row>
 
-        <Row>
-          <Text defaultValue="Test" />
-          <Text defaultValue="Test" />
-          <Text defaultValue="Test" />
-        </Row>
+          <Row>
+            <Text defaultValue="Test" />
+            <Text defaultValue="Test" />
+            <Text defaultValue="Test" />
+          </Row>
+        </div>
       </div>
     </div>
   );
@@ -43,6 +46,16 @@ function Row({ children }) {
   return (
     <div className={styles.row}>
       {children}
+    </div>
+  );
+}
+
+function Outline() {
+  return (
+    <div className={styles.outline}>
+      <div className={styles.top}>
+        <span>Loan Details</span>
+      </div>
     </div>
   );
 }

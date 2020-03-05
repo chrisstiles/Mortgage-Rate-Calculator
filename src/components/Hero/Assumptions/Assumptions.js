@@ -85,6 +85,8 @@ export default function Assumptions({ controlsOpen, setControlsOpen }) {
           </div>
         }
       </button>
+
+      <div className={styles.line} />
     </Tooltip>
   );
 }

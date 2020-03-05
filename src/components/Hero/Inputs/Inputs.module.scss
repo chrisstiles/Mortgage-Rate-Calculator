@@ -4,6 +4,11 @@
 
 .inputWrapper {
   position:relative;
+  pointer-events:none;
+
+  &.open {
+    pointer-events: auto;
+  }
 }
 
 .inputs {
@@ -11,7 +16,6 @@
   left:0;
   right:0;
   top:0;
-  padding-bottom:30px;
 }
 
 @mixin addDelay($baseDelay: 0, $delay: 200) {
@@ -21,6 +25,11 @@
       transition-delay: #{($i - 1) * $delay + $baseDelay}ms;
     }
   }
+}
+
+.inner {
+  overflow:hidden;
+  padding:30px;
 }
 
 .row {
@@ -46,6 +55,52 @@
   }
 }
 
+.outline {
+  position:absolute;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+  border:2px dashed rgba(#fff, .5);
+  border-top:none;
+  z-index: -1;
+  transition: opacity .3s;
+  opacity:0;
+
+  .top {
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    display:flex;
+
+    span {
+      display:block;
+      padding:0 12px;
+      text-transform:uppercase;
+      font-weight:600;
+      font-size:12px;
+      margin-top:-6px;
+    }
+
+    &:before,
+    &:after {
+      content:"";
+      display:block;
+      border-top:2px dashed rgba(#fff, .5);
+      height:2px;
+    }
+
+    &:before {
+      width:50px;
+    }
+
+    &:after {
+      flex-grow:1;
+    }
+  }
+}
+
 .open {
   .row {
     pointer-events:auto;
@@ -56,12 +111,17 @@
       transition: all .4s cubic-bezier(.09, .51, .39, 1);
     }
 
-    &:nth-child(1) > * {
+    &:nth-child(2) > * {
       @include addDelay;
     }
 
-    &:nth-child(2) > * {
+    &:nth-child(3) > * {
       @include addDelay(80);
     }
+  }
+
+  .outline {
+    transition: opacity .6s;
+    opacity: 1;
   }
 }

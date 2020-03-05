@@ -38,7 +38,7 @@
   display:flex;
   align-items:center;
   min-height:46px;
-  padding: 12px 0 13px 18px;
+  padding: 12px 0 13px 17px;
   position:relative;
   z-index: 100;
 
@@ -183,5 +183,32 @@
 
   70%, 100% {
     opacity: 0;
+  }
+}
+
+
+/*---------------------------*/
+/* Connecting Line */
+
+.line {
+  position:absolute;
+  width:2px;
+  margin-top:-5px;
+  height:35px;
+  border-right:2px dashed rgba(#fff, .5);
+  top:100%;
+  left:26px;
+  pointer-events:none;
+  transform:translateY(-100%);
+  opacity: 0;
+  transition: all .3s cubic-bezier(.06,.81,.41,.96);
+  transition-property: opacity, transform;
+}
+
+.open {
+  .line {
+    transition-delay: .3s;
+    opacity: 1;
+    transform:translateY(0);
   }
 }
