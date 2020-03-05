@@ -14,44 +14,94 @@
   flex-grow:1;
   width:100%;
   display:flex;
+  position:relative;
+  border: 3px solid $teal;
 }
 
 .tab {
-  background-color:#F6F6F6;
+  background-color:rgba($teal, .1);
   appearance: none;
-  border: none;
+  border:none;
   letter-spacing: -.01em !important;
   border-radius:0;
   cursor: pointer;
   line-height:1;
   font-size:15px;
-  color:#525252;
+  color:#fff;
   text-transform: uppercase;
   font-weight:800;
   display:flex;
   align-items:center;
   justify-content:center;
   width:100%;
-  height:46px;
+  height:40px;
+  flex-grow:1;
+  position:relative;
+
+  &:hover {
+    background-color:rgba($teal, .2);
+  }
 
   &:focus {
     outline:none;
 
     .content {
-      box-shadow: 0 0 0 2px rgba(25, 58, 60, 0.7), 0 0 0 6px rgba(162, 237, 241, 0.3);
+      &:before {
+        content:"";
+        position:absolute;
+        top: -3px;
+        bottom: -3px;
+        left: -3px;
+        right:-3px;
+        box-shadow:
+          inset 0 0 0 3px $teal,
+          0 0 0 2px rgba(25, 58, 60, 0.7),
+          0 0 0 6px rgba(162, 237, 241, 0.3);
+        pointer-events:none;
+      }
+    }
+
+    &:first-child .content:before {
+      right: 0;
+    }
+
+    &:last-child .content:before {
+      left: 0;
+    }
+  }
+
+  &:first-child {
+    .content {
+      border-right:none;
+
+      &:after {
+        content:"";
+        position:absolute;
+        top:0;
+        left:0;
+        bottom:0;
+        right:0;
+        background-color:$teal;
+        z-index: -1;
+        transition: transform .4s cubic-bezier(.53, .01, .18, 1);
+        will-change: transform;
+      }
+    }
+  }
+
+  &:last-child {
+    .content {
+      border-left:none;
     }
   }
 
   &.active {
-    background-color: $teal;
-    color:#fff;
     cursor:default;
   }
 
   &:not(.active) {
-    &:hover {
-      color:#434343;
-      background-color:#e7e7e7;
+    &:first-child .content:after {
+      transform:translateX(100%);
     }
   }
 }
@@ -62,10 +112,11 @@
   display:flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 25px;
+  padding: 6px 25px;
   line-height:1.2;
   color:inherit;
   width:100%;
+  height:40px;
 
   &:focus {
     outline:none;
