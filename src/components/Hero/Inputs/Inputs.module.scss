@@ -48,6 +48,8 @@
     transform:translateY(100px);
     opacity:0;
     transition: all .5s cubic-bezier(.29, .02, .31, 1);
+    transition-property: opacity, transform;
+    will-change: transition, opacity;
 
     &:last-child {
       margin-right:0;
@@ -111,11 +113,11 @@
       transition: all .4s cubic-bezier(.09, .51, .39, 1);
     }
 
-    &:nth-child(2) > * {
+    &:nth-child(1) > * {
       @include addDelay;
     }
 
-    &:nth-child(3) > * {
+    &:nth-child(2) > * {
       @include addDelay(80);
     }
   }
