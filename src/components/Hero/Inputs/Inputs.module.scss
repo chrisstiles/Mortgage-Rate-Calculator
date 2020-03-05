@@ -29,12 +29,12 @@
 
 .inner {
   overflow:hidden;
-  padding:30px;
+  padding:30px 28px;
 }
 
 .row {
   display:flex;
-  margin-bottom:30px;
+  margin-bottom:15px;
   pointer-events:none;
 
   &:last-child {
@@ -44,7 +44,7 @@
   > * {
     width:100%;
     flex-grow:1;
-    margin-right:30px;
+    margin-right:15px;
     transform:translateY(100px);
     opacity:0;
     transition: all .5s cubic-bezier(.29, .02, .31, 1);
