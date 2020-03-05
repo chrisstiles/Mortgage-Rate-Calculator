@@ -34,8 +34,9 @@ export default memo(function Hero({
           setControlsHeight={setControlsHeight}
         />
       </div>
+      <Angles />
     </div>
-  )
+  );
 });
 
 function Top() {
@@ -53,6 +54,18 @@ function Top() {
           Apply Now
         </Button>
       </div>
+    </div>
+  );
+}
+
+function Angles() {
+  return (
+    <div className={styles.angleWrapper}>
+      <div />
+      <div />
+      <div />
+      <div />
+      <div />
     </div>
   );
 }

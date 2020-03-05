@@ -4,8 +4,10 @@
 
 .wrapper {
   background-color:#4B4B4B;
-  padding: 80px 60px;
+  padding: 80px 60px 110px 60px;
   color:#fff;
+  position:relative;
+  overflow:hidden;
 
   h1 {
     font-size:45px;
@@ -15,6 +17,42 @@
 .content {
   max-width:1200px;
   margin:0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.angleWrapper {
+  position: absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  pointer-events: none;
+  z-index: 1;
+  display:flex;
+  justify-content:center;
+  overflow:hidden;
+
+  div {
+    $skewX: 36deg;
+    width:620px;
+    height:146%;
+    position:relative;
+    flex-grow:0;
+    flex-shrink:0;
+
+    &:nth-child(even) {
+      transform:skewX(-#{$skewX});
+      background-color:rgba(#fff, .02);
+    }
+
+    &:nth-child(odd) {
+      transform:skewX($skewX);
+      background-color:rgba(#fff, .014);
+      left:-150px;
+      margin-right:-40px;
+    }
+  }
 }
 
 
