@@ -1,10 +1,9 @@
-import './fonts/fonts.scss';
-import './styles/general.scss';
 import React, { useEffect, useState } from 'react';
 import Content from './components/Content';
 import Hero from './components/Hero';
 import config from '@config';
 import { getUrlParam } from '@helpers';
+import getInitialState from './getInitialState';
 
 export default function App() {
   const [controlsOpen, setControlsOpen] = useState(false);
@@ -27,6 +26,7 @@ export default function App() {
   // });
 
   const [zipCodes, setZipCodes] = useState(getCachedZipCodes());
+  const [state, setState] = useState(getInitialState(zipCodes));
 
   useEffect(() => {
     if (!window.localStorage.getItem('zipCodes')) {
@@ -39,9 +39,9 @@ export default function App() {
       });
     }
 
-    fetch('https://freegeoip.app/', { mode: 'no-cors' }).then(response => {
-      console.log(response.body)
-    })
+    // fetch('https://freegeoip.app/', { mode: 'no-cors' }).then(response => {
+    //   console.log(response.body)
+    // })
   }, []);
 
   return (
@@ -67,7 +67,7 @@ function getCachedZipCodes() {
   try {
     return JSON.parse(window.localStorage.getItem('zipCodes'));
   } catch {
-    return null;
+    return {};
   }
 }
 

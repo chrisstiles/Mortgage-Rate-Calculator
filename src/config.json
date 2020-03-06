@@ -1,5 +1,11 @@
 {
-  "defaultLoanType": "purchase",
+  "defaults": {
+    "loanType": "purchase",
+    "loanAmount": 400000,
+    "zipCode": "94538",
+    "city": "Fremont"
+  },
+  "footprint": ["CA"],
   "displayDefaultTabFirst": true,
   "displayPulse": true,
   "hidePulseAfterFirstVisit": false,

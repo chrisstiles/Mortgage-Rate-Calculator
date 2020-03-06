@@ -1,5 +1,4 @@
 const path = require('path');
-const { SourceMapDevToolPlugin } = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -166,6 +165,7 @@ module.exports = (env, argv) => {
         path: path.resolve(__dirname, 'docs'),
         filename: 'js/[name].js'
       },
+      devtool: 'source-map',
       plugins: [
         new CleanWebpackPlugin(),
         ...htmlWebpackPlugins,
