@@ -3,14 +3,14 @@ import Inputs from './Inputs';
 import LoanTypeTabs from './LoanTypeTabs';
 import Assumptions from './Assumptions';
 import styles from './Hero.module.scss';
-import Button from '@components/Button';
+import { Button } from '@input';
 import { Phone } from './icons';
 
 export default memo(function Hero({
   loanType,
   controlsOpen,
   controlsHeight,
-  setLoanType,
+  setState,
   setControlsOpen,
   setControlsHeight
 }) {
@@ -21,12 +21,12 @@ export default memo(function Hero({
         <div className={styles.controlsWrapper}>
           <LoanTypeTabs
             loanType={loanType}
-            setLoanType={setLoanType}
+            setState={setState}
           />
-        <Assumptions
-          controlsOpen={controlsOpen}
-          setControlsOpen={setControlsOpen}
-        />
+          <Assumptions
+            controlsOpen={controlsOpen}
+            setControlsOpen={setControlsOpen}
+          />
         </div>
         <Inputs
           controlsOpen={controlsOpen}

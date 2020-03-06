@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import styles from './LoanTypeTabs.module.scss';
 import { Purchase, Refinance } from '../icons';
-import Label from '@components/Label';
+import { Label } from '@input';
 import classNames from 'classnames';
 import config from '@config';
 
 export default function LoanTypeTabs({
   loanType,
-  setLoanType
+  setState
 }) {
   const purchaseIsActive = loanType === 'purchase';
   const [firstTab] = useState(() => {
-    const { defaultLoanType = 'refinance', displayDefaultTabFirst = true } = config;
+    const { loanType: defaultLoanType = 'refinance' } = config.defaults;
+    const { displayDefaultTabFirst = true } = config;
 
     if (displayDefaultTabFirst) {
       return defaultLoanType;
@@ -19,6 +20,12 @@ export default function LoanTypeTabs({
 
     return 'purchase';
   });
+
+  const setLoanType = loanType => {
+    setState(state => {
+      return { ...state, loanType };
+    });
+  };
 
   const purchase = (
     <Tab

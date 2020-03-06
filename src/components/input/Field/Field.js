@@ -1,5 +1,5 @@
 import React from 'react';
-import Label from '@components/Label';
+import { Label } from '@input';
 import styles from './Field.module.scss';
 import classNames from 'classnames';
 

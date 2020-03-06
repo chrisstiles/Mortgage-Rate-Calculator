@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Field from '@components/Field';
+import { Field } from '@input';
 import classNames from 'classnames';
 import styles from './Text.module.scss';
 

@@ -57,6 +57,7 @@ module.exports = (env, argv) => {
         '@components': path.join(__dirname, 'src/components'),
         '@config$': path.resolve(__dirname, 'src/config.json'),
         '@helpers$': path.join(__dirname, 'src/utils/helpers'),
+        '@input': path.join(__dirname, 'src/components/input'),
         '@hooks': path.join(__dirname, 'src/hooks'),
         '@styles': path.join(__dirname, 'src/styles'),
         '@utils': path.join(__dirname, 'src/utils')

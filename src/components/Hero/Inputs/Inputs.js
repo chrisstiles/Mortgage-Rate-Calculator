@@ -1,5 +1,5 @@
 import React, { memo, useRef } from 'react';
-import Text from '@components/Text';
+import { Text } from '@input';
 import styles from './Inputs.module.scss';
 import useResizeObserver from '@hooks/useResizeObserver';
 import classNames from 'classnames';

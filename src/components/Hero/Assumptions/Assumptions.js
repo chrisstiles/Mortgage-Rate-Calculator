@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Label from '@components/Label';
+import { Label } from '@input';
 import Tooltip from '@components/Tooltip';
 import { Home, Arrow } from '../icons';
 import styles from './Assumptions.module.scss';
