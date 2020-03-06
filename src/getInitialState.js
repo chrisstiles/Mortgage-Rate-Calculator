@@ -77,7 +77,7 @@ export default function(zipCodes = {}) {
     }
   } else {
     formattedState.zipCode = defaults.zipCode;
-    formattedState.state = zipCodes[defaults.zipCode];
+    formattedState.state = 'CA';
   }
 
   return formattedState;
