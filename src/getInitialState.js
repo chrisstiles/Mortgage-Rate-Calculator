@@ -37,7 +37,7 @@ const state = {
 
 const query = querystring.parse(window.location.search.replace(/^\?/, ''));
 
-export default function(zipCodes = {}) {
+export default function(zipCodes) {
   let cachedState;
 
   try {
@@ -73,11 +73,11 @@ export default function(zipCodes = {}) {
       formattedState.city = city;
     } else {
       formattedState.zipCode = defaults.zipCode;
-      formattedState.state = zipCodes[defaults.zipCode];
+      formattedState.city = zipCodes[defaults.zipCode];
     }
   } else {
     formattedState.zipCode = defaults.zipCode;
-    formattedState.state = 'CA';
+    formattedState.city = defaults.city;
   }
 
   return formattedState;

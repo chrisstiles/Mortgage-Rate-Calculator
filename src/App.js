@@ -1,22 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Content from './components/Content';
 import Hero from './components/Hero';
-import config from '@config';
-import { getUrlParam } from '@helpers';
 import getInitialState from './getInitialState';
 
 export default function App() {
   const [controlsOpen, setControlsOpen] = useState(false);
   const [controlsHeight, setControlsHeight] = useState(null);
-  const [loanType, setLoanType] = useState(() => {
-    const type = getUrlParam('loanType') ?? config.defaultLoanType;
-    
-    if (/^(purchase|refinance)$/i.test(type)) {
-      return type.toLowerCase();
-    }
-
-    return 'purchase';
-  });
 
   // TODO Get user's location with https://freegeoip.app/ if not passed from Kentico
 
@@ -47,17 +36,17 @@ export default function App() {
   return (
     <React.Fragment>
       <Hero
-        loanType={loanType}
+        loanType={state.loanType}
         controlsOpen={controlsOpen}
         controlsHeight={controlsHeight}
-        setLoanType={setLoanType}
+        setState={setState}
         setControlsOpen={setControlsOpen}
         setControlsHeight={setControlsHeight}
       />
       <Content
         controlsHeight={controlsHeight}
         controlsOpen={controlsOpen}
-        loanType={loanType}
+        loanType={state.loanType}
       />
     </React.Fragment>
   );
