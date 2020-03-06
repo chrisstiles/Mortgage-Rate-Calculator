@@ -26,7 +26,7 @@ export default memo(function Inputs({
         <Outline />
         <div className={styles.inner}>
           <Row>
-            <Text defaultValue="Test" />
+            <Text label="Loan amount" />
             <Text defaultValue="Test" />
             <Text defaultValue="Test" />
           </Row>

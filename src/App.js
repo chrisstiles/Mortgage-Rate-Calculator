@@ -7,7 +7,7 @@ import config from '@config';
 import { getUrlParam } from '@helpers';
 
 export default function App() {
-  const [controlsOpen, setControlsOpen] = useState(false);
+  const [controlsOpen, setControlsOpen] = useState(true);
   const [controlsHeight, setControlsHeight] = useState(null);
   const [loanType, setLoanType] = useState(() => {
     const type = getUrlParam('loanType') ?? config.defaultLoanType;

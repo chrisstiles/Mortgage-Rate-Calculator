@@ -83,8 +83,9 @@
         right:0;
         background-color:$teal;
         z-index: -1;
-        transition: transform .4s cubic-bezier(.53, .01, .18, 1);
+        transition: transform .45s cubic-bezier(.53, .01, .18, 1) .03s;
         will-change: transform;
+        transform:translateX(100%);
       }
     }
   }
@@ -97,11 +98,13 @@
 
   &.active {
     cursor:default;
-  }
 
-  &:not(.active) {
-    &:first-child .content:after {
-      transform:translateX(100%);
+    &:first-child {
+      .content {
+        &:after {
+          transform:translateX(0);
+        }
+      }
     }
   }
 }

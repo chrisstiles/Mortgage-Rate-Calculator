@@ -2,15 +2,51 @@
 /* Text Fields */
 /*---------------------------*/
 
+@import '@styles/colors';
+
+.wrapper {
+  display:flex;
+  border-radius:2px;
+  overflow:hidden;
+  box-shadow: 0px 2px 10px rgba(#000, 0.1);
+
+  &.focus {
+    box-shadow:
+      0 0 0 3px rgba(164, 235, 238, 0.4),
+      0px 2px 10px rgba(#000, 0.1);
+  }
+}
+
+.icon {
+  width:38px;
+  background-color:#F0F0F0;
+  flex-grow:0;
+  flex-shrink:0;
+  color:#606060;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  line-height:1;
+  font-weight:600;
+  font-size:14px;
+  cursor:default;
+
+  svg,
+  path {
+    fill: currentColor;
+  }
+}
+
 .input {
   border:none;
   background-color:#fff;
   border-radius:0;
   padding:10px 15px 12px 15px;
-  height:44px;
+  height:38px;
   font-size:14px;
   outline:none;
   color:#383838;
   line-height:1;
   font-weight:500;
+  width:100%;
 }
