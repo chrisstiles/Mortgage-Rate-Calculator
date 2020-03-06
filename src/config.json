@@ -5,6 +5,13 @@
     "zipCode": "94538",
     "city": "Fremont"
   },
+  "urlParams": {
+    "loanType": ["purchase", "refinance"],
+    "loanSize": {
+      "jumbo": 750000,
+      "highBalance": 60000
+    }
+  },
   "footprint": ["CA"],
   "displayDefaultTabFirst": true,
   "displayPulse": true,

@@ -1,5 +1,5 @@
-import { defaults, footprint } from '@config';
-import { isString, isFunction, isRegExp } from 'lodash';
+import { defaults, urlParams, footprint } from '@config';
+import { isString, isFunction, isRegExp, isPlainObject } from 'lodash';
 import querystring from 'querystring';
 
 // This object defines the shape of our shape object.
@@ -20,9 +20,14 @@ import querystring from 'querystring';
 const state = {
   loanType: {
     defaultValue: defaults.loanType,
-    parameter: 'loanType',
-    validate: /^(purchase|refinance)$/i,
+    validate: urlParams.loanType,
     transform: t => t.toLowerCase()
+  },
+  loanAmount: {
+    defaultValue: defaults.loanAmount,
+    parameter: 'loanSize',
+    validate: n => !isNaN(n),
+    transform: parseInt
   },
   zipCode: {
     defaultValue: defaults.zipCode,
@@ -49,14 +54,24 @@ export default function(zipCodes) {
   const formattedState = {};
 
   Object.keys(state).forEach(key => {
-    const {
+    let {
       defaultValue = null,
-      parameter,
+      parameter = key,
       validate,
       transform = v => v
     } = state[key];
+    const paramOptions = urlParams[parameter];
+    let queryValue = query[parameter]?.trim();
 
-    const value = query[parameter] ?? cachedState[key] ?? defaultValue;
+    if (isPlainObject(paramOptions)) {
+      queryValue = paramOptions[queryValue]
+    }
+
+    if (Array.isArray(validate)) {
+      validate = new RegExp(`^(${paramOptions.join('|')})$`, 'i');
+    }
+
+    const value = queryValue ?? cachedState[key] ?? defaultValue;
 
     if (validate) {
       if (
