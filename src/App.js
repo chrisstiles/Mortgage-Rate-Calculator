@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Content from './components/Content';
 import Hero from './components/Hero';
 import getInitialState from './getInitialState';
+import CacheService from '@utils/CacheService';
+
+const cache = new CacheService();
 
 export default function App() {
   const [controlsOpen, setControlsOpen] = useState(false);
@@ -14,17 +17,17 @@ export default function App() {
   //   console.log(data)
   // });
 
-  const [zipCodes, setZipCodes] = useState(getCachedZipCodes());
-  const [state, setState] = useState(() => getInitialState(zipCodes));
+  const [zipCodes, setZipCodes] = useState(() => cache.get('zipCodes'));
+  const [state, setState] = useState(() => getInitialState(cache));
 
   useEffect(() => {
-    if (!window.localStorage.getItem('zipCodes')) {
+    if (!cache.get('zipCodes')) {
       import(
         /* webpackChunkName: "zipcodes" */
         '@utils/zipcodes.json'
       ).then(data => {
         setZipCodes(data);
-        setCachedZipCodes(data);
+        cache.set('zipCodes', data);
       }).catch(() => setZipCodes({}));
     }
 
@@ -51,18 +54,4 @@ export default function App() {
       />
     </React.Fragment>
   );
-}
-
-function getCachedZipCodes() {
-  try {
-    return JSON.parse(window.localStorage.getItem('zipCodes'));
-  } catch {
-    return null;
-  }
-}
-
-function setCachedZipCodes(data) {
-  try {
-    window.localStorage.setItem('zipCodes', JSON.stringify(data));
-  } catch {}
 }

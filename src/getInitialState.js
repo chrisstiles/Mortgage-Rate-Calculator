@@ -52,15 +52,9 @@ function findParamKey(obj, key) {
   return obj[key] ? key : Object.keys(obj).find(p => p.toLowerCase() === key.toLowerCase());
 }
 
-export default function(zipCodes) {
-  let cachedState;
-
-  try {
-    cachedState = JSON.parse(window.localStorage.getItem('loanState')) ?? {};
-  } catch {
-    cachedState = {};
-  }
-
+export default function(cache) {
+  const cachedState = cache.get('loanState') ?? {};
+  const zipCodes = cache.get('zipCodes');
   const formattedState = {};
 
   Object.keys(state).forEach(key => {
