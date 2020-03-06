@@ -35,10 +35,11 @@ export default function useResizeObserver(ref, callback, shouldReturnValues = tr
       }
     });
 
-    observer.observe(ref.current);
+    const el = ref.current;
+    observer.observe(el);
 
-    return () => observer.unobserve(ref.current);
-  }, [shouldReturnValues, callback]);
+    return () => observer.unobserve(el);
+  }, [shouldReturnValues, callback, ref]);
 
   return shouldReturnValues ? size : null;
 }

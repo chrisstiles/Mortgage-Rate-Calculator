@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import AssumptionsText from './AssumptionsText';
 import { Label } from '@input';
 import Tooltip from '@components/Tooltip';
-import { Home, Arrow } from '../icons';
+import { Arrow } from '../icons';
 import styles from './Assumptions.module.scss';
 import { displayPulse, hidePulseAfterFirstVisit, pulseCount } from '@config';
 import classNames from 'classnames';
 
-export default function Assumptions({ controlsOpen, setControlsOpen }) {
+export default function Assumptions({
+  state,
+  controlsOpen,
+  zipCodes,
+  setControlsOpen
+}) {
   const [pulseIsVisible, setPulseIsVisible] = useState(() => {
     if (!displayPulse) {
       return false;
@@ -60,25 +66,10 @@ export default function Assumptions({ controlsOpen, setControlsOpen }) {
         className={styles.button}
         onClick={handleClick}
       >
-        <div
-          className={styles.content}
-          tabIndex="-1"
-        >
-          <div className={styles.home}>
-            <Home />
-          </div>
-          <div className={styles.text}>
-            Purchasing a $500,000 home in Livermore, CA. Excellent credit score with 20% down.
-        </div>
-          <div className={styles.arrowWrapper}>
-            <div className={classNames(styles.arrow, styles.down)}>
-              <Arrow />
-            </div>
-            <div className={classNames(styles.arrow, styles.up)}>
-              <Arrow />
-            </div>
-          </div>
-        </div>
+        <AssumptionsText
+          state={state}
+          zipCodes={zipCodes}
+        />
         {pulseIsVisible && !controlsOpen &&
           <div className={styles.pulseWrapper}>
             <div {...pulseProps} />

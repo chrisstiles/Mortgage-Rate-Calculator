@@ -7,9 +7,10 @@ import { Button } from '@input';
 import { Phone } from './icons';
 
 export default memo(function Hero({
-  loanType,
+  state,
   controlsOpen,
   controlsHeight,
+  zipCodes,
   setState,
   setControlsOpen,
   setControlsHeight
@@ -20,15 +21,18 @@ export default memo(function Hero({
         <Top />
         <div className={styles.controlsWrapper}>
           <LoanTypeTabs
-            loanType={loanType}
+            loanType={state.loanType}
             setState={setState}
           />
           <Assumptions
+            state={state}
             controlsOpen={controlsOpen}
+            zipCodes={zipCodes}
             setControlsOpen={setControlsOpen}
           />
         </div>
         <Inputs
+          state={state}
           controlsOpen={controlsOpen}
           controlsHeight={controlsHeight}
           setControlsHeight={setControlsHeight}

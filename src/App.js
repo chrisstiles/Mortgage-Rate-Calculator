@@ -25,7 +25,7 @@ export default function App() {
       ).then(data => {
         setZipCodes(data);
         setCachedZipCodes(data);
-      });
+      }).catch(() => setZipCodes({}));
     }
 
     // fetch('https://freegeoip.app/', { mode: 'no-cors' }).then(response => {
@@ -36,9 +36,10 @@ export default function App() {
   return (
     <React.Fragment>
       <Hero
-        loanType={state.loanType}
+        state={state}
         controlsOpen={controlsOpen}
         controlsHeight={controlsHeight}
+        zipCodes={zipCodes}
         setState={setState}
         setControlsOpen={setControlsOpen}
         setControlsHeight={setControlsHeight}
@@ -56,7 +57,7 @@ function getCachedZipCodes() {
   try {
     return JSON.parse(window.localStorage.getItem('zipCodes'));
   } catch {
-    return {};
+    return null;
   }
 }
 

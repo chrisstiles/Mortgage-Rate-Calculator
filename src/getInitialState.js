@@ -1,5 +1,5 @@
 import { defaults, footprint } from '@config';
-import { isString, isFunction, mapValues, isRegExp } from 'lodash';
+import { isString, isFunction, isRegExp } from 'lodash';
 import querystring from 'querystring';
 
 // This object defines the shape of our shape object.
@@ -46,24 +46,29 @@ export default function(zipCodes) {
     cachedState = {};
   }
 
-  const formattedState = mapValues(state, ({
-    defaultValue = null,
-    parameter,
-    validate,
-    transform = v => v
-  }, key) => {
-    const value = query[key] ? query[key] : cachedState[key] ?? defaultValue;
+  const formattedState = {};
+
+  Object.keys(state).forEach(key => {
+    const {
+      defaultValue = null,
+      parameter,
+      validate,
+      transform = v => v
+    } = state[key];
+
+    const value = query[parameter] ?? cachedState[key] ?? defaultValue;
 
     if (validate) {
       if (
         (isRegExp(validate) && !validate.test(value)) ||
         (isFunction(validate) && !validate(value))
       ) {
-        return defaultValue;
+        formattedState[key] = defaultValue;
+        return;
       }
     }
 
-    return transform(value);
+    formattedState[key] = transform(value);
   });
 
   if (zipCodes && footprint) {
