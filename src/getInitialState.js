@@ -42,6 +42,16 @@ const state = {
 
 const query = querystring.parse(window.location.search.replace(/^\?/, ''));
 
+// Make it easy to link to the calculator with URL 
+// parameters without worrying about capitalization
+function findParamKey(obj, key) {
+  if (!obj || !key) {
+    return null;
+  }
+
+  return obj[key] ? key : Object.keys(obj).find(p => p.toLowerCase() === key.toLowerCase());
+}
+
 export default function(zipCodes) {
   let cachedState;
 
@@ -60,11 +70,12 @@ export default function(zipCodes) {
       validate,
       transform = v => v
     } = state[key];
+    parameter = findParamKey(urlParams, parameter);
     const paramOptions = urlParams[parameter];
-    let queryValue = query[parameter]?.trim();
+    let queryValue = query[findParamKey(query, parameter)]?.trim();
 
     if (isPlainObject(paramOptions)) {
-      queryValue = paramOptions[queryValue]
+      queryValue = paramOptions[findParamKey(paramOptions, queryValue)];
     }
 
     if (Array.isArray(validate)) {

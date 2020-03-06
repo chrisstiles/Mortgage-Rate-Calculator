@@ -15,7 +15,7 @@ export default function App() {
   // });
 
   const [zipCodes, setZipCodes] = useState(getCachedZipCodes());
-  const [state, setState] = useState(getInitialState(zipCodes));
+  const [state, setState] = useState(() => getInitialState(zipCodes));
 
   useEffect(() => {
     if (!window.localStorage.getItem('zipCodes')) {
