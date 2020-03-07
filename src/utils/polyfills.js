@@ -1,8 +1,7 @@
 /* eslint-disable */
-import 'unfetch/polyfill';
-import 'regenerator-runtime';
 import 'promise-polyfill/src/polyfill';
 import 'requestidlecallback';
+import 'regenerator-runtime/runtime';
 
 // http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes
 if (!String.prototype.includes) {

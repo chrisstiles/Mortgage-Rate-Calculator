@@ -5,6 +5,12 @@
   ],
   "presets": [
     "@babel/preset-react",
-    "@babel/preset-env"
+    [
+      "@babel/preset-env",
+      {
+        "targets": "> 0.25%, not dead",
+        "useBuiltIns": "entry"
+      }
+    ]
   ]
 }

@@ -22,8 +22,7 @@
     "react-md-spinner": "^1.0.0",
     "regenerator-runtime": "^0.13.3",
     "requestidlecallback": "^0.3.0",
-    "resize-observer-polyfill": "^1.5.1",
-    "unfetch": "^4.1.0"
+    "resize-observer-polyfill": "^1.5.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
@@ -68,5 +67,6 @@
       "node",
       "es6"
     ]
-  }
+  },
+  "browserslist": "> 0.25%, not dead"
 }
