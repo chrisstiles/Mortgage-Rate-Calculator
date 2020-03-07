@@ -1,6 +1,7 @@
 import { defaults, urlParams, footprint } from '@config';
 import querystring from 'querystring';
 import { isString, isFunction, isRegExp, isBoolean, isPlainObject } from 'lodash';
+import { cache } from '@app';
 
 // This object defines the shape of our shape object.
 
@@ -56,7 +57,7 @@ function findParamKey(obj, key) {
   return obj[key] ? key : Object.keys(obj).find(p => p.toLowerCase() === key.toLowerCase());
 }
 
-export default function(cache) {
+export default function() {
   const cachedState = cache.get('loanState') ?? {};
   const zipCodes = cache.get('zipCodes');
   const formattedState = {};
@@ -94,19 +95,28 @@ export default function(cache) {
 
     formattedState[key] = transform(value);
   });
+  
+  // We store the location of the user's IP address
+  // to avoid having to load again if they refresh the page
+  const currentLocation = cache.getSession('currentLocation');
 
-  if (zipCodes && footprint) {
-    const [city, state] = zipCodes[formattedState.zipCode] ?? [];
+  if (currentLocation && !formattedState.userSetLocation) {
+    formattedState.zipCode = currentLocation.zipCode;
+    formattedState.city = currentLocation.city;
+  } else {
+    if (zipCodes && footprint) {
+      const [city, state] = zipCodes[formattedState.zipCode] ?? [];
 
-    if (city && state && footprint?.includes(state)) {
-      formattedState.city = city;
+      if (city && state && footprint?.includes(state)) {
+        formattedState.city = city;
+      } else {
+        formattedState.zipCode = defaults.zipCode;
+        formattedState.city = zipCodes[defaults.zipCode];
+      }
     } else {
       formattedState.zipCode = defaults.zipCode;
-      formattedState.city = zipCodes[defaults.zipCode];
+      formattedState.city = defaults.city;
     }
-  } else {
-    formattedState.zipCode = defaults.zipCode;
-    formattedState.city = defaults.city;
   }
 
   return formattedState;

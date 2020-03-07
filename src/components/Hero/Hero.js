@@ -9,9 +9,9 @@ import { Phone } from './icons';
 export default memo(function Hero({
   state,
   isLoading,
+  hasInitialLocation,
   controlsOpen,
   controlsHeight,
-  zipCodes,
   setState,
   setControlsOpen,
   setControlsHeight
@@ -28,8 +28,8 @@ export default memo(function Hero({
           <Assumptions
             state={state}
             isLoading={isLoading}
+            hasInitialLocation={hasInitialLocation}
             controlsOpen={controlsOpen}
-            zipCodes={zipCodes}
             setControlsOpen={setControlsOpen}
           />
         </div>

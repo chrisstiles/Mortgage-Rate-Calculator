@@ -3,11 +3,11 @@ import Content from './components/Content';
 import Hero from './components/Hero';
 import getInitialState from './getInitialState';
 import CacheService from '@utils/CacheService';
-import { defaults } from '@config';
+import config, { defaults } from '@config';
 import { getState } from '@helpers';
 
 const cache = new CacheService();
-const initialState = getInitialState(cache);
+const initialState = getInitialState();
 
 export default function App() {
   const [controlsOpen, setControlsOpen] = useState(false);
@@ -40,25 +40,37 @@ export default function App() {
     }
   }, []);
 
+  const [hasInitialLocation, setHasInitialLocation] = useState(() => {
+    return !!(initialState.userSetLocation || cache.getSession('currentLocation'));
+  });
+
   useEffect(() => {
-    if (!initialState.userSetLocation) {
+    if (!initialState.userSetLocation && !cache.getSession('currentLocation')) {
       const getUserLocation = async () => {
         try {
           const response = await fetch('https://freegeoip.app/json/');
-          const { zip_code: zipCode } = response.json();
+          const { zip_code: zipCode } = await response.json();
 
           if (zipCode) {
             const zipCodes = cache.get('zipCodes', {});
             const [city, state] = zipCodes[zipCode] ?? [];
             
-            if (defaults.footprint?.includes(state)) {
-              setState({ zipCode, city });
+            if (config.footprint?.includes(state)) {
+              const currentLocation = { zipCode, city };
+              setState(currentLocation);
+
+              // Only store current location in session. This allows us
+              // to prevent refetching location on reload or page navigation
+              // but will still find their location next time they visit
+              cache.setSession('currentLocation', currentLocation);
             }
           }
         } catch (error) {
           console.log(error)
         } finally {
+          console.log('Here 2')
           setIsLoading(false);
+          setHasInitialLocation(true);
         }
       };
 
@@ -71,9 +83,9 @@ export default function App() {
       <Hero
         state={state}
         isLoading={isLoading}
+        hasInitialLocation={hasInitialLocation}
         controlsOpen={controlsOpen}
         controlsHeight={controlsHeight}
-        zipCodes={zipCodes}
         setState={setState}
         setControlsOpen={setControlsOpen}
         setControlsHeight={setControlsHeight}
@@ -86,3 +98,5 @@ export default function App() {
     </React.Fragment>
   );
 }
+
+export { cache };

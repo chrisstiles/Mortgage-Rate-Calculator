@@ -16,6 +16,10 @@
   left:0;
   right:0;
   top:0;
+
+  label {
+    line-height:1;
+  }
 }
 
 @mixin addDelay($baseDelay: 0, $delay: 200) {
@@ -94,7 +98,7 @@
     }
 
     &:before {
-      width:50px;
+      width:40px;
     }
 
     &:after {

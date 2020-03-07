@@ -9,8 +9,8 @@ import classNames from 'classnames';
 export default function Assumptions({
   state,
   isLoading,
+  hasInitialLocation,
   controlsOpen,
-  zipCodes,
   setControlsOpen
 }) {
   const [pulseIsVisible, setPulseIsVisible] = useState(() => {
@@ -54,7 +54,7 @@ export default function Assumptions({
 
   return (
     <Tooltip
-      text="Edit this loan's details"
+      text="Edit your loan's details"
       className={classNames(styles.wrapper, {
         [styles.open]: controlsOpen
       })}
@@ -69,7 +69,7 @@ export default function Assumptions({
         <AssumptionsText
           state={state}
           isLoading={isLoading}
-          zipCodes={zipCodes}
+          hasInitialLocation={hasInitialLocation}
         />
         {pulseIsVisible && !controlsOpen &&
           <div className={styles.pulseWrapper}>

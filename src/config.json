@@ -3,7 +3,8 @@
     "loanType": "purchase",
     "loanAmount": 400000,
     "zipCode": "94538",
-    "city": "Fremont"
+    "city": "Fremont",
+    "state": "CA"
   },
   "urlParams": {
     "loanType": ["purchase", "refinance"],

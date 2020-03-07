@@ -54,7 +54,7 @@ function Outline() {
   return (
     <div className={styles.outline}>
       <div className={styles.top}>
-        <span>Loan Details</span>
+        <span>Loan Assumptions</span>
       </div>
     </div>
   );

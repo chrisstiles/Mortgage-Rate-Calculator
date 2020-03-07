@@ -1,24 +1,32 @@
 export default class CacheService {
-  get(key, defaultValue = null) {
+  get(key, defaultValue = null, type = 'localStorage') {
     if (this[key]) {
       return this[key];
     }
 
     try {
-      return JSON.parse(window.localStorage.getItem(key));
+      return JSON.parse(window[type].getItem(key));
     } catch {
       return defaultValue;
     }
   }
 
-  set(key, data) {
+  getSession(key, defaultValue) {
+    return this.get(`_${key}`, defaultValue, 'sessionStorage');
+  }
+
+  set(key, data, type = 'localStorage') {
     this[key] = data;
 
     requestIdleCallback(() => {
       try {
         const value = JSON.stringify(data);
-        window.localStorage.setItem(key, value);
+        window[type].setItem(key, value);
       } catch {}
     });
+  }
+
+  setSession(key, data) {
+    return this.set(`_${key}`, data, 'sessionStorage');
   }
 }
