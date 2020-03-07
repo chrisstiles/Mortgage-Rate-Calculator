@@ -1,5 +1,6 @@
 /* eslint-disable */
 import 'promise-polyfill/src/polyfill';
+import 'unfetch/polyfill';
 import 'requestidlecallback';
 import 'regenerator-runtime/runtime';
 
