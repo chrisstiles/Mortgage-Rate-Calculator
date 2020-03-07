@@ -5,20 +5,20 @@ export default class CacheService {
     }
 
     try {
-      return JSON.parse(window.localStorage.getItem(key));;
+      return JSON.parse(window.localStorage.getItem(key));
     } catch {
       return defaultValue;
     }
   }
 
   set(key, data) {
-    try {
-      const value = JSON.stringify(data);
-      this[key] = value;
+    this[key] = data;
 
-      requestIdleCallback(() => {
+    requestIdleCallback(() => {
+      try {
+        const value = JSON.stringify(data);
         window.localStorage.setItem(key, value);
-      });
-    } catch {}
+      } catch {}
+    });
   }
 }
