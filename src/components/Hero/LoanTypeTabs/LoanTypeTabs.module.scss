@@ -85,8 +85,6 @@
   }
 
   &.active {
-    cursor:default;
-
     &:first-child {
       &:after {
         transform:translateX(0);
