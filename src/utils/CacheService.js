@@ -15,7 +15,10 @@ export default class CacheService {
     try {
       const value = JSON.stringify(data);
       this[key] = value;
-      window.localStorage.setItem(key, value);
+
+      requestIdleCallback(() => {
+        window.localStorage.setItem(key, value);
+      });
     } catch {}
   }
 }

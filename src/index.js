@@ -2,7 +2,6 @@ import './fonts/fonts.scss';
 import './styles/general.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'regenerator-runtime';
 import '@utils/polyfills';
 import App from './App';
 

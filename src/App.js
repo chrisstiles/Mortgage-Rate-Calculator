@@ -12,14 +12,6 @@ const initialState = getInitialState(cache);
 export default function App() {
   const [controlsOpen, setControlsOpen] = useState(false);
   const [controlsHeight, setControlsHeight] = useState(null);
-
-  // TODO Get user's location with https://freegeoip.app/ if not passed from Kentico
-
-  // fetch('https://freegeoip.app/json/').then(response => {
-  //   const data = response.json();
-  //   console.log(data)
-  // });
-
   const [zipCodes, setZipCodes] = useState(() => cache.get('zipCodes'));
   const [state, _setState] = useState(initialState);
   const [isLoading, setIsLoading] = useState(false);
@@ -30,18 +22,22 @@ export default function App() {
 
   useEffect(() => {
     if (!cache.get('zipCodes')) {
-      import(
-        /* webpackChunkName: "zipcodes" */
-        '@utils/zipcodes.json'
-      ).then(data => {
-        setZipCodes(data);
-        cache.set('zipCodes', data);
-      }).catch(() => setZipCodes({}));
-    }
+      const getZipCodes = async () => {
+        try {
+          const data = await import(
+            /* webpackChunkName: "zipcodes" */
+            '@utils/zipcodes.json'
+          );
+          
+          setZipCodes(data);
+          cache.set('zipCodes', data);
+        } catch {
+          setZipCodes({});
+        }
+      };
 
-    // fetch('https://freegeoip.app/', { mode: 'no-cors' }).then(response => {
-    //   console.log(response.body)
-    // })
+      getZipCodes();
+    }
   }, []);
 
   useEffect(() => {
@@ -54,7 +50,7 @@ export default function App() {
           if (zipCode) {
             const zipCodes = cache.get('zipCodes', {});
             const [city, state] = zipCodes[zipCode] ?? [];
-            console.log({ zipCode, city })
+            
             if (defaults.footprint?.includes(state)) {
               setState({ zipCode, city });
             }
@@ -67,25 +63,6 @@ export default function App() {
       };
 
       getUserLocation();
-      // console.log('Here')
-      // fetch('https://freegeoip.app/json/')
-      //   .then(response => response.json())
-      //   .then(({ zip_code: zipCode }) => {
-      //     if (zipCode) {
-      //       const zipCodes = cache.get('zipCodes', {});
-      //       const [city, state] = zipCodes[zipCode] ?? [];
-            
-      //       if (defaults.footprint?.includes(state)) {
-      //         setState({ zipCode, city });
-      //       }
-
-      //       setIsLoading(false);
-      //     }
-      //   })
-      //   .catch(error => {
-      //     console.log(error);
-      //     setIsLoading(false);
-      //   });
     }
   }, [setState]);
 
