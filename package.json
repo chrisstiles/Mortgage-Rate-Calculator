@@ -23,7 +23,8 @@
     "regenerator-runtime": "^0.13.3",
     "requestidlecallback": "^0.3.0",
     "resize-observer-polyfill": "^1.5.1",
-    "unfetch": "^4.1.0"
+    "unfetch": "^4.1.0",
+    "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",

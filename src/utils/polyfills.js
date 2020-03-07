@@ -1,6 +1,7 @@
 /* eslint-disable */
 import 'promise-polyfill/src/polyfill';
-import 'unfetch/polyfill';
+// import 'unfetch/polyfill';
+import 'whatwg-fetch';
 import 'requestidlecallback';
 import 'regenerator-runtime/runtime';
 
