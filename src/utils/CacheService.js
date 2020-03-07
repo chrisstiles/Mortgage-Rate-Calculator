@@ -1,15 +1,13 @@
 export default class CacheService {
-  get(key) {
+  get(key, defaultValue = null) {
     if (this[key]) {
       return this[key];
     }
 
     try {
-      const value = JSON.parse(window.localStorage.getItem(key));
-      this[key] = value;
-      return value;
+      return JSON.parse(window.localStorage.getItem(key));;
     } catch {
-      return null;
+      return defaultValue;
     }
   }
 

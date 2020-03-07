@@ -8,6 +8,7 @@ import { Phone } from './icons';
 
 export default memo(function Hero({
   state,
+  isLoading,
   controlsOpen,
   controlsHeight,
   zipCodes,
@@ -26,6 +27,7 @@ export default memo(function Hero({
           />
           <Assumptions
             state={state}
+            isLoading={isLoading}
             controlsOpen={controlsOpen}
             zipCodes={zipCodes}
             setControlsOpen={setControlsOpen}

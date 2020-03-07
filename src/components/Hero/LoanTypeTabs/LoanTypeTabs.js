@@ -22,9 +22,7 @@ export default function LoanTypeTabs({
   });
 
   const setLoanType = loanType => {
-    setState(state => {
-      return { ...state, loanType };
-    });
+    setState({ loanType });
   };
 
   const purchase = (
@@ -45,7 +43,7 @@ export default function LoanTypeTabs({
       setLoanType={setLoanType}
       key="refinance"
     >
-      <Refinance /> Refinance
+      <Refinance className={styles.refinanceIcon} /> Refinance
     </Tab>
   );
 

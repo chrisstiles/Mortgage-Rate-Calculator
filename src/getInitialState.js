@@ -1,6 +1,6 @@
 import { defaults, urlParams, footprint } from '@config';
-import { isString, isFunction, isRegExp, isPlainObject } from 'lodash';
 import querystring from 'querystring';
+import { isString, isFunction, isRegExp, isBoolean, isPlainObject } from 'lodash';
 
 // This object defines the shape of our shape object.
 
@@ -28,6 +28,10 @@ const state = {
     parameter: 'loanSize',
     validate: n => !isNaN(n),
     transform: parseInt
+  },
+  userSetLocation: {
+    defaultValue: false,
+    validate: isBoolean
   },
   zipCode: {
     defaultValue: defaults.zipCode,

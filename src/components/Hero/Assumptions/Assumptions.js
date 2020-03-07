@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import AssumptionsText from './AssumptionsText';
 import { Label } from '@input';
 import Tooltip from '@components/Tooltip';
-import { Arrow } from '../icons';
 import styles from './Assumptions.module.scss';
 import { displayPulse, hidePulseAfterFirstVisit, pulseCount } from '@config';
 import classNames from 'classnames';
 
 export default function Assumptions({
   state,
+  isLoading,
   controlsOpen,
   zipCodes,
   setControlsOpen
@@ -68,6 +68,7 @@ export default function Assumptions({
       >
         <AssumptionsText
           state={state}
+          isLoading={isLoading}
           zipCodes={zipCodes}
         />
         {pulseIsVisible && !controlsOpen &&
