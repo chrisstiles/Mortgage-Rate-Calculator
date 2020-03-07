@@ -8,6 +8,7 @@
   width:100%;
   margin-right:30px;
   max-width:340px;
+  flex-shrink:0;
 }
 
 .tabWrapper {
@@ -37,6 +38,7 @@
   height:40px;
   flex-grow:1;
   position:relative;
+  overflow:visible;
 
   &:hover,
   &:focus {
@@ -45,11 +47,7 @@
 
   &:focus {
     outline:none;
-
-    .content {
-      box-shadow: 0 0 0 2px rgba(25, 58, 60, 0.7), 0 0 0 6px rgba(162, 237, 241, 0.3);
-      z-index: 200;
-    }
+    box-shadow: 0 0 0 2px rgba(25, 58, 60, 0.7), 0 0 0 6px rgba(162, 237, 241, 0.3);
 
     &:first-child .content:before {
       right: 0;
