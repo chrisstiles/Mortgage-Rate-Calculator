@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { memo } from 'react';
 import classNames from 'classnames';
 import styles from './Tooltip.module.scss';
 
-export default function Tooltip({
+export default memo(function Tooltip({
   className,
   children,
   text = '',
@@ -26,4 +26,4 @@ export default function Tooltip({
       }
     </div>
   );
-}
+});

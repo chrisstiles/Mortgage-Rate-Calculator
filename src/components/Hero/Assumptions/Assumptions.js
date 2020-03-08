@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import AssumptionsText from './AssumptionsText';
 import { Label } from '@input';
 import Tooltip from '@components/Tooltip';
@@ -6,7 +6,7 @@ import styles from './Assumptions.module.scss';
 import { displayPulse, hidePulseAfterFirstVisit, pulseCount } from '@config';
 import classNames from 'classnames';
 
-export default function Assumptions({
+export default memo(function Assumptions({
   state,
   isLoading,
   hasInitialLocation,
@@ -81,4 +81,4 @@ export default function Assumptions({
       <div className={styles.line} />
     </Tooltip>
   );
-}
+});

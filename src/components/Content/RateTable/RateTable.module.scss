@@ -1,0 +1,65 @@
+/*---------------------------*/
+/* Rate Table */
+/*---------------------------*/
+
+.wrapper {
+  display:table;
+  text-align:center;
+  width:100%;
+}
+
+.header,
+.row {
+  display:table-row;
+}
+
+.cell {
+  display:table-cell;
+  padding:12px 15px;
+  vertical-align:middle;
+  font-size:16px;
+  border-bottom:1px solid #E2E2E2;
+  color:#333333;
+
+  &:nth-child(2) {
+    background-color:#FCFCFC;
+  }
+}
+
+.divider {
+  color:#999999;
+  font-weight:600;
+  margin:0 6px;
+}
+
+
+/*---------------------------*/
+/* Header */
+
+.header {
+  background-color:#FDFDFD;
+
+  .cell {
+    font-weight:600;
+    text-transform:uppercase;
+    padding-top:17px;
+    padding-bottom:17px;
+    border-top:1px solid #D6D6D6;
+    border-bottom:1px solid #D6D6D6;
+    color:#383838;
+    font-size:14px;
+    cursor:pointer;
+
+    &:hover {
+      background-color:#f7f7f7;
+    }
+
+    &:nth-child(2) {
+      background-color:#FAFAFA;
+
+      &:hover {
+        background-color:#f1f1f1;
+      }
+    }
+  }
+}

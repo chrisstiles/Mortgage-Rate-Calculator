@@ -1,5 +1,6 @@
 import React, { useState, memo, useEffect } from 'react';
 import Header from './Header';
+import RateTable from './RateTable';
 import styles from './Content.module.scss';
 import classNames from 'classnames';
 
@@ -39,6 +40,7 @@ const Content = memo(({ loanType }) => {
   return (
     <div className={styles.content}>
       <Header loanType={loanType} />
+      <RateTable />
     </div>
   );
 });
