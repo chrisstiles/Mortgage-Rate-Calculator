@@ -4,19 +4,11 @@
 
 .wrapper {
   padding:35px;
-  // padding:30px 30px 25px 30px;
-  // position:relative;
-  
-  // &:after {
-  //   content:"";
-  //   position:absolute;
-  //   left:30px;
-  //   right:30px;
-  //   bottom:0;
-  //   height:1px;
-  //   background-color:#D6D6D6;
-  // }
 }
+
+
+/*---------------------------*/
+/* Top */
 
 .top {
   display:flex;
@@ -76,4 +68,14 @@
   margin-right:10px;
   position:relative;
   top:-4px;
+}
+
+
+/*---------------------------*/
+/* Middle */
+
+.middle {
+  display:flex;
+  justify-content:space-between;
+  margin-top:22px;
 }

@@ -74,6 +74,15 @@
   &:focus {
     outline:none;
   }
+
+  svg,
+  path {
+    fill: currentColor;
+  }
+
+  svg {
+    margin-right:10px;
+  }
 }
 
 .content {
@@ -89,37 +98,9 @@
   &:focus {
     outline:none;
   }
-
-  &:before,
-  &:after {
-    content:"";
-    position:absolute;
-    top:0;
-    bottom:0;
-    background-color:$darkTeal;
-    z-index: -1;
-    pointer-events: none;
-    will-change: transform;
-  }
-
-  &:before {
-    transform:scaleX(0);
-    transform-origin:left center;
-    transition: transform .4s cubic-bezier(.34, 0, .85, .10) 0s, background-color .3s;
-    left:0;
-    right:-2px;
-  }
-
-  &:after {
-    transform-origin:right center;
-    transition: transform .4s cubic-bezier(.09, .83, .26, 1) .4s, background-color .3s;
-    transform:scaleX(1);
-    right:0;
-    width:50px;
-  }
 }
 
-.button {
+.primary {
   &:hover,
   &:active,
   &:focus {
@@ -149,5 +130,81 @@
         background-color: $activeTeal;
       }
     }
+  }
+
+  .content {
+    &:before,
+    &:after {
+      content:"";
+      position:absolute;
+      top:0;
+      bottom:0;
+      background-color:$darkTeal;
+      z-index: -1;
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    &:before {
+      transform:scaleX(0);
+      transform-origin:left center;
+      transition: transform .4s cubic-bezier(.34, 0, .85, .10) 0s, background-color .3s;
+      left:0;
+      right:-2px;
+    }
+
+    &:after {
+      transform-origin:right center;
+      transition: transform .4s cubic-bezier(.09, .83, .26, 1) .4s, background-color .3s;
+      transform:scaleX(1);
+      right:0;
+      width:50px;
+    }
+  }
+}
+
+.outline {
+  color:$darkTeal;
+  border:2px solid $teal;
+  transition:all .2s;
+  transition-property: background-color, color;
+  background-color:transparent;
+
+  &:hover,
+  &:focus {
+    background-color:$teal;
+    color:#fff;
+  }
+
+  &:focus {
+    box-shadow:0 0 0 2px #408386, 0 0 0 5px #d6f7f9;
+    transition: none;
+  }
+}
+
+.minimal {
+  background-color:transparent;
+  color: #3D3D3D;
+  transition:background-color .2s;
+
+  &:hover {
+    color: $teal;
+  }
+
+  &:focus {
+    &:before {
+      content:"";
+      position:absolute;
+      top:0;
+      bottom:0;
+      left:-10px;
+      right:-10px;
+      box-shadow: 0 0 0 2px #d4d4d4;
+    }
+  }
+
+  .content {
+    padding-left:0;
+    padding-right:0;
   }
 }

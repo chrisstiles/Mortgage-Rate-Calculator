@@ -1,5 +1,6 @@
 import React from 'react';
-import { Rate, Chat } from './icons';
+import { Rate, Chat, Filter, Bell } from './icons';
+import { Button } from '@input';
 import styles from './Header.module.scss';
 import { upperFirst } from 'lodash';
 
@@ -7,6 +8,7 @@ export default function Header({ loanType }) {
   return (
     <div className={styles.wrapper}>
       <Top loanType={loanType} />
+      <Middle />
     </div>
   );
 }
@@ -34,6 +36,28 @@ function Top({ loanType }) {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+function Middle() {
+  return (
+    <div className={styles.middle}>
+      <Button
+        theme="minimal"
+        fontSize={16}
+      >
+        <Filter />
+        Filter Rates and Products
+      </Button>
+
+      <Button
+        theme="outline"
+        fontSize={13}
+      >
+        <Bell />
+        Sign Up For Rate Alerts
+      </Button>
     </div>
   );
 }

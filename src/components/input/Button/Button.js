@@ -7,16 +7,19 @@ export default function Button({
   className,
   href,
   showArrow: _showArrow,
+  theme = 'primary',
+  style = {},
+  fontSize,
   ...restProps
 }) {
-  const showArrow = _showArrow ?? !!href;
+  const showArrow = theme === 'primary' && (_showArrow || !!href);
   const props = {
     ...restProps,
-    className: classNames(
-      styles.button,
-      className,
-      { [styles.arrow]: showArrow }
-    )
+    style: { ...style, fontSize },
+    className: classNames(styles.button, className, {
+      [styles.arrow]: showArrow,
+      [styles[theme]]: theme
+    })
   };
 
   return (
