@@ -8,6 +8,12 @@ export default function Text({
   fieldClassName,
   label,
   icon,
+  iconStyle = {},
+  iconLeft,
+  insetLeft,
+  iconClassName,
+  style = {},
+  fieldStyle,
   ...restProps
 }) {
   const [isFocused, setIsFocused] = useState(false);
@@ -16,16 +22,26 @@ export default function Text({
     <Field
       label={label}
       className={fieldClassName}
+      style={fieldStyle}
     >
       <div
         className={classNames(styles.wrapper, {
-          [styles.focus]: isFocused
+          [styles.focus]: isFocused,
+          [styles.hasIcon]: icon
         })}
       >
-        <div className={styles.icon}>$</div>
+        {icon &&
+          <div
+            className={classNames(styles.icon, iconClassName)}
+            style={{ ...iconStyle, left: iconLeft }}
+          >
+            {icon}
+          </div>
+        }
         <input
           type="text"
           className={classNames(styles.input, className)}
+          style={{ ...style, paddingLeft: insetLeft }}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           {...restProps}

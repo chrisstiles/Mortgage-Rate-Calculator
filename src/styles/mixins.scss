@@ -1,0 +1,16 @@
+/*---------------------------*/
+/* Mixins */
+/*---------------------------*/
+
+@mixin placeholder {
+  &::-webkit-input-placeholder {@content}
+  &:-moz-placeholder           {@content}
+  &::-moz-placeholder          {@content}
+  &:-ms-input-placeholder      {@content}  
+}
+
+@mixin placeholderStyles {
+  @include placeholder {
+    color:#9c9c9c;
+  }
+}
