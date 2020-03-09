@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import Content from './components/Content';
 import Hero from './components/Hero';
-import getInitialState from './getInitialState';
+import getInitialState from '@utils/getInitialState';
 import CacheService from '@utils/CacheService';
 import { getState, isInFootprint } from '@helpers';
 

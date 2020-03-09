@@ -15,7 +15,7 @@ export default function Field({
       {...restProps}
     >
       {label &&
-        <Label tabIndex="-1">{label}</Label>
+        <Label>{label}</Label>
       }
       {children}
     </div>

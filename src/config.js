@@ -1,8 +1,24 @@
+const field = {
+  LOAN_AMOUNT: 'loanAmount',
+  ZIP_CODE: 'zipCode'
+}
+
 module.exports = {
+  /*-- Form Fields --*/
+
+  // Configure which fields to include in the
+  // assumptions input box. Fields not included will use
+  // default assumptions defined in MORRIS. Use formFields
+  // enum to ensure field is added correctly
+  "formFields": [
+    field.LOAN_AMOUNT,
+    field.ZIP_CODE
+  ],
+
   /*-- Values --*/
 
   // Default values for loan assumptions
-  defaults: {
+  "defaults": {
     "loanType": "purchase",
     "loanAmount": 400000,
     "zipCode": "94538",
@@ -34,12 +50,14 @@ module.exports = {
   "footprint": ["CA"],
 
   // Max and minimum number of decimals on the rate and APR. For example:
-  // maxDecimals: 3  =>  3.325%
-  // maxDecimals: 2  =>  3.33%
-  // minDecimals: 2 => 3.25%
-  // minDecimals: 3 => 3.250%
-  "maxDecimals": 3,
+  // minDecimals: 2 => 3.25%, minDecimals: 3 => 3.250%
+  // maxDecimals: 3 => 3.325%, maxDecimals: 2 => 3.33%
   "minDecimals": 2,
+  "maxDecimals": 3,
+
+  // Maximum and minimum loan amounts
+  "minLoanAmount": 0,
+  "maxLoanAmount": 5000000,
 
   /*-- UI Options --*/
 
@@ -62,3 +80,5 @@ module.exports = {
   // Prevent the pulse from animating on subsequent visits
   "hidePulseAfterFirstVisit": false
 };
+
+module.exports.field = field;

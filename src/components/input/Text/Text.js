@@ -5,14 +5,14 @@ import styles from './Text.module.scss';
 import NumberFormat from 'react-number-format';
 
 export default memo(function Text({
+  value,
+  name,
   className,
   fieldClassName,
   label,
   type = 'text',
   format,
   isCurrency,
-  maxValue,
-  minValue,
   icon: _icon,
   iconStyle = {},
   iconLeft,
@@ -20,6 +20,7 @@ export default memo(function Text({
   iconClassName,
   style = {},
   fieldStyle,
+  validate,
   onChange = () => {},
   ...restProps
 }) {
@@ -27,13 +28,14 @@ export default memo(function Text({
   const isNumber = isCurrency || format;
 
   const handleChange = useCallback(value => {
-    onChange(value);
-    console.log(value)
-  }, [onChange]);
+    onChange(value, name);
+  }, [onChange, name]);
 
   const [props, icon] = useMemo(() => {
     const props = {
+      value,
       type,
+      validate,
       className: classNames(styles.input, className),
       style: { ...style, paddingLeft: insetLeft },
       onFocus: () => setIsFocused(true),
@@ -41,6 +43,7 @@ export default memo(function Text({
     };
 
     if (isNumber) {
+      props.format = format;
       props.onValueChange = ({ value }) => handleChange(value);
     } else {
       props.onChange = e => handleChange(e.target.value);
@@ -60,6 +63,8 @@ export default memo(function Text({
 
     return [props, icon];
   }, [
+    value,
+    format,
     isCurrency,
     _icon,
     className,
@@ -67,7 +72,8 @@ export default memo(function Text({
     style,
     type,
     isNumber,
-    handleChange
+    handleChange,
+    validate
   ]);
  
   return (
@@ -101,21 +107,3 @@ export default memo(function Text({
     </Field>
   );
 });
-
-// function limit(val, min, max) {
-//   if (val.length === 1 && val[0] > max[0]) {
-//     val = '0' + val;
-//   }
-
-//   if (val.length === 2) {
-//     if (Number(val) === 0) {
-//       val = '01';
-
-//       //this can happen when user paste number
-//     } else if (val > max) {
-//       val = max;
-//     }
-//   }
-
-//   return val;
-// }

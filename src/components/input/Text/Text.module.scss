@@ -42,7 +42,7 @@
 }
 
 .input {
-  @include placeholderStyles(#bdbdbd);
+  @include placeholderStyles(#c5c4c4);
   border:none;
   background-color:transparent;
   appearance:none;
@@ -61,7 +61,7 @@
   background-color:rgba(#fff, .35);
 
   .input {
-    @include placeholderStyles(#cfcfcf);
+    @include placeholderStyles(#dddddd);
   }
   
   .icon {

@@ -1,5 +1,6 @@
 import React, { memo, useRef } from 'react';
 import { Text } from '@input';
+import Controls from './Controls';
 import styles from './Inputs.module.scss';
 import useResizeObserver from '@hooks/useResizeObserver';
 import classNames from 'classnames';
@@ -28,22 +29,13 @@ export default memo(function Inputs({
         <Outline />
         <div className={styles.inner}>
           <Row>
+            <Controls state={state} />
             <Text
-              label="Loan Amount"
+              label="Inline Loan Amount"
               tabIndex={tabIndex}
               defaultValue={state.loanAmount}
               placeholder="Enter a loan amount"
               isCurrency
-              maxValue={500000}
-            />
-            <Text
-              label="Loan amount"
-              tabIndex={tabIndex}
-              placeholder="This is a placeholder"
-            />
-            <Text
-              label="Loan amount"
-              tabIndex={tabIndex}
             />
           </Row>
 

@@ -43,7 +43,5 @@ export function isInFootprint(zipCode) {
   const zipCodes = cache.get('zipCodes', {});
   const state = (zipCodes[zipCode] ?? [])[1];
 
-  console.log(state, states, zipCode)
-
   return !!(state && states.find(s => s.toLowerCase() === state.toLowerCase()));
 }
