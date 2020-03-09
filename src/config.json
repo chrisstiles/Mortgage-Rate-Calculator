@@ -17,6 +17,9 @@
   "displayDefaultTabFirst": true,
   "maxDecimals": 3,
   "minDecimals": 2,
+  "highlightLowestRate": true,
+  "highlightLowestPayment": true,
+  "showBadges": true,
   "displayPulse": true,
   "hidePulseAfterFirstVisit": false,
   "pulseCount": 4

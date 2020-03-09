@@ -1,20 +1,25 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styles from './Product.module.scss';
 
-export default function Product({ term, isAdjustable }) {
+export default memo(function Product({ term, isAdjustable }) {
   if (!term) {
     return null;
   }
 
-  term = String(term);
+  const { main, text } = colors[term] ?? colors.default;
+  term = [String(term)];
 
   if (isAdjustable === undefined) {
-    isAdjustable = term.includes('/');
+    isAdjustable = term[0].includes('/');
   }
 
-  const termText = [term, isAdjustable ? '' : 'Year'].join(' ').trim();
+  if (isAdjustable) {
+    const termArr = term[0].split('/');
+    term = [termArr[0], <span key="slash">/</span>, termArr[1]];
+  }
+
+  const termText = [...term, isAdjustable ? '' : ' Year'];
   const typeText = [isAdjustable ? 'Adjustable' : 'Fixed', 'Rate Mortgage'].join(' ');
-  const { main, text } = colors[term] ?? colors.default;
 
   return (
     <div 
@@ -38,7 +43,7 @@ export default function Product({ term, isAdjustable }) {
       </div>
     </div>
   );
-}
+});
 
 const colors = {
   '10': { main: '#92C2DA', text: '#47788E' },
