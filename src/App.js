@@ -3,8 +3,7 @@ import Content from './components/Content';
 import Hero from './components/Hero';
 import getInitialState from './getInitialState';
 import CacheService from '@utils/CacheService';
-import { footprint } from '@config';
-import { getState } from '@helpers';
+import { getState, isInFootprint } from '@helpers';
 
 const cache = new CacheService();
 const initialState = getInitialState();
@@ -55,7 +54,7 @@ export default function App() {
             const zipCodes = cache.get('zipCodes', {});
             const [city, state] = zipCodes[zipCode] ?? [];
             
-            if (footprint?.includes(state)) {
+            if (isInFootprint(state)) {
               const currentLocation = { zipCode, city };
               setState(currentLocation);
 

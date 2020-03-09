@@ -56,7 +56,7 @@ module.exports = (env, argv) => {
       alias: {
         '@app$': path.resolve(__dirname, 'src/App'),
         '@components': path.join(__dirname, 'src/components'),
-        '@config$': path.resolve(__dirname, 'src/config.json'),
+        '@config$': path.resolve(__dirname, 'src/config.js'),
         '@helpers$': path.join(__dirname, 'src/utils/helpers'),
         '@input': path.join(__dirname, 'src/components/input'),
         '@hooks': path.join(__dirname, 'src/hooks'),

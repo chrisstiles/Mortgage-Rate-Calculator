@@ -32,8 +32,8 @@ export default memo(function Inputs({
               label="Loan amount"
               tabIndex={tabIndex}
               defaultValue={state.loanAmount}
-              icon="$"
               placeholder="Enter a loan amount"
+              isCurrency
             />
             <Text
               label="Loan amount"

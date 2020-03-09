@@ -2,6 +2,7 @@ import { defaults, urlParams, footprint } from '@config';
 import querystring from 'querystring';
 import { isString, isFunction, isRegExp, isBoolean, isPlainObject } from 'lodash';
 import { cache } from '@app';
+import { isInFootprint } from '@helpers';
 
 // This object defines the shape of our shape object.
 
@@ -107,7 +108,7 @@ export default function() {
     if (zipCodes && footprint) {
       const [city, state] = zipCodes[formattedState.zipCode] ?? [];
 
-      if (city && state && footprint?.includes(state)) {
+      if (city && state && isInFootprint(state)) {
         formattedState.city = city;
       } else {
         formattedState.zipCode = defaults.zipCode;

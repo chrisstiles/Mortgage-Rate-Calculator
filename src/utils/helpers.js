@@ -1,4 +1,6 @@
 import { isPlainObject } from 'lodash';
+import { cache } from '@app';
+import { footprint } from '@config';
 
 export function getState(state, value, name) {
   if (!isPlainObject(state) || (!value && !name)) {
@@ -30,4 +32,18 @@ export function formatCurrency(num) {
   });
 
   return `$${num}`;
+}
+
+export function isInFootprint(zipCode) {
+  if (!zipCode) {
+    return false;
+  }
+
+  const states = footprint ?? ['CA'];
+  const zipCodes = cache.get('zipCodes', {});
+  const state = (zipCodes[zipCode] ?? [])[1];
+
+  console.log(state, states, zipCode)
+
+  return !!(state && states.find(s => s.toLowerCase() === state.toLowerCase()));
 }

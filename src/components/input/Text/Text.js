@@ -1,25 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { Field } from '@input';
 import classNames from 'classnames';
 import styles from './Text.module.scss';
-import MaskedInput from 'react-text-mask';
+// import MaskedInput from 'react-text-mask';
+import NumberFormat from 'react-number-format';
 
-export default function Text({
+export default memo(function Text({
   className,
   fieldClassName,
   label,
   type = 'text',
+  format,
+  isCurrency,
   icon,
   iconStyle = {},
   iconLeft,
   insetLeft,
   iconClassName,
-  mask = false,
   style = {},
   fieldStyle,
   ...restProps
 }) {
   const [isFocused, setIsFocused] = useState(false);
+  const isNumber = isCurrency || format;
+  const props = {
+    type,
+    className: classNames(styles.input, className),
+    style: { ...style, paddingLeft: insetLeft },
+    onFocus: () => setIsFocused(true),
+    onBlur: () => setIsFocused(false),
+    ...restProps
+  };
+
+  if (isCurrency) {
+    icon = icon === undefined ? '$' : icon;
+    props.thousandSeparator = true;
+    props.allowNegative = false;
+    props.decimalSeparator = false;
+  }
+
+  const Component = isNumber ? NumberFormat : p => {
+    return <input {...p} />
+  };
  
   return (
     <Field
@@ -41,17 +63,8 @@ export default function Text({
             {icon}
           </div>
         }
-        <MaskedInput
-          type="text"
-          mask={mask}
-          guide={false}
-          className={classNames(styles.input, className)}
-          style={{ ...style, paddingLeft: insetLeft }}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-          {...restProps}
-        />
+        <Component {...props} />
       </div>
     </Field>
   );
-}
+});
