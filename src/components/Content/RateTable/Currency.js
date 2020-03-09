@@ -2,6 +2,7 @@ import React from 'react';
 import { PaymentBadge } from './icons';
 import styles from './RateTable.module.scss';
 import classNames from 'classnames';
+import { formatCurrency } from '@helpers';
 import { highlightLowestPayment, showBadges } from '@config';
 
 export default function Currency({ amount, isMinPayment }) {
@@ -17,12 +18,4 @@ export default function Currency({ amount, isMinPayment }) {
       }
     </div>
   );
-}
-
-function formatCurrency(num) {
-  num = Number(num).toLocaleString('en-US', {
-    maximumFractionDigits: 2
-  });
-
-  return `$${num}`;
 }

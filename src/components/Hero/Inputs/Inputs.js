@@ -5,6 +5,7 @@ import useResizeObserver from '@hooks/useResizeObserver';
 import classNames from 'classnames';
 
 export default memo(function Inputs({
+  state,
   controlsOpen,
   controlsHeight,
   setControlsHeight
@@ -30,6 +31,7 @@ export default memo(function Inputs({
             <Text
               label="Loan amount"
               tabIndex={tabIndex}
+              defaultValue={state.loanAmount}
             />
             <Text
               label="Loan amount"

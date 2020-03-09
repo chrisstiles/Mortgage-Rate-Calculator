@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import Spinner from 'react-md-spinner';
 import { cache } from '@app';
 import { defaults } from '@config';
-import { hasIn } from 'lodash';
+import { formatCurrency } from '@helpers';
 
 export default memo(function AssumptionsText({
   state,
@@ -59,14 +59,19 @@ function getLoanText({
   zipCode
 }) {
   const parts = [];
+  const isPurchase = loanType === 'purchase';
 
   // Loan type
-  parts.push(loanType === 'purchase' ? 'Purchasing a' : 'Refinancing a');
+  parts.push(isPurchase ? 'Purchasing a' : 'Refinancing a');
+
+  // Loan amount
+  parts.push(formatCurrency(loanAmount));
+  parts.push(isPurchase ? 'home' : 'loan');
 
   // Location
   const zipCodes = cache.get('zipCodes', {});
   const [city, state] = zipCodes[zipCode] ?? [defaults.city, defaults.state];
-  parts.push(`home in ${city}, ${state}.`);
+  parts.push(`in ${city}, ${state}.`);
 
   // Placeholder
   parts.push('Excellent credit score with 20% down.');

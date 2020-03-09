@@ -3,8 +3,8 @@ import AssumptionsText from './AssumptionsText';
 import { Label } from '@input';
 import Tooltip from '@components/Tooltip';
 import styles from './Assumptions.module.scss';
-import { displayPulse, hidePulseAfterFirstVisit, pulseCount } from '@config';
 import classNames from 'classnames';
+import { displayPulse, hidePulseAfterFirstVisit, pulseCount } from '@config';
 
 export default memo(function Assumptions({
   state,
