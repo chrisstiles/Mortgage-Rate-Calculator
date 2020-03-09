@@ -31,16 +31,22 @@ export default memo(function ContentWrapper({
         className={styles.angle}
         style={{ height: controlsHeight + 150 }}
       />
-      <Content loanType={loanType} />
+      <Content
+        loanType={loanType}
+        shiftY={-shiftY}
+        controlsOpen={controlsOpen}
+      />
     </div>
   );
 });
 
-const Content = memo(({ loanType }) => {
+const Content = memo(({ loanType, shiftY, controlsOpen }) => {
   return (
     <div className={styles.content}>
       <Header loanType={loanType} />
-      <RateTable />
+      <RateTable
+        shiftY={controlsOpen ? shiftY : 0}
+      />
     </div>
   );
 });

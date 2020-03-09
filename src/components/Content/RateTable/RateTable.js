@@ -6,9 +6,8 @@ import styles from './RateTable.module.scss';
 import classNames from 'classnames';
 import sampleData from './sample-data.json';
 import { orderBy } from 'lodash';
-import { showBadges } from '@config';
 
-export default memo(function RateTable() {
+export default memo(function RateTable({ shiftY }) {
   const filteredRows = useMemo(() => {
     if (!sampleData?.length) {
       return null;
@@ -102,24 +101,39 @@ export default memo(function RateTable() {
 
   return (
     <div className={styles.wrapper}>
-      <Header />
+      <Header shiftY={shiftY} />
       {components}
     </div>
   );
 });
 
-function Header() {
+function Header({ shiftY }) {
   return (
     <Row className={styles.header}>
-      <Cell>Product Type</Cell>
-      <Cell>
+      <HeaderCell shiftY={shiftY}>
+        Product Type
+      </HeaderCell>
+      <HeaderCell shiftY={shiftY}>
         <div className={styles.rate}>
           Interest Rate <Divider /> APR
         </div>
-      </Cell>
-      <Cell>Closing Costs</Cell>
-      <Cell>Monthly Payments</Cell>
+      </HeaderCell>
+      <HeaderCell shiftY={shiftY}>
+        Closing Costs
+      </HeaderCell>
+      <HeaderCell shiftY={shiftY}>
+        Monthly Payments
+      </HeaderCell>
     </Row>
+  );
+}
+
+function HeaderCell({ shiftY, ...restProps }) {
+  return (
+    <Cell
+      style={{ top: shiftY - 1 }}
+      {...restProps}
+    />
   );
 }
 
