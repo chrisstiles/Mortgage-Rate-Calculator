@@ -46,6 +46,7 @@ function Middle() {
       <Button
         theme="minimal"
         fontSize={16}
+        className={styles.filterButton}
       >
         <Filter />
         Filter Rates and Products

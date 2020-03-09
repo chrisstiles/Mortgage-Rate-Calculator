@@ -13,23 +13,32 @@
   display:table-row;
 }
 
+.row {
+  .cell {
+    padding: 17px 15px;
+    
+    &:first-child {
+      padding-left:18px;
+      padding-right:18px;
+    }
+  }
+}
+
 .cell {
   display:table-cell;
-  padding:12px 15px;
+  padding:15px;
   vertical-align:middle;
   font-size:16px;
   border-bottom:1px solid #E2E2E2;
   color:#333333;
 
+  &:first-child {
+    text-align:left;
+  }
+
   &:nth-child(2) {
     background-color:#FCFCFC;
   }
-}
-
-.divider {
-  color:#999999;
-  font-weight:600;
-  margin:0 6px;
 }
 
 
@@ -42,8 +51,8 @@
   .cell {
     font-weight:600;
     text-transform:uppercase;
-    padding-top:17px;
-    padding-bottom:17px;
+    padding:12px 15px;
+    height:58px;
     border-top:1px solid #D6D6D6;
     border-bottom:1px solid #D6D6D6;
     color:#383838;
@@ -51,15 +60,42 @@
     cursor:pointer;
 
     &:hover {
-      background-color:#f7f7f7;
+      background-color:#f0f0f0;
+    }
+
+    &:first-child {
+      padding-left:25px;
     }
 
     &:nth-child(2) {
       background-color:#FAFAFA;
 
       &:hover {
-        background-color:#f1f1f1;
+        background-color:#eaeaea;
       }
     }
   }
+}
+
+
+/*---------------------------*/
+/* Rates */
+
+.rate {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  white-space: nowrap;
+}
+
+.divider {
+  width:2px;
+  height:1em;
+  background-color: currentColor;
+  opacity: .2;
+  transform:skewX(-10deg);
+  flex-grow:0;
+  flex-shrink:0;
+  margin: 0 .85em 0 .92em;
+  font-size:inherit;
 }
