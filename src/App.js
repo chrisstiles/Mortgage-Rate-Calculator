@@ -68,7 +68,6 @@ export default function App() {
         } catch (error) {
           console.log(error)
         } finally {
-          console.log('Here 2')
           setIsLoading(false);
           setHasInitialLocation(true);
         }
