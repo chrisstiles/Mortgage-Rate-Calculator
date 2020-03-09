@@ -3,7 +3,7 @@ import Content from './components/Content';
 import Hero from './components/Hero';
 import getInitialState from './getInitialState';
 import CacheService from '@utils/CacheService';
-import config, { defaults } from '@config';
+import { footprint } from '@config';
 import { getState } from '@helpers';
 
 const cache = new CacheService();
@@ -22,6 +22,7 @@ export default function App() {
 
   useEffect(() => {
     if (!cache.get('zipCodes')) {
+      console.log('Getting zip codes')
       const getZipCodes = async () => {
         try {
           const data = await import(
@@ -55,7 +56,7 @@ export default function App() {
             const zipCodes = cache.get('zipCodes', {});
             const [city, state] = zipCodes[zipCode] ?? [];
             
-            if (config.footprint?.includes(state)) {
+            if (footprint?.includes(state)) {
               const currentLocation = { zipCode, city };
               setState(currentLocation);
 
@@ -85,6 +86,7 @@ export default function App() {
         hasInitialLocation={hasInitialLocation}
         controlsOpen={controlsOpen}
         controlsHeight={controlsHeight}
+        zipCodes={zipCodes}
         setState={setState}
         setControlsOpen={setControlsOpen}
         setControlsHeight={setControlsHeight}

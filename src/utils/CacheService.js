@@ -5,7 +5,7 @@ export default class CacheService {
     }
 
     try {
-      return JSON.parse(window[type].getItem(key));
+      return JSON.parse(window[type].getItem(key)) ?? defaultValue;
     } catch {
       return defaultValue;
     }

@@ -10,6 +10,7 @@ export default memo(function Assumptions({
   state,
   isLoading,
   hasInitialLocation,
+  zipCodes,
   controlsOpen,
   setControlsOpen
 }) {
@@ -69,6 +70,7 @@ export default memo(function Assumptions({
         <AssumptionsText
           state={state}
           isLoading={isLoading}
+          zipCodes={zipCodes}
           hasInitialLocation={hasInitialLocation}
         />
         {pulseIsVisible && !controlsOpen &&

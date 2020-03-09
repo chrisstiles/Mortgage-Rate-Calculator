@@ -12,6 +12,7 @@ export default memo(function Hero({
   hasInitialLocation,
   controlsOpen,
   controlsHeight,
+  zipCodes,
   setState,
   setControlsOpen,
   setControlsHeight
@@ -30,6 +31,7 @@ export default memo(function Hero({
             isLoading={isLoading}
             hasInitialLocation={hasInitialLocation}
             controlsOpen={controlsOpen}
+            zipCodes={zipCodes}
             setControlsOpen={setControlsOpen}
           />
         </div>
