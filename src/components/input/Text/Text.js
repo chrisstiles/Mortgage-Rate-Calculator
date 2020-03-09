@@ -2,7 +2,6 @@ import React, { useState, memo } from 'react';
 import { Field } from '@input';
 import classNames from 'classnames';
 import styles from './Text.module.scss';
-// import MaskedInput from 'react-text-mask';
 import NumberFormat from 'react-number-format';
 
 export default memo(function Text({
