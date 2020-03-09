@@ -9,8 +9,8 @@
   &:-ms-input-placeholder      {@content}  
 }
 
-@mixin placeholderStyles {
+@mixin placeholderStyles($color: #9c9c9c) {
   @include placeholder {
-    color:#9c9c9c;
+    color:$color;
   }
 }

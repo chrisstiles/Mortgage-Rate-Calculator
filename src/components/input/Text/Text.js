@@ -1,4 +1,4 @@
-import React, { useState, memo } from 'react';
+import React, { useState, useMemo, memo } from 'react';
 import { Field } from '@input';
 import classNames from 'classnames';
 import styles from './Text.module.scss';
@@ -11,7 +11,7 @@ export default memo(function Text({
   type = 'text',
   format,
   isCurrency,
-  icon,
+  icon: _icon,
   iconStyle = {},
   iconLeft,
   insetLeft,
@@ -22,21 +22,30 @@ export default memo(function Text({
 }) {
   const [isFocused, setIsFocused] = useState(false);
   const isNumber = isCurrency || format;
-  const props = {
-    type,
-    className: classNames(styles.input, className),
-    style: { ...style, paddingLeft: insetLeft },
-    onFocus: () => setIsFocused(true),
-    onBlur: () => setIsFocused(false),
-    ...restProps
-  };
 
-  if (isCurrency) {
-    icon = icon === undefined ? '$' : icon;
-    props.thousandSeparator = true;
-    props.allowNegative = false;
-    props.decimalSeparator = false;
-  }
+  const [props, icon] = useMemo(() => {
+    const props = {
+      type,
+      className: classNames(styles.input, className),
+      style: { ...style, paddingLeft: insetLeft },
+      onFocus: () => setIsFocused(true),
+      onBlur: () => setIsFocused(false),
+    };
+
+    let icon = _icon;
+
+    if (isCurrency) {
+      icon = icon === undefined ? '$' : icon;
+      props.thousandSeparator = true;
+      props.allowNegative = false;
+      props.decimalSeparator = false;
+
+      const insetLeft = props.insetLeft ?? 35;
+      props.style = { ...props.style, paddingLeft: insetLeft };
+    }
+
+    return [props, icon];
+  }, [isCurrency, _icon, className, insetLeft, style, type]);
 
   const Component = isNumber ? NumberFormat : p => {
     return <input {...p} />
@@ -62,7 +71,7 @@ export default memo(function Text({
             {icon}
           </div>
         }
-        <Component {...props} />
+        <Component {...{ ...props, ...restProps }} />
       </div>
     </Field>
   );
