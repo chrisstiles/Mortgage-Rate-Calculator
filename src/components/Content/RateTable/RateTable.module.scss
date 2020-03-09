@@ -6,25 +6,36 @@
   display:table;
   text-align:center;
   width:100%;
+  table-layout:fixed;
 }
 
 .header,
 .row {
   display:table-row;
+
+  .cell {
+    &:nth-child(1) {
+      width: 276px;
+    }
+
+    &:nth-child(2) {
+      width: 260px;
+    }
+
+    &:nth-child(3) {
+      padding-left:45px;
+    }
+  }
 }
 
 .row {
   .cell {
     padding: 8px 15px;
+  }
 
-    &:first-child {
-      padding-left:18px;
-      padding-right:18px;
-      width:280px;
-    }
-
-    &.hasBadge {
-      padding-left:20px;
+  &:last-child {
+    .cell {
+      border-bottom:none;
     }
   }
 }
@@ -33,10 +44,10 @@
   display:table-cell;
   vertical-align:middle;
   font-size:16px;
-  border-bottom:1px solid #E2E2E2;
+  border-bottom:1px solid #e2e2e2;
   color:#333333;
 
-  &:first-child {
+  &:nth-child(1) {
     text-align:left;
   }
 
@@ -69,7 +80,7 @@
       background-color:rgba(#f4f4f4, .97);
     }
 
-    &:first-child {
+    &:nth-child(1) {
       padding-left:25px;
     }
 
@@ -108,7 +119,6 @@
 
 .badge {
   margin-left:10px;
-  margin-right:-15px;
   flex-grow:0;
   flex-shrink:0;
 }
