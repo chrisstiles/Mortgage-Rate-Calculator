@@ -22,7 +22,6 @@ export default function App() {
 
   useEffect(() => {
     if (!cache.get('zipCodes')) {
-      console.log('Getting zip codes')
       const getZipCodes = async () => {
         try {
           const data = await import(
