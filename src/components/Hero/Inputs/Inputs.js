@@ -11,6 +11,7 @@ export default memo(function Inputs({
 }) {
   const ref = useRef(null);
   useResizeObserver(ref, ({ height }) => setControlsHeight(height));
+  const tabIndex = controlsOpen ? 0 : -1;
 
   return (
     <div
@@ -26,15 +27,33 @@ export default memo(function Inputs({
         <Outline />
         <div className={styles.inner}>
           <Row>
-            <Text label="Loan amount" />
-            <Text defaultValue="Test" />
-            <Text defaultValue="Test" />
+            <Text
+              label="Loan amount"
+              tabIndex={tabIndex}
+            />
+            <Text
+              label="Loan amount"
+              tabIndex={tabIndex}
+            />
+            <Text
+              label="Loan amount"
+              tabIndex={tabIndex}
+            />
           </Row>
 
           <Row>
-            <Text defaultValue="Test" />
-            <Text defaultValue="Test" />
-            <Text defaultValue="Test" />
+            <Text
+              label="Loan amount"
+              tabIndex={tabIndex}
+            />
+            <Text
+              label="Loan amount"
+              tabIndex={tabIndex}
+            />
+            <Text
+              label="Loan amount"
+              tabIndex={tabIndex}
+            />
           </Row>
         </div>
       </div>
