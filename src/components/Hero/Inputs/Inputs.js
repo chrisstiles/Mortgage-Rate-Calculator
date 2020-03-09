@@ -12,7 +12,7 @@ export default memo(function Inputs({
 }) {
   const ref = useRef(null);
   useResizeObserver(ref, ({ height }) => setControlsHeight(height));
-  const tabIndex = controlsOpen ? 0 : -1;
+  const tabIndex = controlsOpen ? null : -1;
 
   return (
     <div
@@ -29,11 +29,12 @@ export default memo(function Inputs({
         <div className={styles.inner}>
           <Row>
             <Text
-              label="Loan amount"
+              label="Loan Amount"
               tabIndex={tabIndex}
               defaultValue={state.loanAmount}
               placeholder="Enter a loan amount"
               isCurrency
+              maxValue={500000}
             />
             <Text
               label="Loan amount"

@@ -1,4 +1,4 @@
-import React, { useState, useMemo, memo } from 'react';
+import React, { useState, useMemo, useCallback, memo } from 'react';
 import { Field } from '@input';
 import classNames from 'classnames';
 import styles from './Text.module.scss';
@@ -11,6 +11,8 @@ export default memo(function Text({
   type = 'text',
   format,
   isCurrency,
+  maxValue,
+  minValue,
   icon: _icon,
   iconStyle = {},
   iconLeft,
@@ -18,10 +20,16 @@ export default memo(function Text({
   iconClassName,
   style = {},
   fieldStyle,
+  onChange = () => {},
   ...restProps
 }) {
   const [isFocused, setIsFocused] = useState(false);
   const isNumber = isCurrency || format;
+
+  const handleChange = useCallback(value => {
+    onChange(value);
+    console.log(value)
+  }, [onChange]);
 
   const [props, icon] = useMemo(() => {
     const props = {
@@ -31,6 +39,12 @@ export default memo(function Text({
       onFocus: () => setIsFocused(true),
       onBlur: () => setIsFocused(false),
     };
+
+    if (isNumber) {
+      props.onValueChange = ({ value }) => handleChange(value);
+    } else {
+      props.onChange = e => handleChange(e.target.value);
+    }
 
     let icon = _icon;
 
@@ -45,11 +59,16 @@ export default memo(function Text({
     }
 
     return [props, icon];
-  }, [isCurrency, _icon, className, insetLeft, style, type]);
-
-  const Component = isNumber ? NumberFormat : p => {
-    return <input {...p} />
-  };
+  }, [
+    isCurrency,
+    _icon,
+    className,
+    insetLeft,
+    style,
+    type,
+    isNumber,
+    handleChange
+  ]);
  
   return (
     <Field
@@ -71,8 +90,32 @@ export default memo(function Text({
             {icon}
           </div>
         }
-        <Component {...{ ...props, ...restProps }} />
+        <React.Fragment>
+          {isNumber ?
+            <NumberFormat {...{ ...props, ...restProps }} />
+          :
+            <input {...{ ...props, ...restProps }} />
+          }
+        </React.Fragment>
       </div>
     </Field>
   );
 });
+
+// function limit(val, min, max) {
+//   if (val.length === 1 && val[0] > max[0]) {
+//     val = '0' + val;
+//   }
+
+//   if (val.length === 2) {
+//     if (Number(val) === 0) {
+//       val = '01';
+
+//       //this can happen when user paste number
+//     } else if (val > max) {
+//       val = max;
+//     }
+//   }
+
+//   return val;
+// }
