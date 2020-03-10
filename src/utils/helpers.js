@@ -45,18 +45,3 @@ export function isInFootprint(zipCode) {
 
   return !!(state && states.find(s => s.toLowerCase() === state.toLowerCase()));
 }
-
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze
-export function deepFreeze(object) {
-  const propNames = Object.getOwnPropertyNames(object);
-
-  for (let name of propNames) {
-    let value = object[name];
-
-    if (value && typeof value === 'object') {
-      deepFreeze(value);
-    }
-  }
-
-  return Object.freeze(object);
-}
