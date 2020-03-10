@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import styles from './LoanTypeTabs.module.scss';
 import { Purchase, Refinance } from '../icons';
 import { Label } from '@input';
 import classNames from 'classnames';
 import config from '@config';
 
-export default function LoanTypeTabs({
+export default memo(function LoanTypeTabs({
   loanType,
   setState
 }) {
+  console.log('Rendering')
   const purchaseIsActive = loanType === 'purchase';
   const [firstTab] = useState(() => {
     const { loanType: defaultLoanType = 'refinance' } = config.defaults;
@@ -63,7 +64,7 @@ export default function LoanTypeTabs({
       </div>
     </div>
   );
-}
+});
 
 function Tab({
   className,

@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, memo } from 'react';
 import { Text } from '@input';
 import config, { field, formFields } from '@config';
 import { formatCurrency, isInFootprint } from '@helpers';
 import { cache } from '@app';
 
-export default function ControlComponents({ state }) {
+export default memo(function ControlComponents({ state }) {
   const handleChange = useCallback((value, name) => {
     const errorMessage = controls[name].validate(value);
     console.log(errorMessage);
@@ -26,7 +26,7 @@ export default function ControlComponents({ state }) {
       />
     );
   });
-}
+});
 
 // Object includes keys for each potential form field along
 // with a validation function. When the field's value changes

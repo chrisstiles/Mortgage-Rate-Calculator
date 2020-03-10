@@ -9,7 +9,7 @@ const cache = new CacheService();
 const initialState = getInitialState();
 
 export default function App() {
-  const [controlsOpen, setControlsOpen] = useState(true);
+  const [controlsOpen, setControlsOpen] = useState(false);
   const [controlsHeight, setControlsHeight] = useState(null);
   const [zipCodes, setZipCodes] = useState(() => cache.get('zipCodes'));
   const [state, _setState] = useState(initialState);
