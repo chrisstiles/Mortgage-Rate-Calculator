@@ -1,5 +1,5 @@
-import React, { useState, useCallback, memo, useMemo, useEffect } from 'react';
-import { Header, HeaderCell, Row, Cell,  } from './TableElements';
+import React, { useState, useCallback, memo, useMemo } from 'react';
+import { Header, Row, Cell,  } from './TableElements';
 import Product from './Product';
 import Rate from './Rate';
 import Currency from './Currency';
