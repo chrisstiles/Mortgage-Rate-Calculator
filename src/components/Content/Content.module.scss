@@ -16,6 +16,12 @@
   }
 }
 
+:global(.controlsClosed) {
+  .wrapper {
+    transform:translateY(0) !important;
+  }
+}
+
 .angle {
   position: absolute;
   z-index: -2;

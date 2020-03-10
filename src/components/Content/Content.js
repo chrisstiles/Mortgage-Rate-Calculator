@@ -5,12 +5,10 @@ import styles from './Content.module.scss';
 import classNames from 'classnames';
 
 export default memo(function ContentWrapper({
-  controlsOpen,
   controlsHeight,
   loanType
 }) {
   const shiftY = controlsHeight ?? 0;
-  const translateY = controlsOpen ? shiftY : 0;
   const [hasInitialized, setHasInitialized] = useState(false);
   
   useEffect(() => {
@@ -23,7 +21,7 @@ export default memo(function ContentWrapper({
         [styles.noAnimation]: !hasInitialized
       })}
       style={{
-        transform: `translateY(${translateY}px)`,
+        transform: `translateY(${shiftY}px)`,
         marginTop: -shiftY
       }}
     >
@@ -34,19 +32,16 @@ export default memo(function ContentWrapper({
       <Content
         loanType={loanType}
         shiftY={-shiftY}
-        controlsOpen={controlsOpen}
       />
     </div>
   );
 });
 
-const Content = memo(({ loanType, shiftY, controlsOpen }) => {
+const Content = memo(({ loanType, shiftY }) => {
   return (
     <div className={styles.content}>
       <Header loanType={loanType} />
-      <RateTable
-        shiftY={controlsOpen ? shiftY : 0}
-      />
+      <RateTable shiftY={shiftY} />
     </div>
   );
 });

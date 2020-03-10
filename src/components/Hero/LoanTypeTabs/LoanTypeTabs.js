@@ -9,7 +9,6 @@ export default memo(function LoanTypeTabs({
   loanType,
   setState
 }) {
-  console.log('Rendering')
   const purchaseIsActive = loanType === 'purchase';
   const [firstTab] = useState(() => {
     const { loanType: defaultLoanType = 'refinance' } = config.defaults;

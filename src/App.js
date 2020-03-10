@@ -77,7 +77,7 @@ export default function App() {
   }, [setState]);
 
   return (
-    <React.Fragment>
+    <div className={controlsOpen ? 'controlsOpen' : 'controlsClosed'}>
       <Hero
         state={state}
         isLoading={isLoading}
@@ -91,10 +91,9 @@ export default function App() {
       />
       <Content
         controlsHeight={controlsHeight}
-        controlsOpen={controlsOpen}
         loanType={state.loanType}
       />
-    </React.Fragment>
+    </div>
   );
 }
 
