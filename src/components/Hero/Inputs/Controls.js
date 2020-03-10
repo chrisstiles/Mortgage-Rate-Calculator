@@ -1,6 +1,7 @@
 import React, { useCallback, memo } from 'react';
 import { Text } from '@input';
-import config, { field, formFields } from '@config';
+import config, { formFields } from '@config';
+import { field } from '@enums';
 import { formatCurrency, isInFootprint } from '@helpers';
 import { cache } from '@app';
 

@@ -52,9 +52,9 @@ export default function App() {
 
           if (zipCode) {
             const zipCodes = cache.get('zipCodes', {});
-            const [city, state] = zipCodes[zipCode] ?? [];
+            const [city] = zipCodes[zipCode] ?? [];
             
-            if (isInFootprint(state)) {
+            if (isInFootprint(zipCode)) {
               const currentLocation = { zipCode, city };
               setState(currentLocation);
 

@@ -10,8 +10,8 @@
   {
     "term": "15",
     "type": "fixed",
-    "rate": 3.5,
-    "apr": 3.5,
+    "rate": 3.00,
+    "apr": 3.00,
     "closingCosts": 0,
     "payment": 1796
   },

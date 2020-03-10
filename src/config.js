@@ -1,9 +1,4 @@
-// The list of all possible fields to include in
-// the loan assumptions box for the user to edit.
-const field = Object.freeze({
-  LOAN_AMOUNT: 'loanAmount',
-  ZIP_CODE: 'zipCode'
-});
+const { field, sort } = require('@enums');
 
 module.exports = {
   /*-- Form Fields --*/
@@ -74,6 +69,10 @@ module.exports = {
   // Display badge icons for lowest rate, payment and on NCC
   "showBadges": true,
 
+  // The column and direction the rate table should be sorted by
+  "sortBy": sort.by.PRODUCT,
+  "sortOrder": sort.order.DESC,
+
   // Show pulse animation to help indicate that the
   // assumptions box is clickable
   "displayPulse": true,
@@ -82,5 +81,3 @@ module.exports = {
   // Prevent the pulse from animating on subsequent visits
   "hidePulseAfterFirstVisit": false
 };
-
-module.exports.field = field;

@@ -1,20 +1,66 @@
-import React, { memo, useMemo } from 'react';
+import React, { useState, useCallback, memo, useMemo, useEffect } from 'react';
+import { Header, HeaderCell, Row, Cell,  } from './TableElements';
 import Product from './Product';
-import Rate, { Divider } from './Rate';
+import Rate from './Rate';
 import Currency from './Currency';
 import styles from './RateTable.module.scss';
-import classNames from 'classnames';
 import sampleData from './sample-data.json';
-import { orderBy } from 'lodash';
+import { orderBy, flatten, findKey } from 'lodash';
+import config from '@config';
+import { sort } from '@enums';
+import { cache } from '@app';
 
 export default memo(function RateTable({ shiftY }) {
+  const [sortState, setSortState] = useState(() => {
+    let { by, order, key } = cache.get('sortState', {})
+
+    if (!key || !sort.by[key]) {
+      key = findSortKey(config.sortBy);
+      by = config.sortBy;
+    }
+
+    if (!order || !sort.order[order.toUpperCase()]) {
+      order = config.sortOrder;
+    }
+    
+    return { by, order, key };
+  });
+
+  // Change sort when user clicks a column
+  // Only change the order if the cell the user
+  // clicked is already being used to sort rows
+  const updateSort = useCallback(sortBy => {
+    setSortState(prevState => {
+      const newState = {
+        by: sortBy,
+        order: prevState.order,
+        key: findSortKey(sortBy)
+      };
+
+      if (prevState.key === newState.key)  {
+        const { ASC, DESC } = sort.order;
+        newState.order = prevState.order === ASC ? DESC : ASC;
+      }
+
+      cache.set('sortState', newState);
+      return newState;
+    });
+  }, []);
+
   const filteredRows = useMemo(() => {
     if (!sampleData?.length) {
       return null;
     }
 
     // TODO: Add ability to filter rows
-    const rows = orderBy(sampleData, ['type', 'term'], ['desc', 'desc']);
+    const byArr = flatten([sortState.by]);
+    const orderArr = [sortState.order];
+
+    if (Array.isArray(sortState.by)) {
+      orderArr.push(sortState.order);
+    }
+
+    const rows = orderBy(sampleData, byArr, orderArr);
 
     // Find the minimum rates and payments to highlight
     // on rate table. If 2 products share the sample lowest
@@ -64,7 +110,7 @@ export default memo(function RateTable({ shiftY }) {
     });
 
     return rows;
-  }, []);
+  }, [sortState]);
 
   const components = useMemo(() => {
     if (!sampleData?.length) {
@@ -101,59 +147,16 @@ export default memo(function RateTable({ shiftY }) {
 
   return (
     <div className={styles.wrapper}>
-      <Header shiftY={shiftY} />
+      <Header
+        shiftY={shiftY}
+        sortState={sortState}
+        updateSort={updateSort}
+      />
       {components}
     </div>
   );
 });
 
-function Header({ shiftY }) {
-  return (
-    <Row className={styles.header}>
-      <HeaderCell shiftY={shiftY}>
-        Product Type
-      </HeaderCell>
-      <HeaderCell shiftY={shiftY}>
-        <div className={styles.rate}>
-          Interest Rate <Divider /> APR
-        </div>
-      </HeaderCell>
-      <HeaderCell shiftY={shiftY}>
-        Closing Costs
-      </HeaderCell>
-      <HeaderCell shiftY={shiftY}>
-        Monthly Payments
-      </HeaderCell>
-    </Row>
-  );
-}
-
-function HeaderCell({ shiftY, ...restProps }) {
-  return (
-    <Cell
-      style={{ top: shiftY - 1 }}
-      {...restProps}
-    />
-  );
-}
-
-function Row({ children, className = styles.row }) {
-  return (
-    <div className={className}>
-      {children}
-    </div>
-  );
-}
-
-function Cell({ children, className, hasBadge, ...restProps }) {
-  return (
-    <div
-      className={classNames(styles.cell, className, {
-        [styles.hasBadge]: hasBadge
-      })}
-      {...restProps}
-    >
-      {children}
-    </div>
-  );
+function findSortKey(by) {
+  return findKey(sort.by, v => JSON.stringify(v) === JSON.stringify(by));
 }

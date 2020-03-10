@@ -2,6 +2,8 @@
 /* Rate Table */
 /*---------------------------*/
 
+@import '@styles/mixins';
+
 .wrapper {
   display:table;
   text-align:center;
@@ -19,11 +21,7 @@
     }
 
     &:nth-child(2) {
-      width: 285px;
-    }
-
-    &:nth-child(3) {
-      padding-left:45px;
+      width: 275px;
     }
   }
 }
@@ -49,7 +47,7 @@
 
   &:nth-child(1) {
     text-align:left;
-    padding-left:17px;
+    padding-left:25px;
   }
 
   &:nth-child(2) {
@@ -62,6 +60,7 @@
 
 .header {
   .cell {
+    @include noSelect;
     font-weight:600;
     text-transform:uppercase;
     padding:12px 15px;
@@ -82,7 +81,7 @@
     }
 
     &:nth-child(1) {
-      padding-left:25px;
+      padding-left:35px;
     }
 
     &:nth-child(2) {
