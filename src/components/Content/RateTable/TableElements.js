@@ -1,13 +1,15 @@
 import React from 'react';
 import { Divider } from './Rate';
+import { Arrow } from './icons';
 import styles from './RateTable.module.scss';
 import classNames from 'classnames';
 import { sort } from '@enums';
+import { findSortKey } from './RateTable';
 
 const columns = [
   {
     title: 'Product Type',
-    name: sort.by.PRODUCT
+    value: sort.by.PRODUCT
   },
   {
     title: (
@@ -15,18 +17,19 @@ const columns = [
         Interest Rate <Divider /> APR
       </div>
     ),
-    name: sort.by.RATE
+    value: sort.by.RATE
   },
-  { title: 'Closing Costs', name: sort.by.CLOSING_COSTS },
-  { title: 'Monthly Payments', name: sort.by.PAYMENT }
+  { title: 'Closing Costs', value: sort.by.CLOSING_COSTS },
+  { title: 'Monthly Payments', value: sort.by.PAYMENT }
 ];
 
 export function Header({ shiftY, sortState, updateSort }) {
-  const cells = columns.map(({ title, name }, index) => (
+  const cells = columns.map(({ title, value }, index) => (
     <HeaderCell
       key={index}
       shiftY={shiftY}
-      name={name}
+      sortKey={findSortKey(value)}
+      value={value}
       sortState={sortState}
       updateSort={updateSort}
     >
@@ -44,18 +47,38 @@ export function Header({ shiftY, sortState, updateSort }) {
 export function HeaderCell({
   shiftY,
   sortState,
-  name,
+  sortKey,
+  value,
   updateSort,
+  children,
   ...restProps
 }) {
-  // console.log(sortState, name)
+  const isCurrent = sortKey === sortState.key;
+  const handleKeyPress = e => {
+    if (e.key === 'Enter') {
+      updateSort(value);
+    }
+  };
 
   return (
     <Cell
       style={{ top: shiftY - 1 }}
-      onClick={() => updateSort(name)}
+      className={classNames({
+        [styles.current]: isCurrent,
+        [styles[sortState.order.toLowerCase()]]: isCurrent
+      })}
+      tabIndex="0"
+      onClick={() => updateSort(value)}
+      onKeyPress={handleKeyPress}
       {...restProps}
-    />
+    >
+      <div className={styles.headerText}>
+        {children}
+        {isCurrent &&
+          <Arrow />
+        }
+      </div>
+    </Cell>
   );
 }
 

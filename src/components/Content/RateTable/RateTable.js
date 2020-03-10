@@ -157,6 +157,6 @@ export default memo(function RateTable({ shiftY }) {
   );
 });
 
-function findSortKey(by) {
+export function findSortKey(by) {
   return findKey(sort.by, v => JSON.stringify(v) === JSON.stringify(by));
 }

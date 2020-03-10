@@ -69,7 +69,7 @@
     backdrop-filter:blur(1px);
     border-top:1px solid #d8d8d8;
     border-bottom:1px solid #d8d8d8;
-    color:#383838;
+    color:#484848;
     font-size:14px;
     cursor:pointer;
     position:sticky;
@@ -91,6 +91,45 @@
         background-color:rgba(#f3f3f3, .97);
       }
     }
+
+    &.current {
+      color:#2e2e2e;
+
+      &.asc {
+        svg {
+          transform:rotate(180deg);
+        }
+      }
+
+      &.desc {
+        svg {
+          transform:rotate(0);
+        }
+      }
+    }
+
+    &:focus {
+      outline:none;
+    }
+
+    &:global(.focus-visible) {
+      box-shadow: 0 0 0 2px rgba(25, 58, 60, 0.7), 0 0 0 6px rgba(162, 237, 241, 0.3);
+      z-index: 600;
+    }
+  }
+}
+
+.headerText {
+  position:relative;
+  display:inline-block;
+
+  svg {
+    position:absolute;
+    width:12px;
+    height:11px;
+    right:-22px;
+    top:50%;
+    margin-top:-5px;
   }
 }
 
