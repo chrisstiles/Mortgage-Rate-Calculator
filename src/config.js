@@ -1,7 +1,9 @@
-const field = {
+// The list of all possible fields to include in
+// the loan assumptions box for the user to edit.
+const field = Object.freeze({
   LOAN_AMOUNT: 'loanAmount',
   ZIP_CODE: 'zipCode'
-}
+});
 
 module.exports = {
   /*-- Form Fields --*/
