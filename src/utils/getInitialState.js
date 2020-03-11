@@ -31,6 +31,11 @@ const state = {
     validate: n => !isNaN(n),
     transform: parseInt
   },
+  homeValue: {
+    defaultValue: defaults.homeValue,
+    validate: n => !isNaN(n),
+    transform: parseInt
+  },
   userSetLocation: {
     defaultValue: false,
     validate: isBoolean

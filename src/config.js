@@ -9,7 +9,8 @@ module.exports = {
   // enum to ensure field is added correctly
   "formFields": [
     field.LOAN_AMOUNT,
-    field.ZIP_CODE
+    field.HOME_VALUE,
+    field.ZIP_CODE,
   ],
 
   /*-- Values --*/
@@ -18,6 +19,7 @@ module.exports = {
   "defaults": {
     "loanType": "purchase",
     "loanAmount": 400000,
+    "homeValue": 500000,
     "zipCode": "94538",
     "city": "Fremont",
     "state": "CA"

@@ -35,12 +35,10 @@
 }
 
 .content {
-  display:flex;
-  align-items:center;
-  min-height:46px;
-  padding: 12px 0 13px 17px;
   position:relative;
   z-index: 100;
+  min-height:46px;
+  overflow:hidden;
 
   &:focus {
     outline:none;
@@ -48,7 +46,7 @@
 }
 
 .icon {
-  margin-right:10px;
+  margin-right:6px;
   position:relative;
   flex-grow:0;
   flex-shrink:0;
@@ -57,31 +55,82 @@
 
   svg {
     z-index: 300;
-    width:17px;
-    height:17px;
     position:relative;
   }
 }
 
 .home {
   top:-1px;
+  width:17px;
+  height:17px;
+}
+
+.gear {
+  margin-right:2px;
+  width:15px;
+  height:15px;
+}
+
+.error {
+  width:17px;
+  height:17px;
+}
+
+.textWrapper {
+  flex-grow:1;
+  padding-right:15px;
+  position:absolute;
+  top:0;
+  left:0;
+  bottom:0;
+  width:calc(100% - 45px);
+  display:flex;
+  align-items:center;
+  min-height:46px;
+  padding: 12px 0 13px 17px;
+  pointer-events:none;
+  opacity:0;
+  transform:translateY(20px);
+  transition: transform .4s cubic-bezier(.34, .81, .49, 1), opacity .35s;
+
+  &.visible {
+    position:static;
+    pointer-events:auto;
+    opacity:1;
+    transform:translateY(0) !important;
+    transition-delay: .1s;
+  }
 }
 
 .text {
-  flex-grow:1;
-  padding-right:15px;
   line-height:1.2;
   padding-bottom:1px;
 }
 
+.title {
+  font-weight:600;
+  margin-right:2px;
+  text-transform:uppercase;
+}
+
 .arrowWrapper {
-  position:relative;
+  position:absolute;
+  top:0;
+  bottom:0;
+  right:0;
   pointer-events:none;
   width:45px;
   align-self:stretch;
-  border-left:1px solid #D6D6D6;
-  flex-shrink:0;
-  flex-grow:0;
+  
+  &:before {
+    content:"";
+    position:absolute;
+    top:12px;
+    bottom:12px;
+    left:0;
+    width:1px;
+    background-color:#D6D6D6;
+  }
 }
 
 .arrow {
@@ -111,6 +160,7 @@
 .up {
   transform:translateY(-10px);
   opacity: 0;
+  margin-top:-1px;
 
   svg {
     transform: rotate(180deg);
@@ -221,18 +271,20 @@
 .hasError {
   .button {
     background-color:#fddfdf;
-    color:#875f5f;
+    color:#6d4a4a;
   }
 
   .arrowWrapper {
-    border-color:#e2c0c1;
+    &:before {
+      background-color:#e2c0c1;
+    }
   }
 
   svg,
   path {
     fill: #875f5f;
   }
-  
+
   .line {
     border-color: rgba(247, 182, 182, 0.85);
   }

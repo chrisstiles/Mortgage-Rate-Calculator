@@ -40,28 +40,36 @@ export default memo(function Assumptions({
     style: { animationIterationCount: pulseCount }
   };
 
-  const [canShowTooltip, setCanShowTooltip] = useState(true);
+  const [canShowTooltip, setCanShowTooltip] = useState(false);
 
   useEffect(() => {
-    if (controlsOpen) {
-      setCanShowTooltip(false);
-    }
+    setCanShowTooltip(canShow => !canShow);
   }, [controlsOpen]);
 
   const handleMouseLeave = () => {
-    if (!controlsOpen && !canShowTooltip) {
+    if (!canShowTooltip) {
       setCanShowTooltip(true);
     }
   };
 
+  let tooltipText;
+
+  if (!controlsOpen) {
+    tooltipText = 'Edit your loan\'s details';
+  } else if (errors?.length) {
+    tooltipText = 'Fix the errors before saving loan assumptions';
+  } else {
+    tooltipText = 'Save loan assumptions';
+  }
+
   return (
     <Tooltip
-      text="Edit your loan's details"
+      text={tooltipText}
       className={classNames(styles.wrapper, {
         [styles.open]: controlsOpen,
         [styles.hasError]: errors.length
       })}
-      forceHidden={controlsOpen || !canShowTooltip}
+      forceHidden={!canShowTooltip}
       onMouseLeave={handleMouseLeave}
     >
       <Label>Get personalized rates by letting us know a little about your loan.</Label>

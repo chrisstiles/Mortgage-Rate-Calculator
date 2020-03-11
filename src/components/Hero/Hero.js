@@ -60,6 +60,7 @@ export default memo(function Hero({
           setControlsHeight={setControlsHeight}
           errors={errors}
           updateErrors={updateErrors}
+          setState={setState}
         />
       </div>
       <Angles />

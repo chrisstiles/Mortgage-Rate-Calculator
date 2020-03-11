@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, memo } from 'react';
+import React, { useState, useCallback, useEffect, useRef, memo } from 'react';
 import Controls from './Controls';
 import styles from './Inputs.module.scss';
 import useResizeObserver from '@hooks/useResizeObserver';
@@ -11,7 +11,8 @@ export default memo(function Inputs({
   controlsHeight,
   setControlsHeight,
   errors,
-  updateErrors
+  updateErrors,
+  setState
 }) {
   const ref = useRef(null);
   useResizeObserver(ref, ({ height }) => setControlsHeight(height));
@@ -20,6 +21,16 @@ export default memo(function Inputs({
   const setCurrentState = useCallback((value, name) => {
     _setCurrentState(state => getState(state, value, name));
   }, []);
+
+  const hasInitialized = useRef(false);
+
+  useEffect(() => {
+    if (hasInitialized.current && !controlsOpen) {
+      setState(currentState);
+    }
+
+    hasInitialized.current = true;
+  }, [controlsOpen, currentState, setState]);
 
   return (
     <div

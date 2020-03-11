@@ -22,6 +22,7 @@ export default memo(function Text({
   fieldStyle,
   maxWidth,
   validate,
+  loanType,
   hasError,
   onChange = () => {},
   ...restProps

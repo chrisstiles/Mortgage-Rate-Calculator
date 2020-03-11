@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Home, Arrow, Error } from '../icons';
+import { Home, Arrow, Error, Gear } from '../icons';
 import styles from './Assumptions.module.scss';
 import classNames from 'classnames';
 import Spinner from 'react-md-spinner';
@@ -15,34 +15,45 @@ export default memo(function AssumptionsText({
   controlsOpen
 }) {
   const isLoading = _isLoading || !zipCodes || !hasInitialLocation;
-  let icon;
-
-  if (errors?.length) {
-    icon = <Error />;
-  } else if (isLoading) {
-    icon = (
-      <Spinner
-        size={16}
-        singleColor="#383838"
-      />
-    );
-  } else {
-    icon = <Home className={styles.home} />;
-  }
-
-  const text = getLoanText({ state, zipCodes, errors, controlsOpen });
+  const hasError = !!errors?.length;
 
   return (
     <div
       className={styles.content}
       tabIndex="-1"
     >
-      <div className={styles.icon}>
-        {icon}
-      </div>
-      <div className={styles.text}>
-        {hasInitialLocation && text}
-      </div>
+      {isLoading ?
+        <BoxText
+          icon={
+            <Spinner
+              size={16}
+              singleColor="#383838"
+            />
+          }
+        />
+      :
+        <React.Fragment>
+          <BoxText
+            icon={<Home className={styles.home} />}
+            text={getLoanText(state, zipCodes)}
+            isVisible={!controlsOpen && !hasError}
+            transitionDirection="down"
+          />
+
+          <BoxText
+            icon={<Gear className={styles.gear} />}
+            text="Enter your loan information into the box below."
+            isVisible={controlsOpen && !hasError}
+            transitionDirection="up"
+          />
+
+          <BoxText
+            icon={<Error className={styles.gear} />}
+            text={errors[0]?.error}
+            isVisible={hasError}
+          />
+        </React.Fragment>
+      }
       <div className={styles.arrowWrapper}>
         <div className={classNames(styles.arrow, styles.down)}>
           <Arrow />
@@ -55,21 +66,38 @@ export default memo(function AssumptionsText({
   );
 });
 
-function getLoanText({
-  state: loanState,
-  zipCodes,
-  errors = [],
-  controlsOpen
-}) {
-  if (errors?.length) {
-    return errors[0].error;
-  }
+const BoxText = memo(({
+  icon,
+  text,
+  isVisible = true,
+  transitionDirection = 'down'
+}) => {
+  const translateAmount = 10;
+  const translate = transitionDirection === 'down' ? translateAmount : -translateAmount;
 
-  if (controlsOpen) {
-    return 'Enter your loan information into the box below.';
-  }
+  return (
+    <div
+      className={classNames(styles.textWrapper, {
+        [styles.visible]: isVisible
+      })}
+      style={{
+        transform: `translateY(${translate}px)`
+      }}
+    >
+      <div className={styles.icon}>
+        {icon}
+      </div>
 
-  const { loanType, loanAmount, zipCode } = loanState;
+      {text &&
+        <div className={styles.text}>
+          {text}
+        </div>
+      }
+    </div>
+  );
+});
+
+function getLoanText({ loanType, loanAmount, zipCode }, zipCodes) {
   const parts = [];
   const isPurchase = loanType === 'purchase';
 
@@ -88,5 +116,10 @@ function getLoanText({
   // Placeholder
   parts.push('Excellent credit score with 20% down.');
 
-  return parts.join(' ');
+  return (
+    <React.Fragment>
+      <span className={styles.title}>Your Loan:</span>
+      {` ${parts.join(' ')}`}
+    </React.Fragment>
+  )
 }

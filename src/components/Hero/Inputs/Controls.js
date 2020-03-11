@@ -13,9 +13,14 @@ export default memo(function ControlComponents({
   updateErrors
 }) {
   const handleChange = useCallback((value, name) => {
-    updateErrors(controls[name].validate(value), name);
+    const validate = controls[name].validate;
+    
+    if (validate) {
+      updateErrors(validate(value, state), name);
+    }
+
     onChange(value, name);
-  }, [updateErrors, onChange]);
+  }, [updateErrors, onChange, state]);
 
   const tabIndex = controlsOpen ? null : -1;
 
@@ -35,6 +40,7 @@ export default memo(function ControlComponents({
         key={name}
         hasError={hasError}
         tabIndex={tabIndex}
+        loanType={state.loanType}
         onChange={handleChange}
       />
     );
@@ -109,6 +115,25 @@ const controls = {
 
         return 'Zip code not found';
       }
+    }
+  },
+
+  // Home Value
+  [field.HOME_VALUE]: {
+    Component(props) {
+      const text = props.loanType === 'purchase' ? 'Property Value' : 'Estimated Value';
+
+      return (
+        <Text
+          label={text}
+          placeholder={text}
+          name="homeValue"
+          hasError={props.hasError}
+          maxWidth={180}
+          isCurrency
+          {...props}
+        />
+      );
     }
   }
 };

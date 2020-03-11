@@ -9,14 +9,21 @@ const cache = new CacheService();
 const initialState = getInitialState();
 
 export default function App() {
-  const [controlsOpen, setControlsOpen] = useState(true);
+  const [controlsOpen, setControlsOpen] = useState(false);
   const [controlsHeight, setControlsHeight] = useState(null);
   const [zipCodes, setZipCodes] = useState(() => cache.get('zipCodes'));
   const [state, _setState] = useState(initialState);
-  const [isLoading, setIsLoading] = useState(false);
+  const [hasInitialLocation, setHasInitialLocation] = useState(() => {
+    return !!(initialState.userSetLocation || cache.getSession('currentLocation'));
+  });
 
+  const [isLoading, setIsLoading] = useState(!hasInitialLocation);
   const setState = useCallback((value, name) => {
-    _setState(state => getState(state, value, name));
+    _setState(state => {
+      const newState = getState(state, value, name);
+      cache.set('loanState', newState);
+      return newState;
+    });
   }, []);
 
   useEffect(() => {
@@ -38,10 +45,6 @@ export default function App() {
       getZipCodes();
     }
   }, []);
-
-  const [hasInitialLocation, setHasInitialLocation] = useState(() => {
-    return !!(initialState.userSetLocation || cache.getSession('currentLocation'));
-  });
 
   useEffect(() => {
     if (!initialState.userSetLocation && !cache.getSession('currentLocation')) {
