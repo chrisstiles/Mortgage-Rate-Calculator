@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from 'react';
+import React, { useState, useEffect, useRef, useCallback, memo } from 'react';
 import AssumptionsText from './AssumptionsText';
 import { Label } from '@input';
 import Tooltip from '@components/Tooltip';
@@ -15,6 +15,7 @@ export default memo(function Assumptions({
   controlsOpen,
   setControlsOpen
 }) {
+  const [canShowTooltip, setCanShowTooltip] = useState(true);
   const [pulseIsVisible, setPulseIsVisible] = useState(() => {
     if (!displayPulse) {
       return false;
@@ -32,6 +33,7 @@ export default memo(function Assumptions({
 
   const handleClick = () => {
     setPulseIsVisible(false);
+    setCanShowTooltip(false);
     setControlsOpen(!controlsOpen);
   };
 
@@ -40,27 +42,28 @@ export default memo(function Assumptions({
     style: { animationIterationCount: pulseCount }
   };
 
-  const [canShowTooltip, setCanShowTooltip] = useState(false);
+  const [tooltipText, setTooltipText] = useState(() => getTooltipText(controlsOpen, errors));
+  const controlsOpenRef = useRef(controlsOpen);
+  const errorsRef = useRef(errors);
+  const updateTooltip = useCallback(() => {
+    const text = getTooltipText(controlsOpenRef.current, errorsRef.current);
+    setTooltipText(text);
+  }, []);
 
   useEffect(() => {
-    setCanShowTooltip(canShow => !canShow);
-  }, [controlsOpen]);
+    controlsOpenRef.current = controlsOpen;
+    errorsRef.current = errors;
+  });
+
+  useEffect(() => {
+    setTimeout(updateTooltip, 500)
+  }, [controlsOpen, errors, updateTooltip]);
 
   const handleMouseLeave = () => {
     if (!canShowTooltip) {
       setCanShowTooltip(true);
     }
   };
-
-  let tooltipText;
-
-  if (!controlsOpen) {
-    tooltipText = 'Edit your loan\'s details';
-  } else if (errors?.length) {
-    tooltipText = 'Fix the errors before saving loan assumptions';
-  } else {
-    tooltipText = 'Save loan assumptions';
-  }
 
   return (
     <Tooltip
@@ -96,3 +99,13 @@ export default memo(function Assumptions({
     </Tooltip>
   );
 });
+
+function getTooltipText(controlsOpen, errors) {
+  if (!controlsOpen) {
+    return 'Edit your loan\'s details';
+  } else if (errors?.length) {
+    return 'Please fix the errors to save loan assumptions';
+  }
+
+  return 'Save loan assumptions';
+}

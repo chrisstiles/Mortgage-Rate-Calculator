@@ -26,7 +26,7 @@ export default memo(function Inputs({
 
   useEffect(() => {
     if (hasInitialized.current && !controlsOpen) {
-      setState(currentState);
+      setState(({ loanType }) => ({ ...currentState, loanType }));
     }
 
     hasInitialized.current = true;

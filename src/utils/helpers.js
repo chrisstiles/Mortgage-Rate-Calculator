@@ -1,10 +1,14 @@
-import { isPlainObject } from 'lodash';
+import { isPlainObject, isFunction } from 'lodash';
 import { cache } from '@app';
 import { footprint } from '@config';
 
 export function getState(state, value, name) {
   if (!isPlainObject(state) || (!value && !name)) {
     return state;
+  }
+
+  if (isFunction(value)) {
+    return value(state);
   }
 
   if (isPlainObject(value)) {
