@@ -11,6 +11,7 @@ export default memo(function Assumptions({
   isLoading,
   hasInitialLocation,
   zipCodes,
+  errors = [],
   controlsOpen,
   setControlsOpen
 }) {
@@ -57,7 +58,8 @@ export default memo(function Assumptions({
     <Tooltip
       text="Edit your loan's details"
       className={classNames(styles.wrapper, {
-        [styles.open]: controlsOpen
+        [styles.open]: controlsOpen,
+        [styles.hasError]: errors.length
       })}
       forceHidden={controlsOpen || !canShowTooltip}
       onMouseLeave={handleMouseLeave}
@@ -69,8 +71,10 @@ export default memo(function Assumptions({
       >
         <AssumptionsText
           state={state}
+          errors={errors}
           isLoading={isLoading}
           zipCodes={zipCodes}
+          controlsOpen={controlsOpen}
           hasInitialLocation={hasInitialLocation}
         />
         {pulseIsVisible && !controlsOpen &&

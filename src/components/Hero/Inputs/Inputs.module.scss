@@ -107,6 +107,19 @@
   }
 }
 
+.hasError {
+  .outline {
+    border-color:rgba(247, 182, 182, 0.85);
+
+    .top {
+      &:before,
+      &:after {
+        border-color: rgba(247, 182, 182, 0.85);
+      }
+    }
+  }
+}
+
 .open {
   .row {
     pointer-events:auto;

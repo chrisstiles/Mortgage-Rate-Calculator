@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { useState, useCallback, memo } from 'react';
 import Inputs from './Inputs';
 import LoanTypeTabs from './LoanTypeTabs';
 import Assumptions from './Assumptions';
@@ -17,6 +17,23 @@ export default memo(function Hero({
   setControlsOpen,
   setControlsHeight
 }) {
+  const [errors, setErrors] = useState([]);
+  const updateErrors = useCallback((error, name) => {
+    setErrors(errors => {
+      if (!errors.length && !error) {
+        return errors;
+      }
+
+      const newErrors = errors.slice().filter(e => e.name !== name);
+
+      if (error) {
+        newErrors.push({ name, error });
+      }
+      
+      return newErrors;
+    });
+  }, []);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>
@@ -28,6 +45,7 @@ export default memo(function Hero({
           />
           <Assumptions
             state={state}
+            errors={errors}
             isLoading={isLoading}
             hasInitialLocation={hasInitialLocation}
             controlsOpen={controlsOpen}
@@ -40,6 +58,8 @@ export default memo(function Hero({
           controlsOpen={controlsOpen}
           controlsHeight={controlsHeight}
           setControlsHeight={setControlsHeight}
+          errors={errors}
+          updateErrors={updateErrors}
         />
       </div>
       <Angles />

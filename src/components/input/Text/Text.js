@@ -20,7 +20,9 @@ export default memo(function Text({
   iconClassName,
   style = {},
   fieldStyle,
+  maxWidth,
   validate,
+  hasError,
   onChange = () => {},
   ...restProps
 }) {
@@ -57,7 +59,7 @@ export default memo(function Text({
       props.allowNegative = false;
       props.decimalSeparator = false;
 
-      const insetLeft = props.insetLeft ?? 35;
+      const insetLeft = props.insetLeft ?? 32;
       props.style = { ...props.style, paddingLeft: insetLeft };
     }
 
@@ -81,11 +83,13 @@ export default memo(function Text({
       label={label}
       className={fieldClassName}
       style={fieldStyle}
+      maxWidth={maxWidth}
     >
       <div
         className={classNames(styles.wrapper, {
           [styles.focus]: isFocused,
-          [styles.hasIcon]: icon
+          [styles.hasIcon]: icon,
+          [styles.hasError]: hasError
         })}
       >
         {icon &&

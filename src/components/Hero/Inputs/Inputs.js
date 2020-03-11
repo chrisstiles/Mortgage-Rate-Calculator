@@ -1,24 +1,31 @@
-import React, { memo, useRef } from 'react';
-import { Text } from '@input';
+import React, { useState, useCallback, useRef, memo } from 'react';
 import Controls from './Controls';
 import styles from './Inputs.module.scss';
 import useResizeObserver from '@hooks/useResizeObserver';
 import classNames from 'classnames';
+import { getState } from '@helpers';
 
 export default memo(function Inputs({
   state,
   controlsOpen,
   controlsHeight,
-  setControlsHeight
+  setControlsHeight,
+  errors,
+  updateErrors
 }) {
   const ref = useRef(null);
   useResizeObserver(ref, ({ height }) => setControlsHeight(height));
-  const tabIndex = controlsOpen ? null : -1;
+  const [currentState, _setCurrentState] = useState(() => ({ ...state }));
+
+  const setCurrentState = useCallback((value, name) => {
+    _setCurrentState(state => getState(state, value, name));
+  }, []);
 
   return (
     <div
       className={classNames(styles.inputWrapper, {
-        [styles.open]: controlsOpen
+        [styles.open]: controlsOpen,
+        [styles.hasError]: !!errors?.length
       })}
       style={{ marginBottom: controlsHeight + 100 }}
     >
@@ -29,28 +36,12 @@ export default memo(function Inputs({
         <Outline />
         <div className={styles.inner}>
           <Row>
-            <Controls state={state} />
-            <Text
-              label="Inline Loan Amount"
-              tabIndex={tabIndex}
-              defaultValue={state.loanAmount}
-              placeholder="Enter a loan amount"
-              isCurrency
-            />
-          </Row>
-
-          <Row>
-            <Text
-              label="Loan amount"
-              tabIndex={tabIndex}
-            />
-            <Text
-              label="Loan amount"
-              tabIndex={tabIndex}
-            />
-            <Text
-              label="Loan amount"
-              tabIndex={tabIndex}
+            <Controls
+              state={currentState}
+              errors={errors}
+              updateErrors={updateErrors}
+              controlsOpen={controlsOpen}
+              onChange={setCurrentState}
             />
           </Row>
         </div>

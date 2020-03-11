@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Home, Arrow } from '../icons';
+import { Home, Arrow, Error } from '../icons';
 import styles from './Assumptions.module.scss';
 import classNames from 'classnames';
 import Spinner from 'react-md-spinner';
@@ -11,13 +11,14 @@ export default memo(function AssumptionsText({
   isLoading: _isLoading,
   hasInitialLocation,
   zipCodes = {},
-  errors
+  errors = [],
+  controlsOpen
 }) {
   const isLoading = _isLoading || !zipCodes || !hasInitialLocation;
   let icon;
 
-  if (errors) {
-    icon = 'Error:';
+  if (errors?.length) {
+    icon = <Error />;
   } else if (isLoading) {
     icon = (
       <Spinner
@@ -26,8 +27,10 @@ export default memo(function AssumptionsText({
       />
     );
   } else {
-    icon = <Home />;
+    icon = <Home className={styles.home} />;
   }
+
+  const text = getLoanText({ state, zipCodes, errors, controlsOpen });
 
   return (
     <div
@@ -38,7 +41,7 @@ export default memo(function AssumptionsText({
         {icon}
       </div>
       <div className={styles.text}>
-        {hasInitialLocation && getLoanText(state, zipCodes)}
+        {hasInitialLocation && text}
       </div>
       <div className={styles.arrowWrapper}>
         <div className={classNames(styles.arrow, styles.down)}>
@@ -53,10 +56,20 @@ export default memo(function AssumptionsText({
 });
 
 function getLoanText({
-  loanType,
-  loanAmount,
-  zipCode
-}, zipCodes) {
+  state: loanState,
+  zipCodes,
+  errors = [],
+  controlsOpen
+}) {
+  if (errors?.length) {
+    return errors[0].error;
+  }
+
+  if (controlsOpen) {
+    return 'Enter your loan information into the box below.';
+  }
+
+  const { loanType, loanAmount, zipCode } = loanState;
   const parts = [];
   const isPurchase = loanType === 'purchase';
 

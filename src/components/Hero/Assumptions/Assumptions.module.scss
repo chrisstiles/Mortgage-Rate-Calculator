@@ -52,10 +52,19 @@
   position:relative;
   flex-grow:0;
   flex-shrink:0;
+  display:flex;
+  align-items:center;
 
   svg {
     z-index: 300;
+    width:17px;
+    height:17px;
+    position:relative;
   }
+}
+
+.home {
+  top:-1px;
 }
 
 .text {
@@ -202,5 +211,29 @@
     transition-delay: .3s;
     opacity: 1;
     transform:translateY(0);
+  }
+}
+
+
+/*---------------------------*/
+/* Errors */
+
+.hasError {
+  .button {
+    background-color:#fddfdf;
+    color:#875f5f;
+  }
+
+  .arrowWrapper {
+    border-color:#e2c0c1;
+  }
+
+  svg,
+  path {
+    fill: #875f5f;
+  }
+  
+  .line {
+    border-color: rgba(247, 182, 182, 0.85);
   }
 }

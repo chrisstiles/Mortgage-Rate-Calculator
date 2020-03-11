@@ -71,5 +71,8 @@
       "es6"
     ]
   },
-  "browserslist": ["> 0.25%, not dead", "Explorer 11"]
+  "browserslist": [
+    "> 0.25%, not dead",
+    "Explorer 11"
+  ]
 }

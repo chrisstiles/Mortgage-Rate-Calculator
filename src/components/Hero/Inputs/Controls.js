@@ -5,11 +5,19 @@ import { field } from '@enums';
 import { formatCurrency, isInFootprint } from '@helpers';
 import { cache } from '@app';
 
-export default memo(function ControlComponents({ state }) {
+export default memo(function ControlComponents({
+  state,
+  errors,
+  controlsOpen,
+  onChange,
+  updateErrors
+}) {
   const handleChange = useCallback((value, name) => {
-    const errorMessage = controls[name].validate(value);
-    console.log(errorMessage);
-  }, []);
+    updateErrors(controls[name].validate(value), name);
+    onChange(value, name);
+  }, [updateErrors, onChange]);
+
+  const tabIndex = controlsOpen ? null : -1;
 
   return formFields.map(name => {
     const Component = controls[name].Component;
@@ -17,12 +25,16 @@ export default memo(function ControlComponents({ state }) {
     if (!Component) {
       return null;
     }
+
+    const hasError = !!errors.find(e => e.name === name);
     
     return (
       <Component
         value={state[name]}
         name={name}
         key={name}
+        hasError={hasError}
+        tabIndex={tabIndex}
         onChange={handleChange}
       />
     );
@@ -41,6 +53,9 @@ const controls = {
         <Text
           label="Loan Amount"
           placeholder="Enter a loan amount"
+          name="loanAmount"
+          maxWidth={180}
+          hasError={props.hasError}
           isCurrency
           {...props}
         />
@@ -71,7 +86,10 @@ const controls = {
         <Text
           label="Zip Code"
           placeholder="Zip Code"
+          name="zipCode"
           format="#####"
+          hasError={props.hasError}
+          maxWidth={100}
           {...props}
         />
       );

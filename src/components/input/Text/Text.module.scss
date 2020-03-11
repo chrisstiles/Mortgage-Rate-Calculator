@@ -72,3 +72,24 @@
     color:#fff;
   }
 }
+
+.hasError {
+  background-color: rgba(#fbb2b2, 0.3);
+
+  .icon {
+    color:#fff0f0;
+  }
+
+  .input {
+    @include placeholderStyles(rgba(253, 244, 244, .9));
+    color:#fff0f0;
+  }
+
+  &:hover {
+    background-color: rgba(#fbb2b2, 0.35);
+  }
+
+  &.focus {
+    background-color: rgba(#fbb2b2, 0.45) !important;
+  }
+}
