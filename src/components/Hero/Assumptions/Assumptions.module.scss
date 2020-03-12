@@ -78,7 +78,6 @@
 
 .textWrapper {
   flex-grow:1;
-  padding-right:15px;
   position:absolute;
   top:0;
   left:0;
@@ -87,7 +86,7 @@
   display:flex;
   align-items:center;
   min-height:46px;
-  padding: 12px 0 13px 17px;
+  padding: 12px 15px 13px 17px;
   pointer-events:none;
   opacity:0;
   transform:translateY(20px);

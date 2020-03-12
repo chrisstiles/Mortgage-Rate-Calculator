@@ -1,4 +1,4 @@
-import React, { useCallback, memo } from 'react';
+import React, { useState, useCallback, memo, useEffect } from 'react';
 import { Text } from '@input';
 import config, { formFields } from '@config';
 import { field } from '@enums';
@@ -12,17 +12,39 @@ export default memo(function ControlComponents({
   onChange,
   updateErrors
 }) {
+  const [canValidate, setCanValidate] = useState([]);
+
+  const validate = useCallback((value, name) => {
+    const fn = controls[name].validate;
+
+    if (fn) {
+      updateErrors(fn(value, state), name);
+    }
+  }, [updateErrors, state]);
+
+  const handleBlur = useCallback((value, name) => {
+    if (!canValidate.includes(name)) {
+      setCanValidate([...canValidate, name]);
+    }
+
+    validate(value, name);
+  }, [canValidate, validate]);
+
   const handleChange = useCallback((value, name) => {
-    const validate = controls[name].validate;
-    
-    if (validate) {
-      updateErrors(validate(value, state), name);
+    if (canValidate.includes(name)) {
+      validate(value, name);
     }
 
     onChange(value, name);
-  }, [updateErrors, onChange, state]);
+  }, [onChange, canValidate, validate]);
 
   const tabIndex = controlsOpen ? null : -1;
+
+  useEffect(() => {
+    if (!controlsOpen) {
+      setCanValidate([]);
+    }
+  }, [controlsOpen]);
 
   return formFields.map(name => {
     const Component = controls[name].Component;
@@ -41,6 +63,7 @@ export default memo(function ControlComponents({
         hasError={hasError}
         tabIndex={tabIndex}
         loanType={state.loanType}
+        onBlur={handleBlur}
         onChange={handleChange}
       />
     );

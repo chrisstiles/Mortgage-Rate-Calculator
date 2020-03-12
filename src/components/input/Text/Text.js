@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, memo } from 'react';
+import React, { useState, useMemo, useCallback, useRef, memo, useEffect } from 'react';
 import { Field } from '@input';
 import classNames from 'classnames';
 import styles from './Text.module.scss';
@@ -25,10 +25,24 @@ export default memo(function Text({
   loanType,
   hasError,
   onChange = () => {},
+  onFocus = () => {},
+  onBlur = () => {},
   ...restProps
 }) {
   const [isFocused, setIsFocused] = useState(false);
   const isNumber = isCurrency || format;
+
+  const valueRef = useRef('');
+  useEffect(() => { valueRef.current = value; });
+
+  const handleFocus = useCallback(() => {
+    onFocus(valueRef.current, name);
+  }, [onFocus, name]);
+
+  const handleBlur = useCallback(() => {
+    setIsFocused(false);
+    onBlur(valueRef.current, name);
+  }, [onBlur, name]);
 
   const handleChange = useCallback(value => {
     onChange(value, name);
@@ -41,8 +55,8 @@ export default memo(function Text({
       validate,
       className: classNames(styles.input, className),
       style: { ...style, paddingLeft: insetLeft },
-      onFocus: () => setIsFocused(true),
-      onBlur: () => setIsFocused(false),
+      onFocus: handleFocus,
+      onBlur: handleBlur,
     };
 
     if (isNumber) {
@@ -75,6 +89,8 @@ export default memo(function Text({
     style,
     type,
     isNumber,
+    handleFocus,
+    handleBlur,
     handleChange,
     validate
   ]);
