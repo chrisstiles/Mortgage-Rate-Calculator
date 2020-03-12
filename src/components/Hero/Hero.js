@@ -98,6 +98,7 @@ export default memo(function Hero({
           />
           <Assumptions
             state={currentState}
+            loanType={state.loanType}
             errors={errors}
             isLoading={isLoading}
             hasInitialLocation={hasInitialLocation}

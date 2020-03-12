@@ -10,6 +10,7 @@ import { cache } from '@app';
 
 export default memo(function Assumptions({
   state,
+  loanType,
   isLoading,
   hasInitialLocation,
   zipCodes,
@@ -84,6 +85,7 @@ export default memo(function Assumptions({
       >
         <AssumptionsText
           state={state}
+          loanType={loanType}
           errors={errors}
           isLoading={isLoading}
           zipCodes={zipCodes}

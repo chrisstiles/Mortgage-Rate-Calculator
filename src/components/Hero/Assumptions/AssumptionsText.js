@@ -8,6 +8,7 @@ import { formatCurrency } from '@helpers';
 
 export default memo(function AssumptionsText({
   state,
+  loanType,
   isLoading: _isLoading,
   hasInitialLocation,
   zipCodes = {},
@@ -35,7 +36,7 @@ export default memo(function AssumptionsText({
         <React.Fragment>
           <BoxText
             icon={<Home className={styles.home} />}
-            text={getLoanText(state, zipCodes)}
+            text={getLoanText({ ...state, loanType }, zipCodes)}
             isVisible={!controlsOpen && !hasError}
             transitionDirection="down"
           />
