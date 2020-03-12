@@ -3,6 +3,7 @@ import querystring from 'querystring';
 import { isString, isFunction, isRegExp, isBoolean, isPlainObject } from 'lodash';
 import { cache } from '@app';
 import { isInFootprint } from '@helpers';
+import { keys } from '@enums';
 
 // This object defines the shape of our shape object.
 
@@ -20,31 +21,31 @@ import { isInFootprint } from '@helpers';
 // will override a cached value from local storage.
 
 const state = {
-  loanType: {
+  [keys.LOAN_TYPE]: {
     defaultValue: defaults.loanType,
     validate: urlParams.loanType,
     transform: t => t.toLowerCase()
   },
-  loanAmount: {
+  [keys.LOAN_AMOUNT]: {
     defaultValue: defaults.loanAmount,
     parameter: 'loanSize',
     validate: n => !isNaN(n),
     transform: parseInt
   },
-  homeValue: {
+  [keys.HOME_VALUE]: {
     defaultValue: defaults.homeValue,
     validate: n => !isNaN(n),
     transform: parseInt
   },
-  userSetLocation: {
+  [keys.USER_SET_LOCATION]: {
     defaultValue: false,
     validate: isBoolean
   },
-  zipCode: {
+  [keys.ZIP_CODE]: {
     defaultValue: defaults.zipCode,
     validate: /^\d{5}$/
   },
-  city: {
+  [keys.CITY]: {
     defaultValue: defaults.city,
     validate: isString,
     transform: c => c.trim()
@@ -64,8 +65,8 @@ function findParamKey(obj, key) {
 }
 
 export default function() {
-  const cachedState = cache.get('loanState') ?? {};
-  const zipCodes = cache.get('zipCodes');
+  const cachedState = cache.get(keys.LOAN_STATE) ?? {};
+  const zipCodes = cache.get(keys.ZIP_CODES);
   const formattedState = {};
 
   Object.keys(state).forEach(key => {
@@ -104,7 +105,7 @@ export default function() {
   
   // We store the location of the user's IP address
   // to avoid having to load again if they refresh the page
-  const currentLocation = cache.getSession('currentLocation');
+  const currentLocation = cache.getSession(keys.CURRENT_LOCATION);
 
   if (currentLocation && !formattedState.userSetLocation) {
     formattedState.zipCode = currentLocation.zipCode;
@@ -117,7 +118,7 @@ export default function() {
         formattedState.city = city;
       } else {
         formattedState.zipCode = defaults.zipCode;
-        formattedState.city = zipCodes[defaults.zipCode];
+        formattedState.city = zipCodes[defaults.zipCode][0];
       }
     } else {
       formattedState.zipCode = defaults.zipCode;

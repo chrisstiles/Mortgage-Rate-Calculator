@@ -5,6 +5,8 @@ import Assumptions from './Assumptions';
 import styles from './Hero.module.scss';
 import { Button } from '@input';
 import { Phone } from './icons';
+import { getState } from '@helpers';
+import { keys } from '@enums';
 
 export default memo(function Hero({
   state,
@@ -17,6 +19,11 @@ export default memo(function Hero({
   setControlsOpen,
   setControlsHeight
 }) {
+  const [currentState, _setCurrentState] = useState(() => ({ ...state }));
+  const setCurrentState = useCallback((value, name) => {
+    _setCurrentState(state => getState(state, value, name));
+  }, []);
+
   const [errors, setErrors] = useState([]);
   const updateErrors = useCallback((error, name) => {
     setErrors(errors => {
@@ -34,6 +41,43 @@ export default memo(function Hero({
     });
   }, []);
 
+  const handleAssumptionsClick = useCallback(() => {
+    if (!controlsOpen) {
+      setControlsOpen(true);
+      return;
+    }
+
+    const newState = { ...currentState };
+    const hasErrors = errors?.length;
+
+    if (hasErrors) {
+      errors.forEach(({ name }) => {
+        newState[name] = state[name];
+        
+        if (name === keys.ZIP_CODE) {
+          newState.city = state.city;
+        }
+      });
+    }
+
+    setControlsOpen(false);
+    setErrors([]);
+
+    if (hasErrors) {
+      setCurrentState(newState);
+    }
+
+    setState(({ loanType }) => ({ ...newState, loanType }));
+  }, [
+    state,
+    currentState,
+    errors,
+    controlsOpen,
+    setCurrentState,
+    setControlsOpen,
+    setState
+  ]);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>
@@ -44,23 +88,23 @@ export default memo(function Hero({
             setState={setState}
           />
           <Assumptions
-            state={state}
+            state={currentState}
             errors={errors}
             isLoading={isLoading}
             hasInitialLocation={hasInitialLocation}
             controlsOpen={controlsOpen}
             zipCodes={zipCodes}
-            setControlsOpen={setControlsOpen}
+            onClick={handleAssumptionsClick}
           />
         </div>
         <Inputs
-          state={state}
+          state={currentState}
           controlsOpen={controlsOpen}
           controlsHeight={controlsHeight}
-          setControlsHeight={setControlsHeight}
           errors={errors}
+          setControlsHeight={setControlsHeight}
           updateErrors={updateErrors}
-          setState={setState}
+          setState={setCurrentState}
         />
       </div>
       <Angles />

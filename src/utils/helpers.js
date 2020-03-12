@@ -38,14 +38,22 @@ export function formatCurrency(num) {
   return `$${num}`;
 }
 
-export function isInFootprint(zipCode) {
-  if (!zipCode) {
+export function isInFootprint(zipCodeOrState) {
+  if (!zipCodeOrState) {
     return false;
   }
 
+  zipCodeOrState = String(zipCodeOrState);
+
   const states = footprint ?? ['CA'];
-  const zipCodes = cache.get('zipCodes', {});
-  const state = (zipCodes[zipCode] ?? [])[1];
+  let state;
+
+  if (isNaN(zipCodeOrState)) {
+    state = zipCodeOrState;
+  } else {
+    const zipCodes = cache.get('zipCodes', {});
+    state = (zipCodes[zipCodeOrState] ?? [])[1];
+  }
 
   return !!(state && states.find(s => s.toLowerCase() === state.toLowerCase()));
 }

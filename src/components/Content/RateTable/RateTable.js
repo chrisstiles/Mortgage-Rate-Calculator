@@ -1,5 +1,5 @@
 import React, { useState, useCallback, memo, useMemo } from 'react';
-import { Header, Row, Cell,  } from './TableElements';
+import { Header, Row, Cell } from './TableElements';
 import Product from './Product';
 import Rate from './Rate';
 import Currency from './Currency';
@@ -7,12 +7,12 @@ import styles from './RateTable.module.scss';
 import sampleData from './sample-data.json';
 import { orderBy, flatten, findKey } from 'lodash';
 import config from '@config';
-import { sort } from '@enums';
+import { sort, keys } from '@enums';
 import { cache } from '@app';
 
 export default memo(function RateTable({ shiftY }) {
   const [sortState, setSortState] = useState(() => {
-    let { by, order, key } = cache.get('sortState', {})
+    let { by, order, key } = cache.get(keys.SORT_STATE, {})
 
     if (!key || !sort.by[key]) {
       key = findSortKey(config.sortBy);
@@ -42,7 +42,7 @@ export default memo(function RateTable({ shiftY }) {
         newState.order = prevState.order === ASC ? DESC : ASC;
       }
 
-      cache.set('sortState', newState);
+      cache.set(keys.SORT_STATE, newState);
       return newState;
     });
   }, []);

@@ -1,9 +1,8 @@
-import React, { useState, useCallback, useEffect, useRef, memo } from 'react';
+import React, { useRef, memo } from 'react';
 import Controls from './Controls';
 import styles from './Inputs.module.scss';
 import useResizeObserver from '@hooks/useResizeObserver';
 import classNames from 'classnames';
-import { getState } from '@helpers';
 
 export default memo(function Inputs({
   state,
@@ -16,21 +15,6 @@ export default memo(function Inputs({
 }) {
   const ref = useRef(null);
   useResizeObserver(ref, ({ height }) => setControlsHeight(height));
-  const [currentState, _setCurrentState] = useState(() => ({ ...state }));
-
-  const setCurrentState = useCallback((value, name) => {
-    _setCurrentState(state => getState(state, value, name));
-  }, []);
-
-  const hasInitialized = useRef(false);
-
-  useEffect(() => {
-    if (hasInitialized.current && !controlsOpen) {
-      setState(({ loanType }) => ({ ...currentState, loanType }));
-    }
-
-    hasInitialized.current = true;
-  }, [controlsOpen, currentState, setState]);
 
   return (
     <div
@@ -48,11 +32,11 @@ export default memo(function Inputs({
         <div className={styles.inner}>
           <Row>
             <Controls
-              state={currentState}
+              state={state}
               errors={errors}
               updateErrors={updateErrors}
               controlsOpen={controlsOpen}
-              onChange={setCurrentState}
+              onChange={setState}
             />
           </Row>
         </div>

@@ -5,6 +5,8 @@ import Tooltip from '@components/Tooltip';
 import styles from './Assumptions.module.scss';
 import classNames from 'classnames';
 import { displayPulse, hidePulseAfterFirstVisit, pulseCount } from '@config';
+import { keys } from '@enums';
+import { cache } from '@app';
 
 export default memo(function Assumptions({
   state,
@@ -13,7 +15,7 @@ export default memo(function Assumptions({
   zipCodes,
   errors = [],
   controlsOpen,
-  setControlsOpen
+  onClick
 }) {
   const [canShowTooltip, setCanShowTooltip] = useState(true);
   const [pulseIsVisible, setPulseIsVisible] = useState(() => {
@@ -25,8 +27,8 @@ export default memo(function Assumptions({
       return true;
     }
 
-    const hasVisited = !!localStorage.getItem('hasVisited');
-    localStorage.setItem('hasVisited', true);
+    const hasVisited = !!cache.get(keys.HAS_VISITED);
+    cache.set(keys.HAS_VISITED, true);
 
     return !hasVisited;
   });
@@ -34,7 +36,7 @@ export default memo(function Assumptions({
   const handleClick = () => {
     setPulseIsVisible(false);
     setCanShowTooltip(false);
-    setControlsOpen(!controlsOpen);
+    setTimeout(() => onClick(), 0);
   };
 
   const pulseProps = {

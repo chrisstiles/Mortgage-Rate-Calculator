@@ -1,4 +1,4 @@
-const { field, sort } = require('@enums');
+const { field, sort, keys } = require('@enums');
 
 module.exports = {
   /*-- Form Fields --*/
@@ -17,12 +17,12 @@ module.exports = {
 
   // Default values for loan assumptions
   "defaults": {
-    "loanType": "purchase",
-    "loanAmount": 400000,
-    "homeValue": 500000,
-    "zipCode": "94538",
-    "city": "Fremont",
-    "state": "CA"
+    [keys.LOAN_TYPE]: "purchase",
+    [keys.LOAN_AMOUNT]: 400000,
+    [keys.HOME_VALUE]: 500000,
+    [keys.ZIP_CODE]: "94538",
+    [keys.CITY]: "Fremont",
+    [keys.STATE]: "CA"
   },
 
   /*-- URL Parameters --*/
@@ -34,8 +34,8 @@ module.exports = {
   // These values override both the default values and
   // any cached state in the user's browser
   "urlParams": {
-    "loanType": ["purchase", "refinance"],
-    "loanSize": {
+    [keys.LOAN_TYPE]: ["purchase", "refinance"],
+    [keys.LOAN_SIZE]: {
       "jumbo": 750000,
       "highBalance": 600000
     }
