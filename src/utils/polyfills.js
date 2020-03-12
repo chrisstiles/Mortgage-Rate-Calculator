@@ -17,6 +17,23 @@ if (!String.prototype.includes) {
   };
 }
 
+// https://medium.com/@frontman/upd-array-prototype-flat-399c2cc7c653
+if (!Array.prototype.flat) {
+  Object.defineProperty(Array.prototype, 'flat', {
+    value: function () {
+      return (function f(arr) {
+        return arr.reduce(
+          (a, v) =>
+            Array.isArray(v)
+              ? a.concat(f(v))
+              : a.concat(v)
+          , []
+        );
+      })(this);
+    }
+  });
+}
+
 // https://tc39.github.io/ecma262/#sec-array.prototype.includes
 if (!Array.prototype.includes) {
   Object.defineProperty(Array.prototype, 'includes', {

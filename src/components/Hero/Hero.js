@@ -109,6 +109,7 @@ export default memo(function Hero({
         </div>
         <Inputs
           state={currentState}
+          loanType={state.loanType}
           controlsOpen={controlsOpen}
           controlsHeight={controlsHeight}
           errors={errors}

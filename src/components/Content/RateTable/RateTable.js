@@ -5,7 +5,7 @@ import Rate from './Rate';
 import Currency from './Currency';
 import styles from './RateTable.module.scss';
 import sampleData from './sample-data.json';
-import { orderBy, flatten, findKey } from 'lodash';
+import { orderBy, findKey } from 'lodash';
 import config from '@config';
 import { sort, keys } from '@enums';
 import { cache } from '@app';
@@ -53,7 +53,7 @@ export default memo(function RateTable({ shiftY }) {
     }
 
     // TODO: Add ability to filter rows
-    const byArr = flatten([sortState.by]);
+    const byArr = [sortState.by].flat();
     const orderArr = [sortState.order];
 
     if (Array.isArray(sortState.by)) {

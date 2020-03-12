@@ -6,6 +6,7 @@ import classNames from 'classnames';
 
 export default memo(function Inputs({
   state,
+  loanType,
   controlsOpen,
   controlsHeight,
   setControlsHeight,
@@ -33,6 +34,7 @@ export default memo(function Inputs({
           <Row>
             <Controls
               state={state}
+              loanType={loanType}
               errors={errors}
               updateErrors={updateErrors}
               controlsOpen={controlsOpen}
