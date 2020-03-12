@@ -1,4 +1,4 @@
-import React, { useState, useCallback, memo } from 'react';
+import React, { useState, useCallback, useEffect, useRef, memo } from 'react';
 import Inputs from './Inputs';
 import LoanTypeTabs from './LoanTypeTabs';
 import Assumptions from './Assumptions';
@@ -73,10 +73,19 @@ export default memo(function Hero({
     currentState,
     errors,
     controlsOpen,
-    setCurrentState,
     setControlsOpen,
+    setCurrentState,
     setState
   ]);
+
+  const hasInitialized = useRef(false);
+
+  useEffect(() => {
+    if (hasInitialLocation && !hasInitialized.current) {
+      setCurrentState(state.zipCode, keys.ZIP_CODE);
+      hasInitialized.current = true;
+    }
+  }, [hasInitialLocation, setCurrentState, state.zipCode]);
 
   return (
     <div className={styles.wrapper}>

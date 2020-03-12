@@ -22,7 +22,7 @@ export default function App() {
   const setState = useCallback((value, name) => {
     _setState(state => {
       const newState = getState(state, value, name);
-
+      
       if (state.zipCode !== newState.zipCode) {
         newState.userSetLocation = true;
       }
@@ -31,6 +31,8 @@ export default function App() {
       return newState;
     });
   }, []);
+
+  window.state = state;
 
   useEffect(() => {
     if (!cache.get(keys.ZIP_CODES)) {
@@ -62,6 +64,7 @@ export default function App() {
           if (zipCode) {
             const zipCodes = cache.get(keys.ZIP_CODES, {});
             const [city] = zipCodes[zipCode] ?? [];
+            console.log(isInFootprint(zipCode))
             
             if (isInFootprint(zipCode)) {
               const currentLocation = { zipCode, city };
