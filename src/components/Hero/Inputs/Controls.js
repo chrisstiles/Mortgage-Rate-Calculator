@@ -5,6 +5,27 @@ import { field } from '@enums';
 import { formatCurrency, isInFootprint } from '@helpers';
 import { cache } from '@app';
 
+/*
+
+Zip Code
+Loan Type
+Home Value
+Loan Amount
+Property Type
+  Single Family - 1 unit
+  Planned Unit Development (PUD)
+  Condo (Default using 'Low-Rise Condo 1-4' for all condo property types)
+  2-4 Unit (Default using 2 unit tracking code for best pricing results)
+  Manufactured Home
+Occupancy Type
+  Owner Occupied
+  Second Home
+  Investment Property
+Credit Score
+Cash Out Amount
+
+*/
+
 export default memo(function ControlComponents({
   state,
   errors,
