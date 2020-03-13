@@ -63,6 +63,7 @@
 
   @include targetIE {
     padding-bottom:0;
+    padding-top:0;
   }
 
   @include placeholderStyles(#c5c4c4) {
