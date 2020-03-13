@@ -10,8 +10,7 @@ function HomeValue(props) {
     <Text
       label={text}
       placeholder={text}
-      name="homeValue"
-      hasError={props.hasError}
+      name={keys.HOME_VALUE}
       maxWidth={180}
       isCurrency
       {...props}

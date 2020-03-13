@@ -26,9 +26,9 @@ export default function Select({
   fieldStyle,
   tabIndex = 0,
   hasError,
-  onChange = () => {},
-  onFocus = () => {},
-  onBlur = () => {},
+  onChange,
+  onFocus,
+  onBlur,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
@@ -60,7 +60,10 @@ export default function Select({
   const close = useCallback(newValue => {
     setIsOpen(false);
     const value = newValue === undefined ? valueRef.current : newValue;
-    onBlur(value, name);
+    
+    if (onBlur) {
+      onBlur(value, name);
+    }
   }, [name, onBlur]);
 
   useEscapeKey(close);
@@ -75,7 +78,7 @@ export default function Select({
 
   const handleChange = useCallback(value => {
     onChange(value, name);
-    close();
+    close(value);
   }, [name, onChange, close]);
 
   const valueLabel = options.find(v => v.value === value)?.label;
@@ -96,6 +99,7 @@ export default function Select({
         tabIndex={tabIndex}
         onMouseDown={open}
         onFocus={open}
+        onBlur={onBlur}
         onKeyDown={handleKeyDown}
       >
         <div className={styles.text}>
@@ -137,7 +141,7 @@ function OptionsWrapper({
   const [focusedIndex, setFocusedIndex] = useState(null);
   const ref = useRef(null);
   const { left, top, width } = inputRect;
-  useClickOutside(ref, close);
+  useClickOutside(ref, () => close(currentValue));
 
   const handleKeyDown = useCallback(e => {
     // Select on enter key
@@ -180,17 +184,18 @@ function OptionsWrapper({
   useEvent('keydown', handleKeyDown);
 
   const optionComponents = useMemo(() => {
-    return options.map(({ value, label }, index) => (
+    return options.map(({ value, label, info }, index) => (
       <Option
         key={value}
         label={label}
         value={value}
+        info={info}
         isCurrent={value === currentValue}
         isFocused={focusedIndex === index}
         onChange={onChange}
       />
     ));
-  }, [options, currentValue, focusedIndex]);
+  }, [options, currentValue, focusedIndex, onChange]);
 
   return createPortal(
     <div
@@ -212,6 +217,7 @@ function OptionsWrapper({
 const Option = memo(({
   label,
   value,
+  info,
   isCurrent,
   isFocused,
   onChange
@@ -224,7 +230,12 @@ const Option = memo(({
       })}
       onClick={() => onChange(value)}
     >
-      {label}
+      <span>{label}</span>
+      {info &&
+        <span className={styles.info}>
+          {info}
+        </span>
+      }
     </div>
   );
 });

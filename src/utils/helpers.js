@@ -58,3 +58,7 @@ export function isInFootprint(zipCodeOrState) {
 
   return !!(state && states.find(s => s.toLowerCase() === state.toLowerCase()));
 }
+
+export function mapObject(obj, fn) {
+  return Object.keys(obj).map(k => fn(obj[k], k));
+}

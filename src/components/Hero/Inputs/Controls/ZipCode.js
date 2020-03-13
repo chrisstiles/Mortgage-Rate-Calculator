@@ -2,13 +2,14 @@ import React from 'react';
 import { Text } from '@input';
 import { isInFootprint } from '@helpers';
 import { cache } from '@app';
+import { keys } from '@enums';
 
 function ZipCode(props) {
   return (
     <Text
       label="Zip Code"
       placeholder="Zip Code"
-      name="zipCode"
+      name={keys.ZIP_CODE}
       format="#####"
       hasError={props.hasError}
       maxWidth={100}

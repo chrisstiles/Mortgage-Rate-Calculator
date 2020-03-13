@@ -9,7 +9,7 @@ function LoanAmount(props) {
     <Text
       label="Loan Amount"
       placeholder="Loan Amount"
-      name="loanAmount"
+      name={keys.LOAN_AMOUNT}
       maxWidth={180}
       hasError={props.hasError}
       isCurrency

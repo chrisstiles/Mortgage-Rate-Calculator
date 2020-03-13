@@ -4,6 +4,7 @@ import { field } from '@enums';
 import ZipCode from './ZipCode';
 import HomeValue from './HomeValue';
 import LoanAmount from './LoanAmount';
+import CreditScore from './CreditScore';
 import { isFunction } from 'lodash';
 
 /*
@@ -118,5 +119,6 @@ export default memo(function ControlComponents({
 const controls = {
   [field.LOAN_AMOUNT]: LoanAmount,
   [field.ZIP_CODE]: ZipCode,
-  [field.HOME_VALUE]: HomeValue
+  [field.HOME_VALUE]: HomeValue,
+  [field.CREDIT_SCORE]: CreditScore
 };

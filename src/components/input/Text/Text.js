@@ -24,9 +24,9 @@ export default memo(function Text({
   validate,
   loanType,
   hasError,
-  onChange = () => {},
-  onFocus = () => {},
-  onBlur = () => {},
+  onChange,
+  onFocus,
+  onBlur,
   ...restProps
 }) {
   const [isFocused, setIsFocused] = useState(false);
@@ -37,16 +37,24 @@ export default memo(function Text({
 
   const handleFocus = useCallback(() => {
     setIsFocused(true);
-    onFocus(valueRef.current, name);
+    
+    if (onFocus) {
+      onFocus(valueRef.current, name);
+    }
   }, [onFocus, name]);
 
   const handleBlur = useCallback(() => {
     setIsFocused(false);
-    onBlur(valueRef.current, name);
+    
+    if (onBlur) {
+      onBlur(valueRef.current, name);
+    }
   }, [onBlur, name]);
 
   const handleChange = useCallback(value => {
-    onChange(value, name);
+    if (onChange) {
+      onChange(value, name);
+    }
   }, [onChange, name]);
 
   const [props, icon] = useMemo(() => {

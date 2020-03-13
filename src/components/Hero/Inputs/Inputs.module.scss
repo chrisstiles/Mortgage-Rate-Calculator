@@ -22,8 +22,8 @@
   }
 }
 
-@mixin addDelay($baseDelay: 0, $delay: 200) {
-  @for $i from 1 through 4 {
+@mixin addDelay($baseDelay: 0, $delay: 100) {
+  @for $i from 1 through 7 {
 
     &:nth-child(#{$i}) {
       transition-delay: #{($i - 1) * $delay + $baseDelay}ms;

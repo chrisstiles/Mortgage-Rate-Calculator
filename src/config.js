@@ -1,4 +1,4 @@
-const { field, sort, keys } = require('@enums');
+const { field, sort, keys, creditScoreRanges } = require('@enums');
 
 module.exports = {
   /*-- Form Fields --*/
@@ -11,18 +11,20 @@ module.exports = {
     field.LOAN_AMOUNT,
     field.HOME_VALUE,
     field.ZIP_CODE,
+    field.CREDIT_SCORE
   ],
 
   /*-- Values --*/
 
   // Default values for loan assumptions
   "defaults": {
+    [keys.CITY]: "Fremont",
+    [keys.CREDIT_SCORE]: creditScoreRanges.EXCELLENT.value,
+    [keys.HOME_VALUE]: 500000,
     [keys.LOAN_TYPE]: "purchase",
     [keys.LOAN_AMOUNT]: 400000,
-    [keys.HOME_VALUE]: 500000,
-    [keys.ZIP_CODE]: "94538",
-    [keys.CITY]: "Fremont",
-    [keys.STATE]: "CA"
+    [keys.STATE]: "CA",
+    [keys.ZIP_CODE]: "94538"
   },
 
   /*-- URL Parameters --*/

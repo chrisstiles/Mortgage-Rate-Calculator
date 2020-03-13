@@ -20,6 +20,8 @@ import { keys } from '@enums';
 // than the default for the calculator. A URL parameter value
 // will override a cached value from local storage.
 
+const isNum = n => !isNaN(n);
+
 const state = {
   [keys.LOAN_TYPE]: {
     defaultValue: defaults.loanType,
@@ -29,12 +31,17 @@ const state = {
   [keys.LOAN_AMOUNT]: {
     defaultValue: defaults.loanAmount,
     parameter: 'loanSize',
-    validate: n => !isNaN(n),
+    validate: isNum,
     transform: parseInt
   },
   [keys.HOME_VALUE]: {
     defaultValue: defaults.homeValue,
-    validate: n => !isNaN(n),
+    validate: isNum,
+    transform: parseInt
+  },
+  [keys.CREDIT_SCORE]: {
+    defaultValue: defaults.creditScore,
+    validate: isNum,
     transform: parseInt
   },
   [keys.USER_SET_LOCATION]: {
