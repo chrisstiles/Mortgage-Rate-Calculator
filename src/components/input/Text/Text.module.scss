@@ -64,6 +64,10 @@
   @include targetIE {
     padding-bottom:0;
     padding-top:0;
+
+    &:focus {
+      background-color:#7F7F7F;
+    }
   }
 
   @include placeholderStyles(#c5c4c4) {
@@ -80,6 +84,9 @@
 
   .input {
     @include placeholderStyles(#dddddd);
+    @include targetIE {
+      background-color:#937878;
+    }
   }
   
   .icon {
