@@ -8,7 +8,7 @@ function LoanAmount(props) {
   return (
     <Text
       label="Loan Amount"
-      placeholder="Enter a loan amount"
+      placeholder="Loan Amount"
       name="loanAmount"
       maxWidth={180}
       hasError={props.hasError}

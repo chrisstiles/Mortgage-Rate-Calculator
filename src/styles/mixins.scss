@@ -12,6 +12,7 @@
 @mixin placeholderStyles($color: #9c9c9c) {
   @include placeholder {
     color:$color;
+    @content;
   }
 }
 
@@ -22,4 +23,10 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+@mixin targetIE {
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    @content;
+  }
 }
