@@ -3,6 +3,7 @@ import Controls from './Controls';
 import styles from './Inputs.module.scss';
 import useResizeObserver from '@hooks/useResizeObserver';
 import classNames from 'classnames';
+import { Select } from '@input';
 
 export default memo(function Inputs({
   state,
@@ -40,6 +41,7 @@ export default memo(function Inputs({
               controlsOpen={controlsOpen}
               onChange={setState}
             />
+            <Select />
           </Row>
         </div>
       </div>
