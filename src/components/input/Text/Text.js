@@ -36,6 +36,7 @@ export default memo(function Text({
   useEffect(() => { valueRef.current = value; });
 
   const handleFocus = useCallback(() => {
+    setIsFocused(true);
     onFocus(valueRef.current, name);
   }, [onFocus, name]);
 

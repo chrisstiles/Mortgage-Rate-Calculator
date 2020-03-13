@@ -69,6 +69,10 @@
   @include placeholderStyles(#c5c4c4) {
     font-weight:400;
   }
+
+  &::-ms-clear {
+    display: none;
+  }
 }
 
 .focus {
