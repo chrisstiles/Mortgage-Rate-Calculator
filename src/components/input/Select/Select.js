@@ -25,6 +25,7 @@ export default function Select({
   fieldClassName,
   fieldStyle,
   tabIndex = 0,
+  hasError,
   onChange = () => {},
   onFocus = () => {},
   onBlur = () => {},
@@ -89,7 +90,8 @@ export default function Select({
       <div
         ref={ref}
         className={classNames(styles.wrapper, {
-          [styles.focus]: isOpen
+          [styles.focus]: isOpen,
+          [styles.hasError]: hasError
         })}
         tabIndex={tabIndex}
         onMouseDown={open}

@@ -17,6 +17,11 @@
   &:focus {
     outline:none;
   }
+
+  svg,
+  path {
+    fill: currentColor;
+  }
 }
 
 .text {
@@ -24,6 +29,11 @@
   white-space: nowrap;
   overflow:hidden;
   text-overflow: ellipsis;
+}
+
+.placeholder {
+  font-weight:400;
+  color:#c5c4c4;
 }
 
 .arrowWrapper {
@@ -74,5 +84,13 @@
 
   &.focus {
     background-color:rgba(216, 216, 216, 0.35);
+  }
+}
+
+.hasError {
+  color:#fff0f0;
+
+  .placeholder {
+    color:rgba(253, 244, 244, .9);
   }
 }
