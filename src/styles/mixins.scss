@@ -36,6 +36,11 @@
   background-color:rgba(#fff, .15);
   display:flex;
   border-radius:2px;
+  height:42px;
+  font-size:15px;
+  font-weight:600;
+  width:100%;
+  position:relative;
 
   &:hover {
     background-color:rgba(#fff, .18);

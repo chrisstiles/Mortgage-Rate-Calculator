@@ -2,8 +2,77 @@
 /* Select Box */
 /*---------------------------*/
 
+@import '@styles/colors';
+@import '@styles/fonts';
 @import '@styles/mixins';
 
 .wrapper {
   @include inputStyles;
+  @include noSelect; 
+  padding:10px 38px 12px 15px;
+  display:flex;
+  align-items:center;
+  cursor:pointer;
+
+  &:focus {
+    outline:none;
+  }
+}
+
+.text {
+  max-width:100%;
+  white-space: nowrap;
+  overflow:hidden;
+  text-overflow: ellipsis;
+}
+
+.arrowWrapper {
+  position:absolute;
+  top:0;
+  right:0;
+  bottom:0;
+  width:40px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.arrow {
+  width: 14px;
+  height: 14px;
+}
+
+.optionsWrapper {
+  @include noSelect;
+  position:absolute;
+  z-index: 99999;
+  background-color:#fff;
+  border-radius:2px;
+  color:#3a3a3a;
+  padding:5px 0;
+  margin-top:48px;
+  font-family:$sansSerif !important;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.07), 0px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.option {
+  line-height:1.1;
+  font-size:13px;
+  font-weight:400;
+  padding:12px 18px;
+  cursor:pointer;
+
+  &:hover {
+    background-color:#f3f3f3;
+  }
+
+  &.current {
+    background-color:rgba($teal, .06);
+    color:$activeTeal;
+    font-weight:600;
+  }
+
+  &.focus {
+    background-color:rgba(216, 216, 216, 0.35);
+  }
 }
