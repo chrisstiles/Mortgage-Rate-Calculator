@@ -98,7 +98,7 @@ const BoxText = memo(({
   );
 });
 
-function getLoanText({ loanType, loanAmount, zipCode }, zipCodes) {
+function getLoanText({ loanType, homeValue, zipCode }, zipCodes) {
   const parts = [];
   const isPurchase = loanType === 'purchase';
 
@@ -106,7 +106,7 @@ function getLoanText({ loanType, loanAmount, zipCode }, zipCodes) {
   parts.push(isPurchase ? 'Purchasing a' : 'Refinancing a');
 
   // Loan amount
-  parts.push(formatCurrency(loanAmount));
+  parts.push(formatCurrency(homeValue));
   parts.push(isPurchase ? 'home' : 'loan');
 
   // Location
