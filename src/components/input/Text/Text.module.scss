@@ -7,16 +7,9 @@
 @import '@styles/fonts';
 
 .wrapper {
-  display:flex;
-  border-radius:2px;
+  @include inputStyles;
   overflow:hidden;
-  box-shadow: 0px 1px 4px rgba(#000, 0.1);
-  background-color:rgba(#fff, .15);
   position:relative;
-
-  &:hover {
-    background-color:rgba(#fff, .18);
-  }
 }
 
 .icon {
@@ -76,41 +69,5 @@
 
   &::-ms-clear {
     display: none;
-  }
-}
-
-.focus {
-  background-color:rgba(#fff, .3) !important;
-
-  .input {
-    @include placeholderStyles(#dddddd);
-    @include targetIE {
-      background-color:#937878;
-    }
-  }
-  
-  .icon {
-    color:#fff;
-  }
-}
-
-.hasError {
-  background-color: rgba(#fbb2b2, 0.3);
-
-  .icon {
-    color:#fff0f0;
-  }
-
-  .input {
-    @include placeholderStyles(rgba(253, 244, 244, .9));
-    color:#fff0f0;
-  }
-
-  &:hover {
-    background-color: rgba(#fbb2b2, 0.35);
-  }
-
-  &.focus {
-    background-color: rgba(#fbb2b2, 0.45) !important;
   }
 }

@@ -1,0 +1,9 @@
+/*---------------------------*/
+/* Select Box */
+/*---------------------------*/
+
+@import '@styles/mixins';
+
+.wrapper {
+  @include inputStyles;
+}
