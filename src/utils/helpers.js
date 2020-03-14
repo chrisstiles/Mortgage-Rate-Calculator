@@ -1,4 +1,4 @@
-import { isPlainObject, isFunction } from 'lodash';
+import { isPlainObject, isFunction, isString } from 'lodash';
 import { cache } from '@app';
 import { footprint } from '@config';
 
@@ -39,6 +39,10 @@ export function formatCurrency(num) {
   return `$${num}`;
 }
 
+export function formatPercent(num1, num2) {
+  return `${Math.round(((num1 / num2) * 100))}%`;
+}
+
 export function isInFootprint(zipCodeOrState) {
   if (!zipCodeOrState) {
     return false;
@@ -61,4 +65,12 @@ export function isInFootprint(zipCodeOrState) {
 
 export function mapObject(obj, fn) {
   return Object.keys(obj).map(k => fn(obj[k], k));
+}
+
+export function isVowel(letter) {
+  if (!isString(letter)) {
+    return false;
+  }
+
+  return ['a', 'e', 'i', 'o', 'u'].includes(letter[0].toLowerCase());
 }

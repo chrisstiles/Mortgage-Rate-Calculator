@@ -59,7 +59,7 @@ export default function Select({
 
   const close = useCallback(newValue => {
     setIsOpen(false);
-    const value = newValue === undefined ? valueRef.current : newValue;
+    const value = newValue?.target ? valueRef.current : newValue;
     
     if (onBlur) {
       onBlur(value, name);

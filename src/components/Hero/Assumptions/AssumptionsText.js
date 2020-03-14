@@ -3,8 +3,10 @@ import { Home, Arrow, Error, Gear } from '../icons';
 import styles from './Assumptions.module.scss';
 import classNames from 'classnames';
 import Spinner from 'react-md-spinner';
+import { upperFirst } from 'lodash';
 import { defaults } from '@config';
-import { formatCurrency } from '@helpers';
+import { formatCurrency, isVowel, formatPercent } from '@helpers';
+import { creditScoreRanges } from '@enums';
 
 export default memo(function AssumptionsText({
   state,
@@ -98,7 +100,13 @@ const BoxText = memo(({
   );
 });
 
-function getLoanText({ loanType, homeValue, zipCode }, zipCodes) {
+function getLoanText({
+  loanType,
+  loanAmount,
+  homeValue,
+  zipCode,
+  creditScore
+}, zipCodes) {
   const parts = [];
   const isPurchase = loanType === 'purchase';
 
@@ -106,21 +114,47 @@ function getLoanText({ loanType, homeValue, zipCode }, zipCodes) {
   parts.push(isPurchase ? 'Purchasing a' : 'Refinancing a');
 
   // Loan amount
-  parts.push(formatCurrency(homeValue));
+  if (loanAmount !== undefined) {
+    parts.push(formatCurrency(homeValue));
+  }
+
   parts.push(isPurchase ? 'home' : 'loan');
 
   // Location
-  zipCodes = zipCodes ?? {};
-  const [city, state] = zipCodes[zipCode] ?? [defaults.city, defaults.state];
-  parts.push(`in ${city}, ${state}.`);
+  if (zipCode !== undefined) {
+    zipCodes = zipCodes ?? {};
+    const [city] = zipCodes[zipCode] ?? [defaults.city];
+    parts.push(`in ${city}`);
+  }
 
-  // Placeholder
-  parts.push('Excellent credit score with 20% down.');
+  // Credit score
+  if (creditScore !== undefined) {
+    const score = Object.values(creditScoreRanges).find(s => {
+      return s.value === creditScore;
+    });
+
+    if (score?.label) {
+      const a = isVowel(score.label) ? 'an' : 'a';
+      parts.push(`with ${a} ${score.label.toLowerCase()} credit score`);
+    }
+  }
+
+  // Down payment
+  if (isPurchase && !isNaN(loanAmount) && !isNaN(homeValue)) {
+    if (homeValue > loanAmount) {
+      const percent = formatPercent(homeValue - loanAmount, homeValue);
+      parts.push(`and ${percent} down`);
+    }
+  }
+  
+  const text = parts.join(' ')
+    .replace(/\s\s+/g, ' ')
+    .replace(' .', '.');
 
   return (
     <React.Fragment>
       <span className={styles.title}>Your Loan:</span>
-      {` ${parts.join(' ')}`}
+      {` ${upperFirst(text)}.`}
     </React.Fragment>
   )
 }

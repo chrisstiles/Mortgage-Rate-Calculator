@@ -22,7 +22,7 @@
   }
 }
 
-@mixin addDelay($baseDelay: 0, $delay: 100) {
+@mixin addDelay($baseDelay: 0, $delay: 80) {
   @for $i from 1 through 7 {
 
     &:nth-child(#{$i}) {
