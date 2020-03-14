@@ -10,11 +10,23 @@ export const keys = Object.freeze({
   LOAN_SIZE: 'loanSize',
   LOAN_STATE: 'loanState',
   LOAN_TYPE: 'loanType',
+  PROPERTY_TYPE: 'propertyType',
   SORT_STATE: 'sortState',
   STATE: 'state',
   USER_SET_LOCATION: 'userSetLocation',
   ZIP_CODE: 'zipCode',
   ZIP_CODES: 'zipCodes'
+});
+
+// The list of all possible fields to include in
+// the loan assumptions box for the user to edit.
+export const field = Object.freeze({
+  CREDIT_SCORE: keys.CREDIT_SCORE,
+  HOME_VALUE: keys.HOME_VALUE,
+  LOAN_TYPE: keys.LOAN_TYPE,
+  LOAN_AMOUNT: keys.LOAN_AMOUNT,
+  PROPERTY_TYPE: keys.PROPERTY_TYPE,
+  ZIP_CODE: keys.ZIP_CODE
 });
 
 export const creditScoreRanges = Object.freeze({
@@ -35,19 +47,17 @@ export const creditScoreRanges = Object.freeze({
   },
   BELOW_AVERAGE: {
     value: 659,
-    label: 'Below Average',
+    label: 'Below average',
     info: '659-'
   }
 });
 
-// The list of all possible fields to include in
-// the loan assumptions box for the user to edit.
-export const field = Object.freeze({
-  CREDIT_SCORE: keys.CREDIT_SCORE,
-  HOME_VALUE: keys.HOME_VALUE,
-  LOAN_TYPE: keys.LOAN_TYPE,
-  LOAN_AMOUNT: keys.LOAN_AMOUNT,
-  ZIP_CODE: keys.ZIP_CODE
+export const propertyTypes = Object.freeze({
+  SFR: { value: 'sfr', label: 'Single family home'},
+  PUD: { value: 'pud', label: 'Planned development' },
+  CONDO: { value: 'condo', label: 'Condo' },
+  MULTI_UNIT: { value: 'multiUnit', label: '2-4 Unit' },
+  MANUFACTURED: { value: 'manufacturedHome', label: 'Manufactured home' }
 });
 
 // The columns and order user can

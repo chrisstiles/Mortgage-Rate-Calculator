@@ -1,9 +1,9 @@
-import { defaults, urlParams, footprint } from '@config';
+import { defaults, urlParams, footprint, formFields } from '@config';
 import querystring from 'querystring';
 import { isString, isFunction, isRegExp, isBoolean, isPlainObject } from 'lodash';
 import { cache } from '@app';
 import { isInFootprint } from '@helpers';
-import { keys } from '@enums';
+import { keys, creditScoreRanges, propertyTypes } from './enums';
 
 // This object defines the shape of our shape object.
 
@@ -23,6 +23,24 @@ import { keys } from '@enums';
 const isNum = n => !isNaN(n);
 
 const state = {
+  [keys.CITY]: {
+    defaultValue: defaults.city,
+    validate: isString,
+    transform: c => c.trim()
+  },
+  [keys.CREDIT_SCORE]: {
+    defaultValue: defaults.creditScore,
+    validate: n => {
+      return isNum(n) && !!Object.values(creditScoreRanges)
+        .find(({ value }) => value === n);
+    },
+    transform: parseInt
+  },
+  [keys.HOME_VALUE]: {
+    defaultValue: defaults.homeValue,
+    validate: isNum,
+    transform: parseInt
+  },
   [keys.LOAN_TYPE]: {
     defaultValue: defaults.loanType,
     validate: urlParams.loanType,
@@ -34,15 +52,11 @@ const state = {
     validate: isNum,
     transform: parseInt
   },
-  [keys.HOME_VALUE]: {
-    defaultValue: defaults.homeValue,
-    validate: isNum,
-    transform: parseInt
-  },
-  [keys.CREDIT_SCORE]: {
-    defaultValue: defaults.creditScore,
-    validate: isNum,
-    transform: parseInt
+  [keys.PROPERTY_TYPE]: {
+    defaultValue: defaults.propertyType,
+    validate: v => {
+      return Object.values(propertyTypes).find(({ value }) => value === v);
+    }
   },
   [keys.USER_SET_LOCATION]: {
     defaultValue: false,
@@ -51,11 +65,6 @@ const state = {
   [keys.ZIP_CODE]: {
     defaultValue: defaults.zipCode,
     validate: /^\d{5}$/
-  },
-  [keys.CITY]: {
-    defaultValue: defaults.city,
-    validate: isString,
-    transform: c => c.trim()
   }
 };
 
@@ -109,27 +118,33 @@ export default function() {
 
     formattedState[key] = transform(value);
   });
-  
-  // We store the location of the user's IP address
-  // to avoid having to load again if they refresh the page
-  const currentLocation = cache.getSession(keys.CURRENT_LOCATION);
 
-  if (currentLocation && !formattedState.userSetLocation) {
-    formattedState.zipCode = currentLocation.zipCode;
-    formattedState.city = currentLocation.city;
+  if (!formFields.includes(keys.ZIP_CODE)) {
+    formattedState.zipCode = defaults.zipCode;
+    formattedState.city = defaults.city;
+    formattedState.userSetLocation = true;
   } else {
-    if (zipCodes && footprint) {
-      const [city, state] = zipCodes[formattedState.zipCode] ?? [];
+    // We store the location of the user's IP address
+    // to avoid having to load again if they refresh the page
+    const currentLocation = cache.getSession(keys.CURRENT_LOCATION);
 
-      if (city && state && isInFootprint(state)) {
-        formattedState.city = city;
+    if (currentLocation && !formattedState.userSetLocation) {
+      formattedState.zipCode = currentLocation.zipCode;
+      formattedState.city = currentLocation.city;
+    } else {
+      if (zipCodes && footprint) {
+        const [city, state] = zipCodes[formattedState.zipCode] ?? [];
+
+        if (city && state && isInFootprint(state)) {
+          formattedState.city = city;
+        } else {
+          formattedState.zipCode = defaults.zipCode;
+          formattedState.city = zipCodes[defaults.zipCode][0];
+        }
       } else {
         formattedState.zipCode = defaults.zipCode;
-        formattedState.city = zipCodes[defaults.zipCode][0];
+        formattedState.city = defaults.city;
       }
-    } else {
-      formattedState.zipCode = defaults.zipCode;
-      formattedState.city = defaults.city;
     }
   }
 
