@@ -57,12 +57,11 @@ export default function Select({
     setIsOpen(true);
   }, []);
 
-  const close = useCallback(newValue => {
+  const close = useCallback(() => {
     setIsOpen(false);
-    const value = newValue?.target ? valueRef.current : newValue;
     
     if (onBlur) {
-      onBlur(value, name);
+      onBlur(valueRef.current, name);
     }
   }, [name, onBlur]);
 
@@ -77,6 +76,7 @@ export default function Select({
   }, [close]);
 
   const handleChange = useCallback(value => {
+    valueRef.current = value;
     onChange(value, name);
     close(value);
   }, [name, onChange, close]);
