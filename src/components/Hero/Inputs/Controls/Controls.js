@@ -78,7 +78,7 @@ export default memo(function ControlComponents({
     onChange(value, name);
   }, [onChange, canValidate, validate]);
 
-  const tabIndex = controlsOpen ? null : -1;
+  const tabIndex = controlsOpen ? 0 : -1;
 
   useEffect(() => {
     if (!controlsOpen) {

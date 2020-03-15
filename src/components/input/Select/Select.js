@@ -33,6 +33,7 @@ export default function Select({
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
   const [rect, setRect] = useState(null);
+  const initialFocusedIndex = useRef(null);
   const valueRef = useRef('');
   useEffect(() => { valueRef.current = value; });
 
@@ -58,6 +59,7 @@ export default function Select({
   }, []);
 
   const close = useCallback(() => {
+    initialFocusedIndex.current = null;
     setIsOpen(false);
     
     if (onBlur) {
@@ -73,7 +75,19 @@ export default function Select({
     if (e.key === 'Tab') {
       close();
     }
-  }, [close]);
+
+    if (!isOpen) {
+      const isUp = ['ArrowUp', 'Up'].includes(e.key);
+      const isDown = !isUp && ['ArrowDown', 'Down'].includes(e.key);
+
+      if (isUp || isDown) {
+        e.preventDefault();
+        const index = isUp ? options.length - 1 : 0;
+        initialFocusedIndex.current = index;
+        open();
+      }
+    }
+  }, [isOpen, options, open, close]);
 
   const handleChange = useCallback(value => {
     valueRef.current = value;
@@ -99,7 +113,7 @@ export default function Select({
         tabIndex={tabIndex}
         onMouseDown={open}
         onFocus={open}
-        onBlur={onBlur}
+        onBlur={() => onBlur(valueRef.current, name)}
         onKeyDown={handleKeyDown}
       >
         <div className={styles.text}>
@@ -123,6 +137,7 @@ export default function Select({
           inputRect={rect}
           options={options}
           value={value}
+          initialFocusedIndex={initialFocusedIndex.current}
           close={close}
           onChange={handleChange}
         />
@@ -135,10 +150,11 @@ function OptionsWrapper({
   inputRect,
   options = [],
   value: currentValue,
+  initialFocusedIndex = null,
   close,
   onChange
 }) {
-  const [focusedIndex, setFocusedIndex] = useState(null);
+  const [focusedIndex, setFocusedIndex] = useState(initialFocusedIndex);
   const ref = useRef(null);
   const { left, top, width } = inputRect;
   useClickOutside(ref, () => close(currentValue));
