@@ -77,7 +77,6 @@ export default function App() {
         } catch (error) {
           console.log(error)
         } finally {
-          // setIsLoading(false);
           setHasInitialLocation(true);
         }
       };
