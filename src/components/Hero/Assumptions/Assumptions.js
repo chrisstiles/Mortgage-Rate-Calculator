@@ -104,7 +104,7 @@ export default memo(function Assumptions({
           controlsOpen={controlsOpen}
           hasInitialLocation={hasInitialLocation}
         />
-        {pulseIsVisible && !controlsOpen &&
+        {pulseIsVisible && !controlsOpen && !isLoading &&
           <div className={styles.pulseWrapper}>
             <div {...pulseProps} />
           </div>

@@ -1,4 +1,4 @@
-import { isPlainObject, isFunction, isString, findKey } from 'lodash';
+import { isPlainObject, isFunction, isString, findKey, isEqual } from 'lodash';
 import { cache } from '@app';
 import { footprint } from '@config';
 import states from '@utils/states';
@@ -106,4 +106,25 @@ export function isVowel(letter) {
   }
 
   return ['a', 'e', 'i', 'o', 'u'].includes(letter[0].toLowerCase());
+}
+
+export function objectWithoutKey(object, key) {
+  const { [key]: deletedKey, ...otherKeys } = object;
+  return otherKeys;
+}
+
+export function compareObjects(a, b, keys) {
+  if (!keys) {
+    return isEqual(a, b);
+  }
+
+  keys = [keys].flat();
+
+  const getObj = obj => {
+    const newObj = {};
+    keys.forEach(key => newObj[key] = obj[key]);
+    return newObj;
+  };
+
+  return isEqual(getObj(a), getObj(b));
 }

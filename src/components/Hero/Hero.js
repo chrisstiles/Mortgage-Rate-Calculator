@@ -17,7 +17,8 @@ export default memo(function Hero({
   zipCodes,
   setState,
   setControlsOpen,
-  setControlsHeight
+  setControlsHeight,
+  fetchRates
 }) {
   const [currentState, _setCurrentState] = useState(() => ({ ...state }));
   const setCurrentState = useCallback((value, name) => {
@@ -47,7 +48,7 @@ export default memo(function Hero({
       return;
     }
 
-    const newState = { ...currentState };
+    const newState = { ...currentState, loanType: state.loanType };
     const hasErrors = errors?.length;
 
     if (hasErrors) {
@@ -67,7 +68,9 @@ export default memo(function Hero({
       setCurrentState(newState);
     }
 
-    setState(({ loanType }) => ({ ...newState, loanType }));
+    setState(newState);
+    
+    setTimeout(() => fetchRates(newState), 0);
   }, [
     state,
     currentState,
@@ -75,7 +78,8 @@ export default memo(function Hero({
     controlsOpen,
     setControlsOpen,
     setCurrentState,
-    setState
+    setState,
+    fetchRates
   ]);
 
   const hasInitialized = useRef(false);
