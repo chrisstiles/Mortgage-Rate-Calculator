@@ -1,6 +1,7 @@
-import { isPlainObject, isFunction, isString } from 'lodash';
+import { isPlainObject, isFunction, isString, findKey } from 'lodash';
 import { cache } from '@app';
 import { footprint } from '@config';
+import states from '@utils/states';
 
 export function getState(state, value, name) {
   if (!isPlainObject(state) || (!value && !name)) {
@@ -43,14 +44,46 @@ export function formatPercent(num1, num2) {
   return `${Math.round(((num1 / num2) * 100))}%`;
 }
 
+export function getUSState(str) {
+  if (!str) {
+    return null;
+  }
+
+  str = str.toUpperCase();
+
+  if (states[str]) {
+    return { short: str, long: states[str] };
+  }
+
+  const state = findKey(states, s => s.toUpperCase() === str);
+
+  if (!state) {
+    return null;
+  }
+
+  return { short: state, long: states[state] };
+}
+
+export function getFootprint(type = 'short') {
+  const states = (footprint ?? ['CA'])
+    .map(s => {
+      const state = getUSState(s);
+      return state ? state[type] : null;
+    })
+    .filter(s => s);
+
+  return states.length ? states : ['CA'];
+}
+
+window.footprint = footprint;
+
 export function isInFootprint(zipCodeOrState) {
   if (!zipCodeOrState) {
     return false;
   }
 
   zipCodeOrState = String(zipCodeOrState);
-
-  const states = footprint ?? ['CA'];
+  const states = getFootprint();
   let state;
 
   if (isNaN(zipCodeOrState)) {

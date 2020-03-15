@@ -1,4 +1,4 @@
-import { defaults, urlParams, footprint, formFields } from '@config';
+import { defaults, urlParams, formFields } from '@config';
 import querystring from 'querystring';
 import { isString, isFunction, isRegExp, isBoolean, isPlainObject } from 'lodash';
 import { cache } from '@app';
@@ -138,7 +138,7 @@ export default function() {
       formattedState.zipCode = currentLocation.zipCode;
       formattedState.city = currentLocation.city;
     } else {
-      if (zipCodes && footprint) {
+      if (zipCodes) {
         const [city, state] = zipCodes[formattedState.zipCode] ?? [];
 
         if (city && state && isInFootprint(state)) {

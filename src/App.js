@@ -62,7 +62,6 @@ export default function App() {
           if (zipCode) {
             const zipCodes = cache.get(keys.ZIP_CODES, {});
             const [city] = zipCodes[zipCode] ?? [];
-            console.log(isInFootprint(zipCode))
             
             if (isInFootprint(zipCode)) {
               const currentLocation = { zipCode, city };
