@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import styles from './Product.module.scss';
+import { colors } from '@config';
 
 export default memo(function Product({ term, isAdjustable, isLoading }) {
   if (!term) {
@@ -44,12 +45,3 @@ export default memo(function Product({ term, isAdjustable, isLoading }) {
     </div>
   );
 });
-
-const colors = {
-  '10': { main: '#92C2DA', text: '#47788E' },
-  '15': { main: '#116A7F', text: '#006076' },
-  '30': { main: '#E36F2B', text: '#99491A' },
-  '5/1': { main: '#219D9F', text: '#007173' },
-  '7/1': { main: '#F0B023', text: '#9F6F00' },
-  default: { main: '#a9a9a9', text: '#8c8c8c' }
-};

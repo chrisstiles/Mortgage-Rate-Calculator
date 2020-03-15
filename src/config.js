@@ -73,6 +73,17 @@ module.exports = {
 
   /*-- UI Options --*/
 
+  // Colors associated with each different product type.
+  // These are used in rate table and filters
+  "colors": {
+    "10": { main: "#92C2DA", text: "#47788E" },
+    "15": { main: "#116A7F", text: "#006076" },
+    "30": { main: "#E36F2B", text: "#99491A" },
+    "5/1": { main: "#219D9F", text: "#007173" },
+    "7/1": { main: "#F0B023", text: "#9F6F00" },
+    "default": { main: "#a9a9a9", text: "#8c8c8c" }
+  },
+
   // Switches either purchase or refinance (whichever is default)
   // to display as the first tab on the left.
   "displayDefaultTabFirst": true,
