@@ -19,10 +19,11 @@
 
   label {
     line-height:1;
+    font-size:13px;
   }
 }
 
-@mixin addDelay($baseDelay: 0, $delay: 80) {
+@mixin addDelay($baseDelay: 0, $delay: 60) {
   @for $i from 1 through 7 {
 
     &:nth-child(#{$i}) {
@@ -33,7 +34,7 @@
 
 .inner {
   overflow:hidden;
-  padding:30px 28px;
+  padding:25px 25px 28px 25px;
 }
 
 .row {
@@ -49,9 +50,9 @@
     width:100%;
     flex-grow:1;
     margin-right:15px;
-    transform:translateY(100px);
+    transform:translateY(50px);
     opacity:0;
-    transition: all .5s cubic-bezier(.29, .02, .31, 1);
+    transition: all .4s cubic-bezier(.29, .02, .31, 1);
     transition-property: opacity, transform !important;
     will-change: transition, opacity;
 
