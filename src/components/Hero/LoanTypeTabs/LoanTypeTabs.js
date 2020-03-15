@@ -7,6 +7,7 @@ import config from '@config';
 
 export default memo(function LoanTypeTabs({
   loanType,
+  isLoading,
   setState
 }) {
   const purchaseIsActive = loanType === 'purchase';
@@ -22,7 +23,9 @@ export default memo(function LoanTypeTabs({
   });
 
   const setLoanType = loanType => {
-    setState({ loanType });
+    if (!isLoading) {
+      setState({ loanType });
+    }
   };
 
   const purchase = (
@@ -58,7 +61,11 @@ export default memo(function LoanTypeTabs({
   return (
     <div className={styles.wrapper}>
       <Label>What type of loan are you looking for?</Label>
-      <div className={styles.tabWrapper}>
+      <div
+        className={classNames(styles.tabWrapper, {
+          [styles.loading]: isLoading
+        })}
+      >
         {tabs}
       </div>
     </div>

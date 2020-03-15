@@ -3,6 +3,7 @@
 /*---------------------------*/
 
 @import '@styles/colors';
+@import '@styles/mixins';
 
 .wrapper {
   width:100%;
@@ -12,11 +13,16 @@
 }
 
 .tabWrapper {
+  @include noSelect;
   flex-grow:1;
   width:100%;
   display:flex;
   position:relative;
   border: 3px solid $teal;
+
+  &.loading {
+    pointer-events:none;
+  }
 }
 
 .tab {

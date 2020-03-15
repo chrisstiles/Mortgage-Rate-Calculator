@@ -94,6 +94,7 @@ export default memo(function Hero({
         <div className={styles.controlsWrapper}>
           <LoanTypeTabs
             loanType={state.loanType}
+            isLoading={isLoading}
             setState={setState}
           />
           <Assumptions
