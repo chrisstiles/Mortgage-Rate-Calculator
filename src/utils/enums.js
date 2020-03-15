@@ -65,7 +65,7 @@ export const propertyTypes = Object.freeze({
 export const occupancyTypes = Object.freeze({
   OWNER_OCCUPIED: { value: 'ownerOccupied', label: 'Owner occupied' },
   SECOND_HOME: { value: 'secondHome', label: 'Second home' },
-  INVESTMENT: { value: 'investment', label: 'Investment property' }
+  INVESTMENT: { value: 'investment', label: 'Investment' }
 });
 
 // The columns and order user can

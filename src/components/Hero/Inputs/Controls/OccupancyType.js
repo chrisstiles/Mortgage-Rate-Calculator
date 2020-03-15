@@ -7,10 +7,10 @@ const options = Object.values(occupancyTypes);
 function OccupancyType(props) {
   return (
     <Select
-      label="Property Type"
-      placeholder="Property Type"
+      label="Occupancy Type"
+      placeholder="Occupancy Type"
       name={keys.OCCUPANCY_TYPE}
-      maxWidth={190}
+      maxWidth={160}
       options={options}
       {...props}
     />
