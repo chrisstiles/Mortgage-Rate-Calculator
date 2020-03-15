@@ -83,7 +83,7 @@ export default memo(function Text({
       props.allowNegative = false;
       props.decimalSeparator = false;
 
-      const insetLeft = props.insetLeft ?? 32;
+      const insetLeft = props.insetLeft ?? 30;
       props.style = { ...props.style, paddingLeft: insetLeft };
     }
 

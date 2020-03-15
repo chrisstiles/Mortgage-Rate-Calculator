@@ -11,7 +11,7 @@ function HomeValue(props) {
       label={text}
       placeholder={text}
       name={keys.HOME_VALUE}
-      maxWidth={180}
+      maxWidth={145}
       isCurrency
       {...props}
     />

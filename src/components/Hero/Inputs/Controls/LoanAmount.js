@@ -10,7 +10,7 @@ function LoanAmount(props) {
       label="Loan Amount"
       placeholder="Loan Amount"
       name={keys.LOAN_AMOUNT}
-      maxWidth={180}
+      maxWidth={145}
       hasError={props.hasError}
       isCurrency
       {...props}

@@ -12,7 +12,7 @@ function ZipCode(props) {
       name={keys.ZIP_CODE}
       format="#####"
       hasError={props.hasError}
-      maxWidth={100}
+      maxWidth={87}
       {...props}
     />
   );

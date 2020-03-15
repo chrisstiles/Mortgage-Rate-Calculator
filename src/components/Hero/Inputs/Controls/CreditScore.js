@@ -10,7 +10,7 @@ function CreditScore(props) {
       label="Credit Score"
       placeholder="Credit Score"
       name={keys.CREDIT_SCORE}
-      maxWidth={170}
+      maxWidth={160}
       options={options}
       {...props}
     />
