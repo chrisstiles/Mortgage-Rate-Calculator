@@ -1,10 +1,12 @@
 import React, { useState, memo, useEffect } from 'react';
 import Header from './Header';
 import RateTable from './RateTable';
+import LoadingBar from './LoadingBar';
 import styles from './Content.module.scss';
 import classNames from 'classnames';
 
 export default memo(function ContentWrapper({
+  isLoading,
   controlsHeight,
   loanType
 }) {
@@ -32,16 +34,28 @@ export default memo(function ContentWrapper({
       <Content
         loanType={loanType}
         shiftY={-shiftY}
+        isLoading={isLoading}
       />
     </div>
   );
 });
 
-const Content = memo(({ loanType, shiftY }) => {
+const Content = memo(({ loanType, shiftY, isLoading }) => {
   return (
-    <div className={styles.content}>
-      <Header loanType={loanType} />
-      <RateTable shiftY={shiftY} />
+    <div
+      className={classNames(styles.content, {
+        [styles.loading]: isLoading
+      })}
+    >
+      {isLoading && <LoadingBar />}
+      <Header
+        loanType={loanType}
+        isLoading={isLoading}
+      />
+      <RateTable
+        shiftY={shiftY}
+        isLoading={isLoading}
+      />
     </div>
   );
 });

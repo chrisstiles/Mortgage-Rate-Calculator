@@ -9,6 +9,13 @@
   text-align:center;
   width:100%;
   table-layout:fixed;
+
+  &.loading {
+    @include noSelect;
+    pointer-events:none;
+    opacity:.3;
+    filter: grayscale(1);
+  }
 }
 
 .header,
@@ -54,6 +61,7 @@
     background-color:#FCFCFC;
   }
 }
+
 
 /*---------------------------*/
 /* Header */

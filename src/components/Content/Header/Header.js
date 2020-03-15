@@ -3,12 +3,13 @@ import { Rate, Chat, Filter, Bell } from './icons';
 import { Button } from '@input';
 import styles from './Header.module.scss';
 import { upperFirst } from 'lodash';
+import classNames from 'classnames';
 
-export default function Header({ loanType }) {
+export default function Header({ loanType, isLoading }) {
   return (
     <div className={styles.wrapper}>
       <Top loanType={loanType} />
-      <Middle />
+      <Middle isLoading={isLoading} />
     </div>
   );
 }
@@ -40,9 +41,13 @@ function Top({ loanType }) {
   );
 }
 
-function Middle() {
+function Middle({ isLoading }) {
   return (
-    <div className={styles.middle}>
+    <div
+      className={classNames(styles.middle, {
+        [styles.loading]: isLoading
+      })}
+    >
       <Button
         theme="minimal"
         fontSize={16}

@@ -2,6 +2,8 @@
 /* Content Header */
 /*---------------------------*/
 
+@import '@styles/mixins';
+
 .wrapper {
   padding:35px 35px 22px 35px;
 }
@@ -82,4 +84,12 @@
 
 .filterButton {
   margin-left:-15px;
+}
+
+.loading {
+  .filterButton {
+    @include noSelect;
+    opacity:.3;
+    pointer-events:none;
+  }
 }

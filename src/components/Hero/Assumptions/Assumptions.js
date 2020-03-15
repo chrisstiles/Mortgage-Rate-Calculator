@@ -35,9 +35,11 @@ export default memo(function Assumptions({
   });
 
   const handleClick = () => {
-    setPulseIsVisible(false);
-    setCanShowTooltip(false);
-    setTimeout(() => onClick(), 0);
+    if (!isLoading) {
+      setPulseIsVisible(false);
+      setCanShowTooltip(false);
+      setTimeout(() => onClick(), 0);
+    }
   };
 
   const pulseProps = {
@@ -62,26 +64,36 @@ export default memo(function Assumptions({
     setTimeout(updateTooltip, 500)
   }, [controlsOpen, errors, updateTooltip]);
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     if (!canShowTooltip) {
       setCanShowTooltip(true);
     }
-  };
+  }, [canShowTooltip, setCanShowTooltip]);
+
+  const handleKeyDown = useCallback(e => {
+    // Ignore space bar clicks
+    if (e.key === ' ') {
+      e.preventDefault();
+    }
+  }, []);
 
   return (
     <Tooltip
       text={tooltipText}
       className={classNames(styles.wrapper, {
         [styles.open]: controlsOpen,
-        [styles.hasError]: errors.length
+        [styles.hasError]: errors.length,
       })}
-      forceHidden={!canShowTooltip}
+      forceHidden={!canShowTooltip || isLoading}
       onMouseLeave={handleMouseLeave}
     >
       <Label>Get personalized rates by letting us know a little about your loan.</Label>
       <button
-        className={styles.button}
+        className={classNames(styles.button, {
+          [styles.loading]: isLoading
+        })}
         onClick={handleClick}
+        onKeyDown={handleKeyDown}
       >
         <AssumptionsText
           state={state}

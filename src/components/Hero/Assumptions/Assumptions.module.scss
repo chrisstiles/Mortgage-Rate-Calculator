@@ -3,6 +3,7 @@
 /*---------------------------*/
 
 @import '@styles/colors';
+@import '@styles/mixins';
 
 .wrapper {
   width:100%;
@@ -21,7 +22,7 @@
   line-height:1;
   position:relative;
 
-  &:hover {
+  &:hover:not(.loading) {
     background-color:#f1f1f1;
   }
 
@@ -32,12 +33,17 @@
       box-shadow: 0 0 0 2px rgba(25, 58, 60, 0.7), 0 0 0 6px rgba(162, 237, 241, 0.3);
     }
   }
+
+  &.loading {
+    @include noSelect;
+    pointer-events:none;
+    cursor:default;
+  }
 }
 
 .content {
   position:relative;
   z-index: 100;
-  // min-height:46px;
   height:50px;
   overflow:hidden;
 

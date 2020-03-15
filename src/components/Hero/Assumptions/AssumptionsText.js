@@ -25,12 +25,13 @@ export default memo(function AssumptionsText({
       className={styles.content}
       tabIndex="-1"
     >
-      {isLoading ?
+      {isLoading || !hasInitialLocation ?
         <BoxText
           icon={
             <Spinner
               size={16}
               singleColor="#383838"
+              duration={1200}
             />
           }
         />

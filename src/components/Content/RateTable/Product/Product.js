@@ -1,12 +1,12 @@
 import React, { memo } from 'react';
 import styles from './Product.module.scss';
 
-export default memo(function Product({ term, isAdjustable }) {
+export default memo(function Product({ term, isAdjustable, isLoading }) {
   if (!term) {
     return null;
   }
 
-  const { main, text } = colors[term] ?? colors.default;
+  const { main, text } = isLoading ? colors['15'] : colors[term] ?? colors.default;
   term = [String(term)];
 
   if (isAdjustable === undefined) {

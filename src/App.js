@@ -18,7 +18,7 @@ export default function App() {
     return !!(initialState.userSetLocation || cache.getSession(keys.CURRENT_LOCATION));
   });
 
-  const [isLoading, setIsLoading] = useState(!hasInitialLocation);
+  const [isLoading, setIsLoading] = useState(true);
   const setState = useCallback((value, name) => {
     _setState(state => {
       const newState = getState(state, value, name);
@@ -77,7 +77,7 @@ export default function App() {
         } catch (error) {
           console.log(error)
         } finally {
-          setIsLoading(false);
+          // setIsLoading(false);
           setHasInitialLocation(true);
         }
       };
@@ -85,6 +85,13 @@ export default function App() {
       getUserLocation();
     }
   }, [setState]);
+
+  // Loading placeholder
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  }, []);
 
   return (
     <div className={controlsOpen ? 'controlsOpen' : 'controlsClosed'}>
@@ -100,6 +107,7 @@ export default function App() {
         setControlsHeight={setControlsHeight}
       />
       <Content
+        isLoading={isLoading}
         controlsHeight={controlsHeight}
         loanType={state.loanType}
       />

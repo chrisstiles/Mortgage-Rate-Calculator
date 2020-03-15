@@ -39,7 +39,24 @@
   margin: 0 auto -140px auto;
   background-color:#fff;
   position:relative;
-  top:-140px;
-  border-radius:4px;
+  top:-134px;
+  border-radius:0 0 4px 4px;
   box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.03), 0px 1px 4px rgba(0, 0, 0, 0.04);
+
+  &:before {
+    content:"";
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:6px;
+    top:-6px;
+    border-top-left-radius: 4px;
+    border-top-right-radius:4px;
+    background-color:#fff;
+  }
+
+  &.loading:before {
+    display:none;
+  }
 }

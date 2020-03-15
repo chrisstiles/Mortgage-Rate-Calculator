@@ -9,8 +9,9 @@ import { orderBy, findKey } from 'lodash';
 import config from '@config';
 import { sort, keys } from '@enums';
 import { cache } from '@app';
+import classNames from 'classnames';
 
-export default memo(function RateTable({ shiftY }) {
+export default memo(function RateTable({ shiftY, isLoading }) {
   const [sortState, setSortState] = useState(() => {
     let { by, order, key } = cache.get(keys.SORT_STATE, {})
 
@@ -123,6 +124,7 @@ export default memo(function RateTable({ shiftY }) {
           <Product
             term={item.term}
             type={item.type}
+            isLoading={isLoading}
           />
         </Cell>
         <Cell hasBadge={item.isMinRate}>
@@ -143,10 +145,14 @@ export default memo(function RateTable({ shiftY }) {
         </Cell>
       </Row>
     ));
-  }, [filteredRows]);
+  }, [filteredRows, isLoading]);
 
   return (
-    <div className={styles.wrapper}>
+    <div
+      className={classNames(styles.wrapper, {
+        [styles.loading]: isLoading
+      })}
+    >
       <Header
         shiftY={shiftY}
         sortState={sortState}
