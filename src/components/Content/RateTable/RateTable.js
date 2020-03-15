@@ -135,7 +135,10 @@ export default memo(function RateTable({ shiftY, isLoading }) {
           />
         </Cell>
         <Cell>
-          <Currency amount={item.closingCosts} />
+          <Currency
+            amount={item.closingCosts}
+            isClosingCosts
+          />
         </Cell>
         <Cell hasBadge={item.isMinPayment}>
           <Currency

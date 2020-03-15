@@ -64,7 +64,7 @@ module.exports = {
   // Max and minimum number of decimals on the rate and APR. For example:
   // minDecimals: 2 => 3.25%, minDecimals: 3 => 3.250%
   // maxDecimals: 3 => 3.325%, maxDecimals: 2 => 3.33%
-  "minDecimals": 2,
+  "minDecimals": 3,
   "maxDecimals": 3,
 
   // Maximum and minimum loan amounts
