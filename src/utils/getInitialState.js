@@ -3,7 +3,7 @@ import querystring from 'querystring';
 import { isString, isFunction, isRegExp, isBoolean, isPlainObject } from 'lodash';
 import { cache } from '@app';
 import { isInFootprint } from '@helpers';
-import { keys, creditScoreRanges, propertyTypes } from './enums';
+import { keys, creditScoreRanges, propertyTypes, occupancyTypes } from './enums';
 
 // This object defines the shape of our shape object.
 
@@ -56,6 +56,12 @@ const state = {
     defaultValue: defaults.propertyType,
     validate: v => {
       return Object.values(propertyTypes).find(({ value }) => value === v);
+    }
+  },
+  [keys.OCCUPANCY_TYPE]: {
+    defaultValue: defaults.occupancyType,
+    validate: v => {
+      return Object.values(occupancyTypes).find(({ value }) => value === v);
     }
   },
   [keys.USER_SET_LOCATION]: {

@@ -6,6 +6,7 @@ import HomeValue from './HomeValue';
 import LoanAmount from './LoanAmount';
 import CreditScore from './CreditScore';
 import PropertyType from './PropertyType';
+import OccupancyType from './OccupancyType';
 import { isFunction } from 'lodash';
 
 /*
@@ -122,5 +123,6 @@ const controls = {
   [field.ZIP_CODE]: ZipCode,
   [field.HOME_VALUE]: HomeValue,
   [field.CREDIT_SCORE]: CreditScore,
-  [field.PROPERTY_TYPE]: PropertyType
+  [field.PROPERTY_TYPE]: PropertyType,
+  [field.OCCUPANCY_TYPE]: OccupancyType
 };

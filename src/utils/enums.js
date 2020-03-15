@@ -10,6 +10,7 @@ export const keys = Object.freeze({
   LOAN_SIZE: 'loanSize',
   LOAN_STATE: 'loanState',
   LOAN_TYPE: 'loanType',
+  OCCUPANCY_TYPE: 'occupancyType',
   PROPERTY_TYPE: 'propertyType',
   SORT_STATE: 'sortState',
   STATE: 'state',
@@ -25,6 +26,7 @@ export const field = Object.freeze({
   HOME_VALUE: keys.HOME_VALUE,
   LOAN_TYPE: keys.LOAN_TYPE,
   LOAN_AMOUNT: keys.LOAN_AMOUNT,
+  OCCUPANCY_TYPE: keys.OCCUPANCY_TYPE,
   PROPERTY_TYPE: keys.PROPERTY_TYPE,
   ZIP_CODE: keys.ZIP_CODE
 });
@@ -58,6 +60,12 @@ export const propertyTypes = Object.freeze({
   CONDO: { value: 'condo', label: 'Condo' },
   MULTI_UNIT: { value: 'multiUnit', label: '2-4 Unit' },
   MANUFACTURED: { value: 'manufacturedHome', label: 'Manufactured home' }
+});
+
+export const occupancyTypes = Object.freeze({
+  OWNER_OCCUPIED: { value: 'ownerOccupied', label: 'Owner occupied' },
+  SECOND_HOME: { value: 'secondHome', label: 'Second home' },
+  INVESTMENT: { value: 'investment', label: 'Investment property' }
 });
 
 // The columns and order user can

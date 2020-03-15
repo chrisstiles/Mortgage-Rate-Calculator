@@ -3,7 +3,8 @@ const {
   sort,
   keys,
   creditScoreRanges,
-  propertyTypes
+  propertyTypes,
+  occupancyTypes
 } = require('@enums');
 
 module.exports = {
@@ -18,7 +19,8 @@ module.exports = {
     field.HOME_VALUE,
     field.ZIP_CODE,
     field.CREDIT_SCORE,
-    field.PROPERTY_TYPE
+    field.PROPERTY_TYPE,
+    field.OCCUPANCY_TYPE
   ],
 
   /*-- Values --*/
@@ -32,7 +34,8 @@ module.exports = {
     [keys.PROPERTY_TYPE]: propertyTypes.SFR.value,
     [keys.LOAN_AMOUNT]: 400000,
     [keys.STATE]: "CA",
-    [keys.ZIP_CODE]: "94538"
+    [keys.ZIP_CODE]: "94538",
+    [keys.OCCUPANCY_TYPE]: occupancyTypes.OWNER_OCCUPIED.value
   },
 
   /*-- URL Parameters --*/
