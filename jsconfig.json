@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "target": "es6",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@conifig": ["config"],
+      "@components": ["components/*"],
+      "@enums": ["utils/enums"],
+      "@helpers": ["utils/helpers"],
+      "@hooks": ["utils/hooks/*"],
+      "@inputs": ["utils/inputs"],
+      "@styles": ["styles/*"],
+    }
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
