@@ -137,6 +137,10 @@
     width:1px;
     background-color:#D6D6D6;
   }
+
+  &.loading {
+    opacity:.3;
+  }
 }
 
 .arrow {

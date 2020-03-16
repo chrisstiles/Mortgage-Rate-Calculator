@@ -58,7 +58,11 @@ export default memo(function AssumptionsText({
           />
         </React.Fragment>
       }
-      <div className={styles.arrowWrapper}>
+      <div
+        className={classNames(styles.arrowWrapper, {
+          [styles.loading]: isLoading
+        })}
+      >
         <div className={classNames(styles.arrow, styles.down)}>
           <Arrow />
         </div>
