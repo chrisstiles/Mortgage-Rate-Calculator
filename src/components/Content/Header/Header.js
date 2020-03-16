@@ -4,17 +4,24 @@ import { Button } from '@input';
 import styles from './Header.module.scss';
 import { upperFirst } from 'lodash';
 import classNames from 'classnames';
+import { format } from 'fecha';
 
-export default function Header({ loanType, isLoading }) {
+export default function Header({ loanType, isLoading, effectiveDate }) {
   return (
     <div className={styles.wrapper}>
-      <Top loanType={loanType} />
+      <Top
+        loanType={loanType}
+        effectiveDate={effectiveDate}
+      />
       <Middle isLoading={isLoading} />
     </div>
   );
 }
 
-function Top({ loanType }) {
+function Top({ loanType, effectiveDate }) {
+  const dateString = effectiveDate ? format(effectiveDate, 'MMMM Do, YYYY') : null;
+  const timeString = effectiveDate ? format(effectiveDate, 'hh:mm A') : null;
+
   return (
     <div className={styles.top}>
       <Rate className={styles.rateIcon} />
@@ -22,8 +29,12 @@ function Top({ loanType }) {
         <div className={styles.title}>
           {upperFirst(loanType)} Mortgage Rates
         </div>
-        <div className={styles.subtitle}>
-          Effective as of February 4, 2019 at 3:50 PM
+        <div
+          className={classNames(styles.subtitle, {
+            [styles.hidden]: !effectiveDate
+          })}
+        >
+          Effective as of {dateString} at {timeString}
         </div>
       </div>
       <div className={styles.chat}>

@@ -48,6 +48,10 @@
 
   .subtitle {
     font-size:11px;
+    
+    &.hidden {
+      opacity: 0;
+    }
   }
 }
 

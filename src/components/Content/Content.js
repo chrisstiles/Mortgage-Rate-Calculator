@@ -8,6 +8,7 @@ import classNames from 'classnames';
 export default memo(function ContentWrapper({
   isLoading,
   controlsHeight,
+  effectiveDate,
   loanType
 }) {
   const shiftY = controlsHeight ?? 0;
@@ -34,13 +35,14 @@ export default memo(function ContentWrapper({
       <Content
         loanType={loanType}
         shiftY={-shiftY}
+        effectiveDate={effectiveDate}
         isLoading={isLoading}
       />
     </div>
   );
 });
 
-const Content = memo(({ loanType, shiftY, isLoading }) => {
+const Content = memo(({ loanType, shiftY, isLoading, effectiveDate }) => {
   return (
     <div
       className={classNames(styles.content, {
@@ -51,6 +53,7 @@ const Content = memo(({ loanType, shiftY, isLoading }) => {
       <Header
         loanType={loanType}
         isLoading={isLoading}
+        effectiveDate={effectiveDate}
       />
       <RateTable
         shiftY={shiftY}

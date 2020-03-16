@@ -5,7 +5,6 @@ import getInitialState from '@utils/getInitialState';
 import { keys } from '@enums';
 import CacheService from '@utils/CacheService';
 import { getState, isInFootprint, compareObjects } from '@helpers';
-import { isEqual } from 'lodash';
 
 const cache = new CacheService();
 const initialState = getInitialState();
@@ -18,7 +17,7 @@ export default function App() {
   const [hasInitialLocation, setHasInitialLocation] = useState(() => {
     return !!(initialState.userSetLocation || cache.getSession(keys.CURRENT_LOCATION));
   });
-
+  const [effectiveDate, setEffectiveDate] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const prevState = useRef(null);
   const fetchRates = useCallback(async state => {
@@ -26,7 +25,10 @@ export default function App() {
 
     if (!prevState.current || !compareObjects(state, prevState.current, stateKeys)) {
       setIsLoading(true);
-      setTimeout(() => setIsLoading(false), 1500);
+      setTimeout(() => {
+        setEffectiveDate(new Date());
+        setIsLoading(false);
+      }, 2000);
     }
 
     prevState.current = state;
@@ -135,6 +137,7 @@ export default function App() {
       <Content
         isLoading={isLoading}
         controlsHeight={controlsHeight}
+        effectiveDate={effectiveDate}
         loanType={state.loanType}
       />
     </div>
