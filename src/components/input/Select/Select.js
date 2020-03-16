@@ -69,7 +69,10 @@ export default function Select({
 
   useEscapeKey(close);
   useEvent('visibilitychange', close);
-  useEvent('blur', window, close);
+  useEvent('blur', window, () => {
+    ref.current.blur();
+    close();
+  });
 
   const handleKeyDown = useCallback(e => {
     if (e.key === 'Tab') {
@@ -112,7 +115,11 @@ export default function Select({
         })}
         tabIndex={tabIndex}
         onMouseDown={open}
-        onFocus={open}
+        onFocus={() => {
+          if (!isOpen) {
+            open();
+          }
+        }}
         onBlur={() => onBlur(valueRef.current, name)}
         onKeyDown={handleKeyDown}
       >
