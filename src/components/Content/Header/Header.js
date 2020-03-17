@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Rate, Chat, Filter, Bell } from './icons';
+import Filters from './Filters';
 import { Button } from '@input';
 import styles from './Header.module.scss';
 import { upperFirst } from 'lodash';
@@ -7,14 +8,27 @@ import classNames from 'classnames';
 import { format } from 'fecha';
 
 export default function Header({ loanType, isLoading, effectiveDate }) {
+  const [filtersOpen, setFiltersOpen] = useState(false);
+
   return (
-    <div className={styles.wrapper}>
-      <Top
-        loanType={loanType}
-        effectiveDate={effectiveDate}
-      />
-      <Middle isLoading={isLoading} />
-    </div>
+    <React.Fragment>
+      <div className={styles.wrapper}>
+        <Top
+          loanType={loanType}
+          effectiveDate={effectiveDate}
+        />
+        <Middle
+          isLoading={isLoading}
+          filtersOpen={filtersOpen}
+          setFiltersOpen={setFiltersOpen}
+        />
+      </div>
+      {filtersOpen &&
+        <Filters
+          setFiltersOpen={setFiltersOpen}
+        />
+      }
+    </React.Fragment>
   );
 }
 
@@ -52,7 +66,7 @@ function Top({ loanType, effectiveDate }) {
   );
 }
 
-function Middle({ isLoading }) {
+function Middle({ isLoading, filtersOpen, setFiltersOpen }) {
   return (
     <div
       className={classNames(styles.middle, {
@@ -62,7 +76,10 @@ function Middle({ isLoading }) {
       <Button
         theme="minimal"
         fontSize={16}
-        className={styles.filterButton}
+        className={classNames(styles.filterButton, {
+          [styles.active]: filtersOpen
+        })}
+        onClick={() => setFiltersOpen(!filtersOpen)}
       >
         <Filter />
         Filter Rates and Products

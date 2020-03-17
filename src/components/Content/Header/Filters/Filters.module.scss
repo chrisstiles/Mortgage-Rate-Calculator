@@ -1,0 +1,43 @@
+/*---------------------------*/
+/* Filters */
+/*---------------------------*/
+
+.wrapper {
+  height:150px;
+  background-color:rgba(#fafafa, .5);
+  position:relative;
+  overflow:hidden;
+  border-top:1px solid #e6e6e6;
+  padding:35px;
+
+  &:before,
+  &:after {
+    content:"";
+    position:absolute;
+    pointer-events:none;
+    z-index: 300;
+    left:-5px;
+    right:-5px;
+    height:1px;
+  }
+
+  &:before {
+    top:-1px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  &:after {
+    bottom:-1px;
+    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.05);
+  }
+}
+
+.close {
+  position:absolute !important;
+  top:20px;
+  right:20px;
+
+  &:hover {
+    background-color:#f1f1f1 !important;
+  }
+}

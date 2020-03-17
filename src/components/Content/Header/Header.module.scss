@@ -3,6 +3,7 @@
 /*---------------------------*/
 
 @import '@styles/mixins';
+@import '@styles/colors';
 
 .wrapper {
   padding:29px 35px 22px 35px;
@@ -88,6 +89,13 @@
 
 .filterButton {
   margin-left:-15px;
+
+  &.active {
+    svg,
+    path {
+      fill: $teal;
+    }
+  }
 }
 
 .loading {
