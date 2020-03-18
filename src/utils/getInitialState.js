@@ -26,7 +26,8 @@ const state = {
   [keys.CITY]: {
     defaultValue: defaults.city,
     validate: isString,
-    transform: c => c.trim()
+    transform: c => c.trim(),
+    hasFormField: false
   },
   [keys.CREDIT_SCORE]: {
     defaultValue: defaults.creditScore,
@@ -44,7 +45,8 @@ const state = {
   [keys.LOAN_TYPE]: {
     defaultValue: defaults.loanType,
     validate: urlParams.loanType,
-    transform: t => t.toLowerCase()
+    transform: t => t.toLowerCase(),
+    hasFormField: false
   },
   [keys.LOAN_AMOUNT]: {
     defaultValue: defaults.loanAmount,
@@ -66,11 +68,13 @@ const state = {
   },
   [keys.USER_SET_LOCATION]: {
     defaultValue: false,
-    validate: isBoolean
+    validate: isBoolean,
+    hasFormField: false
   },
   [keys.ZIP_CODE]: {
     defaultValue: defaults.zipCode,
-    validate: /^\d{5}$/
+    validate: /^\d{5}$/,
+    hasFormField: false
   }
 };
 
@@ -96,7 +100,8 @@ export default function() {
       defaultValue = null,
       parameter = key,
       validate,
-      transform = v => v
+      transform = v => v,
+      hasFormField = true
     } = state[key];
     parameter = findParamKey(urlParams, parameter);
     const paramOptions = urlParams[parameter];
@@ -110,16 +115,16 @@ export default function() {
       validate = new RegExp(`^(${paramOptions.join('|')})$`, 'i');
     }
 
+    if (hasFormField && !formFields.includes(key)) {
+      formattedState[key] = isValid(validate, queryValue) ? queryValue : defaultValue;
+      return;
+    }
+
     const value = queryValue ?? cachedState[key] ?? defaultValue;
 
-    if (validate) {
-      if (
-        (isRegExp(validate) && !validate.test(value)) ||
-        (isFunction(validate) && !validate(value))
-      ) {
-        formattedState[key] = defaultValue;
-        return;
-      }
+    if (validate && !isValid(validate, value)) {
+      formattedState[key] = defaultValue;
+      return;
     }
 
     formattedState[key] = transform(value);
@@ -156,3 +161,10 @@ export default function() {
 
   return formattedState;
 };
+
+function isValid(validate, value) {
+  return (
+    (isRegExp(validate) && validate.test(value)) ||
+    (isFunction(validate) && validate(value))
+  );
+}
