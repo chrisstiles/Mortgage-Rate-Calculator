@@ -61,7 +61,7 @@ export default memo(function Assumptions({
   });
 
   useEffect(() => {
-    setTimeout(updateTooltip, 500)
+    setTimeout(updateTooltip, 300)
   }, [controlsOpen, errors, updateTooltip]);
 
   const handleMouseLeave = useCallback(() => {
@@ -120,7 +120,7 @@ function getTooltipText(controlsOpen, errors) {
   if (!controlsOpen) {
     return 'Edit your loan\'s details';
   } else if (errors?.length) {
-    return 'Please fix the errors to save loan assumptions';
+    return 'Fields with errors will revert to default values';
   }
 
   return 'Save loan assumptions';

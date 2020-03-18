@@ -282,6 +282,10 @@
   .button {
     background-color:#fddfdf;
     color:#6d4a4a;
+
+    &:hover {
+      background-color:#f7d0d0;
+    }
   }
 
   .arrowWrapper {
