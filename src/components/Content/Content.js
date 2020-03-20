@@ -4,6 +4,7 @@ import RateTable from './RateTable';
 import LoadingBar from './LoadingBar';
 import styles from './Content.module.scss';
 import classNames from 'classnames';
+import sampleData from './RateTable/sample-data.json';
 
 export default memo(function ContentWrapper({
   isLoading,
@@ -51,11 +52,13 @@ const Content = memo(({ loanType, shiftY, isLoading, effectiveDate }) => {
     >
       {isLoading && <LoadingBar />}
       <Header
+        data={sampleData}
         loanType={loanType}
         isLoading={isLoading}
         effectiveDate={effectiveDate}
       />
       <RateTable
+        data={sampleData}
         shiftY={shiftY}
         isLoading={isLoading}
       />

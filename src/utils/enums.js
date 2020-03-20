@@ -4,6 +4,7 @@ export const keys = Object.freeze({
   CURRENT_LOCATION: 'currentLocation',
   CITY: 'city',
   CREDIT_SCORE: 'creditScore',
+  FILTER_STATE: 'filterState',
   HAS_VISITED: 'hasVisited',
   HOME_VALUE: 'homeValue',
   LOAN_AMOUNT: 'loanAmount',

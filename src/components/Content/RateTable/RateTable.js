@@ -4,16 +4,15 @@ import Product from './Product';
 import Rate from './Rate';
 import Currency from './Currency';
 import styles from './RateTable.module.scss';
-import sampleData from './sample-data.json';
 import { orderBy, findKey } from 'lodash';
 import config from '@config';
 import { sort, keys } from '@enums';
 import { cache } from '@app';
 import classNames from 'classnames';
 
-export default memo(function RateTable({ shiftY, isLoading }) {
+export default memo(function RateTable({ data, shiftY, isLoading }) {
   const [sortState, setSortState] = useState(() => {
-    let { by, order, key } = cache.get(keys.SORT_STATE, {})
+    let { by, order, key } = cache.get(keys.SORT_STATE, {});
 
     if (!key || !sort.by[key]) {
       key = findSortKey(config.sortBy);
@@ -49,7 +48,7 @@ export default memo(function RateTable({ shiftY, isLoading }) {
   }, []);
 
   const filteredRows = useMemo(() => {
-    if (!sampleData?.length) {
+    if (!data?.length) {
       return null;
     }
 
@@ -61,7 +60,7 @@ export default memo(function RateTable({ shiftY, isLoading }) {
       orderArr.push(sortState.order);
     }
 
-    const rows = orderBy(sampleData, byArr, orderArr);
+    const rows = orderBy(data, byArr, orderArr);
 
     // Find the minimum rates and payments to highlight
     // on rate table. If 2 products share the sample lowest
@@ -111,10 +110,10 @@ export default memo(function RateTable({ shiftY, isLoading }) {
     });
 
     return rows;
-  }, [sortState]);
+  }, [sortState, data]);
 
   const components = useMemo(() => {
-    if (!sampleData?.length) {
+    if (!data?.length) {
       return null;
     }
 
@@ -148,7 +147,7 @@ export default memo(function RateTable({ shiftY, isLoading }) {
         </Cell>
       </Row>
     ));
-  }, [filteredRows, isLoading]);
+  }, [filteredRows, isLoading, data]);
 
   return (
     <div

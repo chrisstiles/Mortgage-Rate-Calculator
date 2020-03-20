@@ -23,11 +23,10 @@ export default function Header({ loanType, isLoading, effectiveDate }) {
           setFiltersOpen={setFiltersOpen}
         />
       </div>
-      {filtersOpen &&
-        <Filters
-          setFiltersOpen={setFiltersOpen}
-        />
-      }
+      <Filters
+        filtersOpen={filtersOpen}
+        setFiltersOpen={setFiltersOpen}
+      />
     </React.Fragment>
   );
 }
