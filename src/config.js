@@ -30,12 +30,12 @@ module.exports = {
     [keys.CITY]: "Fremont",
     [keys.CREDIT_SCORE]: creditScoreRanges.EXCELLENT.value,
     [keys.HOME_VALUE]: 500000,
-    [keys.LOAN_TYPE]: "purchase",
-    [keys.PROPERTY_TYPE]: propertyTypes.SFR.value,
     [keys.LOAN_AMOUNT]: 400000,
+    [keys.LOAN_TYPE]: "purchase",
+    [keys.OCCUPANCY_TYPE]: occupancyTypes.OWNER_OCCUPIED.value,
+    [keys.PROPERTY_TYPE]: propertyTypes.SFR.value,
     [keys.STATE]: "CA",
-    [keys.ZIP_CODE]: "94538",
-    [keys.OCCUPANCY_TYPE]: occupancyTypes.OWNER_OCCUPIED.value
+    [keys.ZIP_CODE]: "94538"
   },
 
   /*-- URL Parameters --*/
