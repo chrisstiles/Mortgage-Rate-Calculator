@@ -34,7 +34,7 @@ export default function Header({ data, loanType, isLoading, effectiveDate }) {
 
 function Top({ loanType, effectiveDate }) {
   const dateString = effectiveDate ? format(effectiveDate, 'MMMM Do, YYYY') : null;
-  const timeString = effectiveDate ? format(effectiveDate, 'hh:mm A') : null;
+  const timeString = effectiveDate ? format(effectiveDate, 'h:mm A') : null;
 
   return (
     <div className={styles.top}>
