@@ -7,7 +7,7 @@ import { upperFirst } from 'lodash';
 import classNames from 'classnames';
 import { format } from 'fecha';
 
-export default function Header({ loanType, isLoading, effectiveDate }) {
+export default function Header({ data, loanType, isLoading, effectiveDate }) {
   const [filtersOpen, setFiltersOpen] = useState(false);
 
   return (
@@ -24,6 +24,7 @@ export default function Header({ loanType, isLoading, effectiveDate }) {
         />
       </div>
       <Filters
+        data={data}
         filtersOpen={filtersOpen}
         setFiltersOpen={setFiltersOpen}
       />
