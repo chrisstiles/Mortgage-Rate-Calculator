@@ -1,14 +1,16 @@
 import React, { memo } from 'react';
 import { colors } from '@config';
 
-export default memo(function ProductFilter({ term, isActive = true }) {
+export default memo(function ProductFilter({ term, isActive = true, isDisabled }) {
   return (
     <div
       style={{
         color: '#fff',
         backgroundColor: colors[term]?.main ?? colors.default.main,
-        opacity: isActive ? null : .5,
-        filter: isActive ? null : 'grayscale(30%)',
+        opacity: isActive && !isDisabled ? null : .5,
+        filter: isActive && !isDisabled ? null : 'grayscale(30%)',
+        pointerEvents: !isDisabled ? null : 'none',
+        cursor: 'pointer',
         padding: '3px 8px',
         marginBottom: 10,
         borderRadius: 3,

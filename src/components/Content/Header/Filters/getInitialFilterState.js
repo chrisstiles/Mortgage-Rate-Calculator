@@ -37,8 +37,19 @@ const state = {
     validate: isBoolean
   },
   adjustable: {
-    defaultValue: false,
+    defaultValue: true,
     validate: isBoolean
+  },
+  products: {
+    defaultValue: [],
+    validate: Array.isArray,
+    transform: (products = []) => {
+      if (!Array.isArray(products)) {
+        products = [];
+      }
+
+      return products.map(String);
+    }
   },
   rate: getMinMax(),
   apr: getMinMax(),
@@ -57,7 +68,7 @@ export default function getInitialFilterState() {
     if (validate(cachedValue)) {
       formattedState[key] = transform ? transform(cachedValue) : cachedValue;
     } else {
-      formattedState[key] = defaultValue;
+      formattedState[key] = transform ? transform(defaultValue) : defaultValue;
     }
   });
 

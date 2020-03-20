@@ -17,30 +17,37 @@ export default memo(function Filters({ data, filtersOpen, setFiltersOpen }) {
     const fixed = [];
     const adjustable = [];
 
-    data.forEach(({ type, term }) => {
-      type = type.toLowerCase();
+    data.forEach(product => {
+      const type = product.type.toLowerCase();
+      const term = product.term.toLowerCase();
       
-      if (type === 'fixed' && !fixed.includes(term)) {
-        fixed.push(term);
-      } else if (type === 'adjustable' && !adjustable.includes(term)) {
-        adjustable.push(term);
+      if (type === 'fixed' && !fixed.find(p => p.term === term)) {
+        fixed.push(product);
+      } else if (type === 'adjustable' && !adjustable.find(p => p.term === term)) {
+        adjustable.push(product);
       }
     });
 
-    const createComponents = terms => {
-      return terms
-        .sort((a, b) => parseInt(a) - parseInt(b))
-        .map(term => (
-          <ProductFilter
-            key={term}
-            isActive={true}
-            term={term}
-          />
-        ));
+    const createComponents = products => {
+      return products
+        .sort((a, b) => parseInt(a.term) - parseInt(b.term))
+        .map(({ term, type }) => {
+          const isActive = !filterState.products?.includes(term);
+          const isDisabled = !!filterState[type];
+
+          return (
+            <ProductFilter
+              key={term}
+              isActive={isActive}
+              isDisabled={isDisabled}
+              term={term}
+            />
+          );
+        });
     }
 
     return [createComponents(fixed), createComponents(adjustable)];
-  }, [data]);
+  }, [data, filterState]);
 
   return !filtersOpen ? null : (
     <div className={styles.wrapper}>
