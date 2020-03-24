@@ -128,3 +128,13 @@ export function compareObjects(a, b, keys) {
 
   return isEqual(getObj(a), getObj(b));
 }
+
+export function call(thisOrMethod, methodOrArg, ...args) {
+  if (isFunction(thisOrMethod)) {
+    return thisOrMethod.apply(this, [methodOrArg, ...args]);
+  }
+
+  if (isFunction(methodOrArg)) {
+    return methodOrArg.apply(thisOrMethod, [...args]);
+  }
+}

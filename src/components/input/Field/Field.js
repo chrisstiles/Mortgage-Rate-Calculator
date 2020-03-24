@@ -13,7 +13,7 @@ export default function Field({
 }) {
   return (
     <div
-      className={classNames(styles.wrapper, className)}
+      className={classNames('fieldWrapper', styles.wrapper, className)}
       style={{ ...style, maxWidth }}
       {...restProps}
     >

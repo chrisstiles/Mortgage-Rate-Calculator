@@ -105,5 +105,9 @@ module.exports = {
   "pulseCount": 4,
 
   // Prevent the pulse from animating on subsequent visits
-  "hidePulseAfterFirstVisit": false
+  "hidePulseAfterFirstVisit": false,
+
+  // Window width that triggers mobile UI
+  // This can be changed from styles/variables.scss
+  "mobileSize": parseInt(require('@styles/variables.scss').mobileSize)
 };

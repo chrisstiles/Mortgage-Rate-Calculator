@@ -4,9 +4,9 @@ import { Label } from '@input';
 import Tooltip from '@components/Tooltip';
 import styles from './Assumptions.module.scss';
 import classNames from 'classnames';
-import { displayPulse, hidePulseAfterFirstVisit, pulseCount } from '@config';
 import { keys } from '@enums';
 import { cache } from '@app';
+import { displayPulse, hidePulseAfterFirstVisit, pulseCount } from '@config';
 
 export default memo(function Assumptions({
   state,
@@ -16,6 +16,7 @@ export default memo(function Assumptions({
   zipCodes,
   errors = [],
   controlsOpen,
+  isMobile,
   onClick
 }) {
   const [canShowTooltip, setCanShowTooltip] = useState(true);
@@ -84,7 +85,7 @@ export default memo(function Assumptions({
         [styles.open]: controlsOpen,
         [styles.hasError]: errors.length,
       })}
-      forceHidden={!canShowTooltip || isLoading}
+      forceHidden={!canShowTooltip || isLoading || isMobile}
       onMouseLeave={handleMouseLeave}
     >
       <Label>Get personalized rates by letting us know a little about your loan.</Label>
@@ -102,6 +103,7 @@ export default memo(function Assumptions({
           isLoading={isLoading}
           zipCodes={zipCodes}
           controlsOpen={controlsOpen}
+          isMobile={isMobile}
           hasInitialLocation={hasInitialLocation}
         />
         {pulseIsVisible && !controlsOpen && !isLoading &&

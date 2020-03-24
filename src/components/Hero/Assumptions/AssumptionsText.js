@@ -15,6 +15,7 @@ export default memo(function AssumptionsText({
   hasInitialLocation,
   zipCodes = {},
   errors = [],
+  isMobile,
   controlsOpen
 }) {
   const isLoading = _isLoading || !zipCodes || !hasInitialLocation;
@@ -40,22 +41,26 @@ export default memo(function AssumptionsText({
           <BoxText
             icon={<Home className={styles.home} />}
             text={getLoanText({ ...state, loanType }, zipCodes)}
-            isVisible={!controlsOpen && !hasError}
+            isVisible={isMobile || (!controlsOpen && !hasError)}
             transitionDirection="down"
           />
 
-          <BoxText
-            icon={<Gear className={styles.gear} />}
-            text="Enter your loan information into the box below."
-            isVisible={controlsOpen && !hasError}
-            transitionDirection="up"
-          />
+          {!isMobile &&
+            <React.Fragment>
+              <BoxText
+                icon={<Gear className={styles.gear} />}
+                text="Enter your loan information into the box below."
+                isVisible={controlsOpen && !hasError}
+                transitionDirection="up"
+              />
 
-          <BoxText
-            icon={<Error className={styles.gear} />}
-            text={errors[0]?.error}
-            isVisible={hasError}
-          />
+              <BoxText
+                icon={<Error className={styles.gear} />}
+                text={errors[0]?.error}
+                isVisible={hasError}
+              />
+            </React.Fragment>
+          }
         </React.Fragment>
       }
       <div

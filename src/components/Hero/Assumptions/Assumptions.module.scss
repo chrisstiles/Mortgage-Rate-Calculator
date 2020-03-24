@@ -4,6 +4,7 @@
 
 @import '@styles/colors';
 @import '@styles/mixins';
+@import '@styles/variables';
 
 .wrapper {
   width:100%;
@@ -191,6 +192,24 @@
   }
 }
 
+@media (max-width: 1210px) {
+  .title {
+    display:none;
+  }
+}
+
+@media (max-width: $mobileSize) {
+  .content {
+    height:auto;
+  }
+
+  .textWrapper {
+    height:auto;
+    padding-top:20px;
+    padding-bottom:20px;
+  }
+}
+
 
 /*---------------------------*/
 /* Pulsing Circle Animation */
@@ -301,5 +320,20 @@
 
   .line {
     border-color: rgba(247, 182, 182, 0.85);
+  }
+}
+
+@media (max-width: $mobileSize) {
+  .line {
+    display:none;
+  }
+
+  .up {
+    display:none;
+  }
+
+  .down {
+    transform:translateY(0) !important;
+    opacity: 1 !important;
   }
 }

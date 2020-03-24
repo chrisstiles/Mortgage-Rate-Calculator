@@ -5,7 +5,7 @@ import classNames from 'classnames';
 export default function Label({ children, className, ...restProps }) {
   return (
     <label
-      className={classNames(styles.label, className)}
+      className={classNames('label', styles.label, className)}
       {...restProps}
     >
       {children}

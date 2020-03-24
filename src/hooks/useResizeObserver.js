@@ -39,7 +39,8 @@ export default function useResizeObserver(ref, callback, shouldReturnValues = tr
     observer.observe(el);
 
     return () => observer.unobserve(el);
-  }, [shouldReturnValues, callback, ref]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldReturnValues, callback, ref.current]);
 
   return shouldReturnValues ? size : null;
 }

@@ -1,7 +1,9 @@
-import React, { useRef, memo } from 'react';
+import React, { useState, useRef, useEffect, useCallback, memo } from 'react';
 import Controls from './Controls';
+import MobileInputs from './MobileInputs';
 import styles from './Inputs.module.scss';
 import useResizeObserver from '@hooks/useResizeObserver';
+import useWindowSize from '@hooks/useWindowSize';
 import classNames from 'classnames';
 
 export default memo(function Inputs({
@@ -11,11 +13,53 @@ export default memo(function Inputs({
   controlsHeight,
   setControlsHeight,
   errors,
+  isMobile,
   updateErrors,
-  setState
+  setState,
+  setControlsOpen
 }) {
   const ref = useRef(null);
-  useResizeObserver(ref, ({ height }) => setControlsHeight(height));
+  const handleResize = useCallback(({ height }) => {
+    setControlsHeight(height);
+  }, [setControlsHeight]);
+
+  useResizeObserver(ref, handleResize);
+
+  const [offset, setOffset] = useState(getOffset());
+  const resizeTimer = useRef(null);
+
+  const { width: windowWidth } = useWindowSize();
+
+  useEffect(() => {
+    clearTimeout(resizeTimer.current);
+
+    resizeTimer.current = setTimeout(() => {
+      setOffset(getOffset());
+    }, 50);
+  }, [windowWidth]);
+
+  const controls = (
+    <Controls
+      state={state}
+      loanType={loanType}
+      errors={errors}
+      updateErrors={updateErrors}
+      controlsOpen={controlsOpen}
+      onChange={setState}
+    />
+  );
+
+  if (isMobile) {
+    return (
+      <MobileInputs
+        ref={ref}
+        controlsOpen={controlsOpen}
+        setControlsOpen={setControlsOpen}
+      >
+        {controls}
+      </MobileInputs>
+    );
+  }
 
   return (
     <div
@@ -23,7 +67,7 @@ export default memo(function Inputs({
         [styles.open]: controlsOpen,
         [styles.hasError]: !!errors?.length
       })}
-      style={{ marginBottom: controlsHeight + 100 }}
+      style={{ marginBottom: controlsHeight + offset }}
     >
       <div
         ref={ref}
@@ -31,16 +75,7 @@ export default memo(function Inputs({
       >
         <Outline />
         <div className={styles.inner}>
-          <Row>
-            <Controls
-              state={state}
-              loanType={loanType}
-              errors={errors}
-              updateErrors={updateErrors}
-              controlsOpen={controlsOpen}
-              onChange={setState}
-            />
-          </Row>
+          <Row>{controls}</Row>
         </div>
       </div>
     </div>
@@ -63,4 +98,8 @@ function Outline() {
       </div>
     </div>
   );
+}
+
+function getOffset() {
+  return window.innerWidth > 1050 ? 100 : 90;
 }

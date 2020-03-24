@@ -1,0 +1,10 @@
+/*---------------------------*/
+/* Variables */
+/*---------------------------*/
+
+// Window width that triggers mobile UI
+$mobileSize: 890px;
+
+:export {
+  mobileSize: $mobileSize;
+}

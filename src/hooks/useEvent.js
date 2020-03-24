@@ -2,7 +2,7 @@
 import { useEffect, useRef } from 'react';
 import { isFunction } from 'lodash';
 
-export default function useEvent(type, elementOrCallback, callback) {
+export default function useEvent(type, elementOrCallback, callback, deps = []) {
   const hasElement = !isFunction(elementOrCallback);
   const callbackRef = useRef(hasElement ? callback : elementOrCallback);
 
@@ -27,5 +27,5 @@ export default function useEvent(type, elementOrCallback, callback) {
     return () => {
       el.removeEventListener(type, handler);
     }
-  }, [type, element]);
+  }, [type, element, ...deps]);
 }

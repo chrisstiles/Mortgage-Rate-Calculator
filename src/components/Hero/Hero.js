@@ -4,9 +4,11 @@ import LoanTypeTabs from './LoanTypeTabs';
 import Assumptions from './Assumptions';
 import styles from './Hero.module.scss';
 import { Button } from '@input';
+import useWindowSize from '@hooks/useWindowSize';
 import { Phone } from './icons';
 import { getState } from '@helpers';
 import { keys } from '@enums';
+import { mobileSize } from '@config';
 
 export default memo(function Hero({
   state,
@@ -91,6 +93,9 @@ export default memo(function Hero({
     }
   }, [hasInitialLocation, setCurrentState, state.zipCode]);
 
+  const { width: windowWidth } = useWindowSize();
+  const isMobile = windowWidth <= mobileSize;
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>
@@ -109,6 +114,7 @@ export default memo(function Hero({
             hasInitialLocation={hasInitialLocation}
             controlsOpen={controlsOpen}
             zipCodes={zipCodes}
+            isMobile={isMobile}
             onClick={handleAssumptionsClick}
           />
         </div>
@@ -118,9 +124,11 @@ export default memo(function Hero({
           controlsOpen={controlsOpen}
           controlsHeight={controlsHeight}
           errors={errors}
+          isMobile={isMobile}
           setControlsHeight={setControlsHeight}
           updateErrors={updateErrors}
           setState={setCurrentState}
+          setControlsOpen={setControlsOpen}
         />
       </div>
       <Angles />
@@ -139,6 +147,7 @@ function Top() {
         </div>
         <Button
           href="//www.fremontbank.com/start-your-loan?loanType=MORTGAGE"
+          className={styles.applyButton}
         >
           Apply Now
         </Button>
