@@ -201,3 +201,38 @@
     }
   }
 }
+
+@media (max-width: 430px) {
+  .wrapper {
+    padding-left: 25px;
+    padding-top: 25px;
+    padding-right: 25px;
+  }
+
+  .top {
+    h1 {
+      font-size:27px !important;
+    }
+  }
+
+  .phone {
+    font-size:15px;
+
+    svg {
+      width: 17px;
+      height: 17px;
+      margin-right:5px;
+    }
+  }
+
+  .applyButton {
+    > div {
+      padding:12px 20px !important;
+      min-width:0;
+    }
+  }
+
+  .controlsWrapper {
+    margin-bottom:25px;
+  }
+}
