@@ -9,6 +9,12 @@ import classNames from 'classnames';
 import { useSpring, animated } from 'react-spring';
 import { useDrag } from 'react-use-gesture';
 
+const config = {
+  mass: 0.2,
+  friction: 10,
+  tension: 140
+}
+
 const MobileInputs = memo(React.forwardRef(({
   controlsOpen,
   children,
@@ -16,34 +22,27 @@ const MobileInputs = memo(React.forwardRef(({
 }, ref) => {
   const closingRef = useRef(false);
   const { height: windowHeight } = useWindowSize();
-  const [{ y }, set] = useSpring(() => ({
-    y: windowHeight,
-    config: {
-      mass: 0.2,
-      friction: 10,
-      tension: 140
-    }
-  }));
+  const [{ y }, set] = useSpring(() => ({ y: windowHeight, config }));
 
   useEffect(() => {
     if (controlsOpen) {
-      set({ y: 0 })
+      set({ y: 0, config })
     } else {
-      set({ y: windowHeight })
+      set({ y: windowHeight, config })
     }
 
     closingRef.current = false;
   }, [controlsOpen, windowHeight, set]);
 
   const prevY = useRef(windowHeight);
-  const bind = useDrag(({ last, down, velocity, movement: [mx, my] }) => {
+  const bind = useDrag(({ last, down, vxvy: [, vy], movement: [mx, my] }) => {
     const y = down ? my : 0;
 
     if (!closingRef.current) {
       if (last && prevY.current >= windowHeight / 3) {
         closingRef.current = true;
         prevY.current = windowHeight;
-        set({ y: windowHeight });
+        set({ y: windowHeight, config: { ...config, velocity: vy } });
         setControlsOpen(false);
       } else {
         prevY.current = y;
