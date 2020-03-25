@@ -21,9 +21,11 @@ export default memo(function ProductFilter({
   return (
     <button
       className={classNames(styles.wrapper, {
-        [styles.disabled]: isDisabled || !isActive
+        [styles.disabled]: isDisabled,
+        [styles.off]: !isActive
       })}
       onClick={handleClick}
+      tabIndex={isDisabled ? -1 : 0}
     >
       <div
         className={styles.circle}

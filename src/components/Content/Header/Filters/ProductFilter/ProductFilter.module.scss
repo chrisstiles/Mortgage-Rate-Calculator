@@ -28,6 +28,7 @@
     outline:none;
   }
 
+  &.off,
   &.disabled {
     box-shadow:0 0 0 2px #eaeaea;
     background-color:#f7f6f6;
@@ -57,7 +58,12 @@
     }
   }
 
-  &:global(.focus-visible) {
+  &.disabled {
+    pointer-events:none;
+    opacity:.65;
+  }
+
+  &:global(.focus-visible):not(.disabled) {
     box-shadow: 0 0 0 2px rgba(25, 58, 60, 0.7), 0 0 0 6px rgba(162, 237, 241, 0.3);
   }
 }
