@@ -102,6 +102,9 @@ export default memo(function RateTable({
     };
 
     rows.forEach(({ rate, apr, payment }, index) => {
+      delete rows[index].isMinPayment;
+      delete rows[index].isMinRate;
+
       if (index === 1) {
         return;
       }
