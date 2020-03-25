@@ -75,7 +75,7 @@ module.exports = (env, argv) => {
       rules: [
         {
           test: /\.m?js$/,
-          exclude: /node_modules\/(?!unfetch\/)/,
+          exclude: /node_modules\/(?!unfetch\/)\/(?!react-spring\/)/,
           use: {
             loader: 'babel-loader',
             options: {
