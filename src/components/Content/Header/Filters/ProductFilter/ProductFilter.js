@@ -1,7 +1,18 @@
 import React, { memo } from 'react';
 import { colors } from '@config';
 
-export default memo(function ProductFilter({ term, isActive = true, isDisabled }) {
+export default memo(function ProductFilter({
+  term,
+  isActive = true,
+  isDisabled,
+  onClick = () => {}
+}) {
+  const handleClick = () => {
+    if (!isDisabled) {
+      onClick(!isActive, String(term));
+    }
+  };
+
   return (
     <div
       style={{
@@ -16,6 +27,7 @@ export default memo(function ProductFilter({ term, isActive = true, isDisabled }
         borderRadius: 3,
         width: 80
       }}
+      onClick={handleClick}
     >
       {term}
     </div>

@@ -37,7 +37,7 @@ const state = {
     validate: isBoolean
   },
   adjustable: {
-    defaultValue: true,
+    defaultValue: false,
     validate: isBoolean
   },
   products: {

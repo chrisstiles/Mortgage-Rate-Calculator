@@ -1,13 +1,30 @@
-import React, { useState, useMemo, memo } from 'react';
+import React, { useMemo, useCallback, memo } from 'react';
 import styles from './filters.module.scss';
 import { Button } from '@input';
-import getInitialFilterState from './getInitialFilterState';
 import ProductFilter from './ProductFilter';
 
-export default memo(function Filters({ data, filtersOpen, setFiltersOpen }) {
-  const [filterState, setFilterState] = useState(() => {
-    return getInitialFilterState();
-  });
+export default memo(function Filters({
+  data,
+  filterState,
+  filtersOpen,
+  setFilterState,
+  setFiltersOpen,
+}) {
+  const handleProductClick = useCallback((value, name) => {
+    setFilterState(({ products: prevProducts = [], ...state }) => {
+      if (!Array.isArray(prevProducts)) {
+        prevProducts = [];
+      }
+
+      const products = prevProducts.filter(p => p !== name);
+      
+      if (!value) {
+        products.push(name);
+      }
+
+      return { ...state, products };
+    });
+  }, [setFilterState]);
 
   const [fixedComponents, adjustableComponents] = useMemo(() => {
     if (!data?.length) {
@@ -30,7 +47,7 @@ export default memo(function Filters({ data, filtersOpen, setFiltersOpen }) {
 
     const createComponents = products => {
       return products
-        .sort((a, b) => parseInt(a.term) - parseInt(b.term))
+        .sort((a, b) => parseInt(b.term) - parseInt(a.term))
         .map(({ term, type }) => {
           const isActive = !filterState.products?.includes(term);
           const isDisabled = !!filterState[type];
@@ -41,13 +58,14 @@ export default memo(function Filters({ data, filtersOpen, setFiltersOpen }) {
               isActive={isActive}
               isDisabled={isDisabled}
               term={term}
+              onClick={handleProductClick}
             />
           );
         });
     }
 
     return [createComponents(fixed), createComponents(adjustable)];
-  }, [data, filterState]);
+  }, [data, filterState, handleProductClick]);
 
   return !filtersOpen ? null : (
     <div className={styles.wrapper}>

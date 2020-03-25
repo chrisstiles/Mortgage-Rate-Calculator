@@ -7,7 +7,14 @@ import { upperFirst } from 'lodash';
 import classNames from 'classnames';
 import { format } from 'fecha';
 
-export default function Header({ data, loanType, isLoading, effectiveDate }) {
+export default function Header({
+  data,
+  loanType,
+  isLoading,
+  effectiveDate,
+  filterState,
+  setFilterState
+}) {
   const [filtersOpen, setFiltersOpen] = useState(false);
 
   return (
@@ -26,6 +33,8 @@ export default function Header({ data, loanType, isLoading, effectiveDate }) {
       <Filters
         data={data}
         filtersOpen={filtersOpen}
+        filterState={filterState}
+        setFilterState={setFilterState}
         setFiltersOpen={setFiltersOpen}
       />
     </React.Fragment>

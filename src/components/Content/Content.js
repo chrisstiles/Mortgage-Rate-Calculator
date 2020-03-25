@@ -1,10 +1,14 @@
-import React, { useState, memo, useEffect } from 'react';
+import React, { useState, useCallback, memo, useEffect } from 'react';
 import Header from './Header';
 import RateTable from './RateTable';
 import LoadingBar from './LoadingBar';
 import styles from './Content.module.scss';
+import getInitialFilterState from '@utils/getInitialFilterState';
 import classNames from 'classnames';
 import sampleData from './RateTable/sample-data.json';
+import { getState } from '@helpers';
+import { cache } from '@app';
+import { keys } from '@enums';
 
 export default memo(function ContentWrapper({
   isLoading,
@@ -12,6 +16,18 @@ export default memo(function ContentWrapper({
   effectiveDate,
   loanType
 }) {
+  const [filterState, _setFilterState] = useState(() => {
+    return getInitialFilterState();
+  });
+
+  const setFilterState = useCallback((value, name) => {
+    _setFilterState(state => {
+      const newState = getState(state, value, name);
+      cache.set(keys.FILTER_STATE, newState);
+      return newState;
+    });
+  }, []);
+
   const shiftY = controlsHeight ?? 0;
   const [hasInitialized, setHasInitialized] = useState(false);
   
@@ -38,12 +54,21 @@ export default memo(function ContentWrapper({
         shiftY={-shiftY}
         effectiveDate={effectiveDate}
         isLoading={isLoading}
+        filterState={filterState}
+        setFilterState={setFilterState}
       />
     </div>
   );
 });
 
-const Content = memo(({ loanType, shiftY, isLoading, effectiveDate }) => {
+const Content = memo(({
+  loanType,
+  shiftY,
+  isLoading,
+  effectiveDate,
+  filterState,
+  setFilterState
+}) => {
   return (
     <div
       className={classNames(styles.content, {
@@ -56,11 +81,14 @@ const Content = memo(({ loanType, shiftY, isLoading, effectiveDate }) => {
         loanType={loanType}
         isLoading={isLoading}
         effectiveDate={effectiveDate}
+        filterState={filterState}
+        setFilterState={setFilterState}
       />
       <RateTable
         data={sampleData}
         shiftY={shiftY}
         isLoading={isLoading}
+        filterState={filterState}
       />
     </div>
   );

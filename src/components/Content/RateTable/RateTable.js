@@ -10,7 +10,12 @@ import { sort, keys } from '@enums';
 import { cache } from '@app';
 import classNames from 'classnames';
 
-export default memo(function RateTable({ data, shiftY, isLoading }) {
+export default memo(function RateTable({
+  data,
+  shiftY,
+  isLoading,
+  filterState
+}) {
   const [sortState, setSortState] = useState(() => {
     let { by, order, key } = cache.get(keys.SORT_STATE, {});
 
@@ -52,7 +57,19 @@ export default memo(function RateTable({ data, shiftY, isLoading }) {
       return null;
     }
 
-    // TODO: Add ability to filter rows
+    // Filter rows
+    const filteredData = data.filter(({
+      type,
+      term
+    }) => {
+      // Product type
+      if (filterState[type] || filterState.products?.includes(term)) {
+        return false;
+      }
+
+      return true;
+    });
+
     const byArr = [sortState.by].flat();
     const orderArr = [sortState.order];
 
@@ -60,7 +77,7 @@ export default memo(function RateTable({ data, shiftY, isLoading }) {
       orderArr.push(sortState.order);
     }
 
-    const rows = orderBy(data, byArr, orderArr);
+    const rows = orderBy(filteredData, byArr, orderArr);
 
     // Find the minimum rates and payments to highlight
     // on rate table. If 2 products share the sample lowest
@@ -110,7 +127,7 @@ export default memo(function RateTable({ data, shiftY, isLoading }) {
     });
 
     return rows;
-  }, [sortState, data]);
+  }, [sortState, data, filterState]);
 
   const components = useMemo(() => {
     if (!data?.length) {
