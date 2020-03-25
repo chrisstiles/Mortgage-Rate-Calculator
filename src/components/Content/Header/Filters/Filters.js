@@ -2,6 +2,7 @@ import React, { useMemo, useCallback, memo } from 'react';
 import styles from './filters.module.scss';
 import { Button, Switch } from '@input';
 import ProductFilter from './ProductFilter';
+import { ReactComponent as Reset } from './reset.svg';
 
 export default memo(function Filters({
   data,
@@ -9,6 +10,7 @@ export default memo(function Filters({
   filtersOpen,
   setFilterState,
   setFiltersOpen,
+  resetFilters
 }) {
   const handleProductClick = useCallback((value, name) => {
     setFilterState(({ products: prevProducts = [], ...state }) => {
@@ -72,13 +74,24 @@ export default memo(function Filters({
     <div className={styles.wrapper}>
       <div className={styles.shadow} />
       
-      <Button
-        theme="minimal"
-        className={styles.close}
-        onClick={() => setFiltersOpen(false)}
-        closeTooltipText="Close filters"
-        isClose
-      />
+      <div className={styles.buttons}>
+        <Button
+          theme="minimal"
+          fontSize={14}
+          className={styles.reset}
+          onClick={resetFilters}
+        >
+          <Reset /> Reset
+        </Button>
+
+        <Button
+          theme="minimal"
+          className={styles.close}
+          onClick={() => setFiltersOpen(false)}
+          closeTooltipText="Close filters"
+          isClose
+        />
+      </div>
       
       <div className={styles.column}>
         <Switch

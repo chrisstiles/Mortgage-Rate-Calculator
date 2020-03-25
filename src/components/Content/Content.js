@@ -92,6 +92,7 @@ const Content = memo(({
         effectiveDate={effectiveDate}
         filterState={filterState}
         setFilterState={setFilterState}
+        resetFilters={resetFilters}
       />
       <RateTable
         data={sampleData}

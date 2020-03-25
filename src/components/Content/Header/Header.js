@@ -13,7 +13,8 @@ export default function Header({
   isLoading,
   effectiveDate,
   filterState,
-  setFilterState
+  setFilterState,
+  resetFilters
 }) {
   const [filtersOpen, setFiltersOpen] = useState(true);
 
@@ -42,6 +43,7 @@ export default function Header({
         filterState={filterState}
         setFilterState={setFilterState}
         setFiltersOpen={setFiltersOpen}
+        resetFilters={resetFilters}
       />
     </React.Fragment>
   );
