@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import styles from './filters.module.scss';
 import { Button, Slider } from '@input';
 import ProductTypes from './ProductTypes';
+import RateSliders from './RateSliders';
 import { ReactComponent as Reset } from './reset.svg';
 
 export default memo(function Filters({
@@ -40,9 +41,11 @@ export default memo(function Filters({
         filterState={filterState}
         setFilterState={setFilterState}
       />
-      
-      <Slider
-        label="Interest Rate"
+
+      <RateSliders
+        data={data}
+        filterState={filterState}
+        setFilterState={setFilterState}
       />
     </div>
   )

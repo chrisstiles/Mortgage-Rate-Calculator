@@ -16,7 +16,7 @@ export default function Header({
   setFilterState,
   resetFilters
 }) {
-  const [filtersOpen, setFiltersOpen] = useState(true);
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   useEffect(() => {
     if (!data?.length) {
