@@ -151,6 +151,11 @@
   .header {
     .cell {
       opacity:.3;
+      pointer-events:none;
+
+      svg {
+        display:none;
+      }
     }
   }
 }
@@ -159,11 +164,6 @@
   .header {
     .cell {
       top: -1px !important;
-      pointer-events:none;
-
-      svg {
-        display:none;
-      }
     }
   }
 }
