@@ -1,0 +1,86 @@
+/*---------------------------*/
+/* Slider Input */
+/*---------------------------*/
+
+@import '@styles/colors';
+
+.wrapper {
+  width:100%;
+  max-width:200px;
+}
+
+.label {
+  line-height:1;
+  font-size:14px;
+  font-weight:600;
+  color:#252525;
+  margin-bottom:15px;
+  display:block;
+}
+
+$inactiveShadow:
+  0px 2px 5px rgba(0, 0, 0, 0.05),
+  0px 1px 2px rgba(0, 0, 0, 0.1),
+  0px 1px 4px rgba(0, 0, 0, 0.1);
+
+$activeShadow:
+  0px 2px 5px rgba(0, 0, 0, 0.05),
+  0px 1px 2px rgba(0, 0, 0, 0.1),
+  0px 1px 4px rgba(0, 0, 0, 0.1),
+  0 0 0 6px rgba(17, 65, 66, .1);
+
+:global {
+  .sliderTrack {
+    background-color:#b9b9b9;
+    height:4px;
+  }
+
+  .sliderTrack-0 {
+    border-radius: 5px 0 0 5px;
+  }
+
+  .sliderTrack-1 {
+    background-color: $teal;
+  }
+
+  .sliderTrack-2 {
+    border-radius: 0 5px 5px 0;
+  }
+
+  .sliderThumb {
+    width:18px;
+    height:18px;
+    background-color:#fff;
+    box-shadow: $inactiveShadow;
+    border-radius:50%;
+    top:-7px;
+    outline:none;
+    text-align:center;
+    cursor:pointer;
+
+    &.active {
+      box-shadow: $activeShadow !important;
+    }
+
+    &:hover {
+      box-shadow: $activeShadow;
+    }
+  }
+}
+
+.dragging {
+  :global(.sliderThumb) {
+    &:hover {
+      box-shadow:$inactiveShadow;
+    }
+  }
+}
+
+.text {
+  position:relative;
+  top:25px;
+  font-size:12px;
+  color:#252525;
+  font-weight:600;
+  pointer-events:none;
+}
