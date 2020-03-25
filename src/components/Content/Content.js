@@ -31,6 +31,7 @@ export default memo(function ContentWrapper({
 
   const resetFilters = useCallback(() => {
     _setFilterState(defaultFilters);
+    cache.set(keys.FILTER_STATE, defaultFilters);
   }, []);
 
   const shiftY = controlsHeight ?? 0;
