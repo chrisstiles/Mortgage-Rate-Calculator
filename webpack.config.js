@@ -62,7 +62,9 @@ module.exports = (env, argv) => {
         '@input': path.join(__dirname, 'src/components/input'),
         '@hooks': path.join(__dirname, 'src/hooks'),
         '@styles': path.join(__dirname, 'src/styles'),
-        '@utils': path.join(__dirname, 'src/utils')
+        '@utils': path.join(__dirname, 'src/utils'),
+        'react-spring$': 'react-spring/web.cjs.js',
+        'react-spring/renderprops$': 'react-spring/renderprops.cjs.js'
       }
     },
     stats: {
@@ -75,7 +77,8 @@ module.exports = (env, argv) => {
       rules: [
         {
           test: /\.m?js$/,
-          exclude: /node_modules\/(?!unfetch\/)\/(?!react-spring\/)/,
+          // exclude: /node_modules\/(?!unfetch\/)/,
+          exclude: /node_modules\/(?!unfetch\/)\/(?!react-spring\/)\/(?!react-use-gesture\/)/,
           use: {
             loader: 'babel-loader',
             options: {

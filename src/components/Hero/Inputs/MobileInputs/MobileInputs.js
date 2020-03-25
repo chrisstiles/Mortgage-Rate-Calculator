@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import styles from './MobileInputs.module.scss';
 import useWindowSize from '@hooks/useWindowSize';
 import useEvent from '@hooks/useEvent';
+import { Button } from '@input';
 import FocusLock from 'react-focus-lock';
 import { RemoveScroll } from 'react-remove-scroll';
 import classNames from 'classnames';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from 'react-spring/web.cjs.js';
 import { useDrag } from 'react-use-gesture';
 
 const config = {
@@ -14,6 +15,19 @@ const config = {
   friction: 10,
   tension: 140
 }
+
+// IE will not play nicely with React Spring
+const isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
+
+const MobileInputsWrapper = React.forwardRef((props, ref) => {
+  if (!isIE11) {
+    return <MobileInputsFallback ref={ref} {...props} />;
+  } else {
+    return <MobileInputs ref={ref} {...props} />
+  }
+});
+
+export default MobileInputsWrapper;
 
 const MobileInputs = memo(React.forwardRef(({
   controlsOpen,
@@ -85,7 +99,44 @@ const MobileInputs = memo(React.forwardRef(({
           </div>
         </animated.div>
       </RemoveScroll>
-    </div>, document.body);
+    </div>, document.body
+  );
 }));
 
-export default MobileInputs;
+const MobileInputsFallback = memo(React.forwardRef(({
+  controlsOpen,
+  children,
+  setControlsOpen,
+}, ref) => {
+  useEvent('keydown', e => {
+    if (e.key === 'Escape') {
+      setControlsOpen(false);
+    }
+  });
+
+  return ReactDOM.createPortal(
+    <div
+      ref={ref}
+      className={classNames(styles.wrapper, {
+        [styles.open]: controlsOpen
+      })}
+    >
+      <RemoveScroll enabled={controlsOpen}>
+        <div
+          className={classNames(styles.content, styles.ie11)}
+        >
+          <FocusLock disabled={!controlsOpen}>
+            <Button
+              theme="minimal"
+              className={styles.close}
+              onClick={() => setControlsOpen(false)}
+              closeTooltipText="Close"
+              isClose
+            />
+            {children}
+          </FocusLock>
+        </div>
+      </RemoveScroll>
+    </div>, document.body
+  );
+}));
