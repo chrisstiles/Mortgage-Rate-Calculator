@@ -41,7 +41,6 @@ body {
 #mortgage-rates-wrapper {
   @include textStyles;
   position:relative;
-  overflow:hidden;
 
   h1 {
     font-family: $serif;

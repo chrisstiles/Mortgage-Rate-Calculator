@@ -41,7 +41,7 @@
   bottom:0;
   left:0;
   z-index: 99992;
-  background-color:rgba(0, 0, 0, .4);
+  background-color:rgba(0, 0, 0, .7);
   opacity:0;
 }
 
@@ -59,13 +59,10 @@
 
 .handle {
   position:absolute;
-  top:-30px;
+  top:-15px;
   right:0;
   left:0;
-  height:60px;
-  background-color:#fff;
-  border-top-left-radius:10px;
-  border-top-right-radius:10px;
+  height:75px;
   display:flex;
   justify-content:center;
   align-items:center;
@@ -79,7 +76,7 @@
     max-width:120px;
     background-color:#dedede;
     position:relative;
-    top:-5px;
+    top:5px;
     border-radius:20px;
   }
 }
@@ -89,7 +86,7 @@
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-y: contain;
   position:absolute;
-  top:30px;
+  top:60px;
   right:0;
   left:0;
   bottom:-200px;
