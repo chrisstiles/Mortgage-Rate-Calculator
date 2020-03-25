@@ -1,4 +1,5 @@
 /* eslint-disable */
+import 'es6-symbol/implement';
 import 'promise-polyfill/src/polyfill';
 import 'unfetch/polyfill';
 import 'requestidlecallback';
