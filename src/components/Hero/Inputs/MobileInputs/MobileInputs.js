@@ -20,7 +20,7 @@ const config = {
 const isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
 
 const MobileInputsWrapper = React.forwardRef((props, ref) => {
-  if (!isIE11) {
+  if (isIE11) {
     return <MobileInputsFallback ref={ref} {...props} />;
   } else {
     return <MobileInputs ref={ref} {...props} />
