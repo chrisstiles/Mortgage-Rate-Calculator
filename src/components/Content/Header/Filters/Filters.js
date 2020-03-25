@@ -69,13 +69,15 @@ export default memo(function Filters({
 
   return !filtersOpen ? null : (
     <div className={styles.wrapper}>
+      <div className={styles.shadow} />
+      
       <Button
         theme="minimal"
         className={styles.close}
         onClick={() => setFiltersOpen(false)}
-      >
-        Close
-      </Button>
+        closeTooltipText="Close filters"
+        isClose
+      />
       
       <div className={styles.column}>
         <Switch

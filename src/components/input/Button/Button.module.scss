@@ -209,3 +209,44 @@
     padding-right:15px;
   }
 }
+
+.close {
+  border-radius:50%;
+
+  &:hover {
+    background-color:#f1f1f1 !important;
+  }
+
+  .content {
+    width:46px;
+    height:46px;
+    min-width:0;
+    min-height:0;
+    padding:0 !important;
+    border-radius:50%;
+
+    &:before,
+    &:after {
+      content:"";
+      display:block !important;
+      position:absolute;
+      background-color:#5f5f5f;
+      transition:none !important;
+      border-radius:5px;
+      top:50%;
+      left:50%;
+      width:18px;
+      height:2px;
+      margin-top:-1px;
+      margin-left:-9px;
+    }
+
+    &:before {
+      transform:rotate(45deg);
+    }
+
+    &:after {
+      transform:rotate(-45deg);
+    }
+  }
+}

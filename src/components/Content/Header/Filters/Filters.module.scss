@@ -5,10 +5,19 @@
 .wrapper {
   background-color:rgba(#fafafa, .5);
   position:relative;
-  overflow:hidden;
   border-top:1px solid #e6e6e6;
   padding:35px;
   display:flex;
+}
+
+.shadow {
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:5px;
+  overflow:hidden;
+  pointer-events:none;
 
   &:before,
   &:after {
@@ -34,12 +43,8 @@
 
 .close {
   position:absolute !important;
-  top:20px;
-  right:20px;
-
-  &:hover {
-    background-color:#f1f1f1 !important;
-  }
+  top:10px;
+  right:10px;
 }
 
 .column {
