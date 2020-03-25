@@ -1,8 +1,11 @@
 import React, { memo } from 'react';
+import styles from './ProductFilter.module.scss';
 import { colors } from '@config';
+import classNames from 'classnames';
 
 export default memo(function ProductFilter({
   term,
+  type,
   isActive = true,
   isDisabled,
   onClick = () => {}
@@ -13,23 +16,22 @@ export default memo(function ProductFilter({
     }
   };
 
+  const typeText = type === 'adjustable' ? 'ARM' : 'Year Fixed';
+
   return (
-    <div
-      style={{
-        color: '#fff',
-        backgroundColor: colors[term]?.main ?? colors.default.main,
-        opacity: isActive && !isDisabled ? null : .5,
-        filter: isActive && !isDisabled ? null : 'grayscale(30%)',
-        pointerEvents: !isDisabled ? null : 'none',
-        cursor: 'pointer',
-        padding: '3px 8px',
-        marginBottom: 10,
-        borderRadius: 3,
-        width: 80
-      }}
+    <button
+      className={classNames(styles.wrapper, {
+        [styles.disabled]: isDisabled || !isActive
+      })}
       onClick={handleClick}
     >
-      {term}
-    </div>
+      <div
+        className={styles.circle}
+        style={{ backgroundColor: colors[term]?.main ?? colors.default.main }}
+      />
+      <div className={styles.text}>
+        {term} {typeText}
+      </div>
+    </button>
   );
 });

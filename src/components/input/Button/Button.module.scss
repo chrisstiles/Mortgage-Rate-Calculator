@@ -217,6 +217,10 @@
     background-color:#f1f1f1 !important;
   }
 
+  &:before {
+    border-radius:50%;
+  }
+
   .content {
     width:46px;
     height:46px;

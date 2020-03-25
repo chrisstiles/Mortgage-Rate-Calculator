@@ -58,6 +58,7 @@ export default memo(function Filters({
               isActive={isActive}
               isDisabled={isDisabled}
               term={term}
+              type={type}
               onClick={handleProductClick}
             />
           );
