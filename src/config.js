@@ -71,6 +71,17 @@ module.exports = {
   "minLoanAmount": 0,
   "maxLoanAmount": 5000000,
 
+  /*-- Rate Table Messages --*/
+
+  "messages": {
+    // Displayed if no rates were returned for the loan
+    // assumptions the user has entered
+    "noData": `We couldn't find any products available for the loan details you entered. Try changing your loan assumptions.`,
+
+    // Displayed if no products met the user's filter criteria
+    "noFilteredData": `No products found that meet your filter criteria. Try changing the rate and product filters.`
+  },
+
   /*-- UI Options --*/
 
   // Colors associated with each different product type.

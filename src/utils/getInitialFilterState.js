@@ -74,3 +74,11 @@ export default function getInitialFilterState() {
 
   return formattedState;
 }
+
+const defaultFilters = {};
+
+Object.keys(state).forEach(key => {
+  defaultFilters[key] = state[key].defaultValue;
+});
+
+export { defaultFilters };

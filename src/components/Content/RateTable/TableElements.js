@@ -23,7 +23,7 @@ const columns = [
   { title: 'Monthly Payments', value: sort.by.PAYMENT }
 ];
 
-export function Header({ shiftY, sortState, updateSort }) {
+export function Header({ shiftY, sortState, hasData, updateSort }) {
   const cells = columns.map(({ title, value }, index) => (
     <HeaderCell
       key={index}
@@ -32,6 +32,8 @@ export function Header({ shiftY, sortState, updateSort }) {
       value={value}
       sortState={sortState}
       updateSort={updateSort}
+      hasData={hasData}
+      tabIndex={hasData ? 0 : -1}
     >
       {title}
     </HeaderCell>
@@ -51,11 +53,12 @@ export function HeaderCell({
   value,
   updateSort,
   children,
+  hasData,
   ...restProps
 }) {
   const isCurrent = sortKey === sortState.key;
   const handleKeyPress = e => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && hasData) {
       updateSort(value);
     }
   };

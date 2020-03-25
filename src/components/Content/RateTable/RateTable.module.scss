@@ -15,6 +15,12 @@
     pointer-events:none;
     opacity:.3;
     filter: grayscale(1);
+
+    &:after {
+      content:"";
+      display:block;
+      height:200px;
+    }
   }
 }
 
@@ -141,10 +147,23 @@
   }
 }
 
+.disabled {
+  .header {
+    .cell {
+      opacity:.3;
+    }
+  }
+}
+
 :global(.controlsClosed) {
   .header {
     .cell {
       top: -1px !important;
+      pointer-events:none;
+
+      svg {
+        display:none;
+      }
     }
   }
 }
@@ -192,4 +211,24 @@
   &.highlight {
     font-weight:600;
   }
+}
+
+
+/*---------------------------*/
+/* Rate Table Messages */
+
+.messageWrapper {
+  padding:40px;
+  min-height:200px;
+  display:flex;
+  flex-direction: column;
+  justify-content:center;
+  align-items:center;
+}
+
+.messageText {
+  font-size:18px;
+  font-weight:400;
+  color:#636363;
+  margin-bottom:20px;
 }

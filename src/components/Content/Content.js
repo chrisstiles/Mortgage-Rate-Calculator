@@ -3,7 +3,7 @@ import Header from './Header';
 import RateTable from './RateTable';
 import LoadingBar from './LoadingBar';
 import styles from './Content.module.scss';
-import getInitialFilterState from '@utils/getInitialFilterState';
+import getInitialFilterState, { defaultFilters } from '@utils/getInitialFilterState';
 import classNames from 'classnames';
 import sampleData from './RateTable/sample-data.json';
 import { getState } from '@helpers';
@@ -14,7 +14,8 @@ export default memo(function ContentWrapper({
   isLoading,
   controlsHeight,
   effectiveDate,
-  loanType
+  loanType,
+  setControlsOpen
 }) {
   const [filterState, _setFilterState] = useState(() => {
     return getInitialFilterState();
@@ -26,6 +27,10 @@ export default memo(function ContentWrapper({
       cache.set(keys.FILTER_STATE, newState);
       return newState;
     });
+  }, []);
+
+  const resetFilters = useCallback(() => {
+    _setFilterState(defaultFilters);
   }, []);
 
   const shiftY = controlsHeight ?? 0;
@@ -56,6 +61,8 @@ export default memo(function ContentWrapper({
         isLoading={isLoading}
         filterState={filterState}
         setFilterState={setFilterState}
+        setControlsOpen={setControlsOpen}
+        resetFilters={resetFilters}
       />
     </div>
   );
@@ -67,7 +74,9 @@ const Content = memo(({
   isLoading,
   effectiveDate,
   filterState,
-  setFilterState
+  setFilterState,
+  setControlsOpen,
+  resetFilters
 }) => {
   return (
     <div
@@ -89,6 +98,8 @@ const Content = memo(({
         shiftY={shiftY}
         isLoading={isLoading}
         filterState={filterState}
+        setControlsOpen={setControlsOpen}
+        resetFilters={resetFilters}
       />
     </div>
   );

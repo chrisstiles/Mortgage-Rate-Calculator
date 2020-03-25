@@ -5,7 +5,6 @@ import states from '@utils/states';
 
 export function getState(state, value, name) {
   if (!isPlainObject(state) || (!value && !name)) {
-    console.log('Here')
     return state;
   }
 

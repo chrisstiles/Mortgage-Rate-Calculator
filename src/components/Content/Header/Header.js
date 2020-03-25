@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Rate, Chat, Filter, Bell } from './icons';
 import Filters from './Filters';
 import { Button } from '@input';
@@ -15,7 +15,13 @@ export default function Header({
   filterState,
   setFilterState
 }) {
-  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(true);
+
+  useEffect(() => {
+    if (!data?.length) {
+      setFiltersOpen(false);
+    }
+  }, [data]);
 
   return (
     <React.Fragment>

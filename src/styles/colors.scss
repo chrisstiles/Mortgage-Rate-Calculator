@@ -3,7 +3,15 @@
 /*---------------------------*/
 
 $pageBackground: #FBFBFB;
-$teal: #4C9B9E;
+$teal: #219d9f;
 $darkTeal: #357F83;
 $activeTeal: #30686b;
 $gold: #E6B246;
+
+:export {
+  pageBackground: $pageBackground;
+  teal: $teal;
+  darkTeal: $darkTeal;
+  activeTeal: $activeTeal;
+  gold: $gold
+}

@@ -8,6 +8,7 @@
   overflow:hidden;
   border-top:1px solid #e6e6e6;
   padding:35px;
+  display:flex;
 
   &:before,
   &:after {
@@ -39,4 +40,17 @@
   &:hover {
     background-color:#f1f1f1 !important;
   }
+}
+
+.column {
+  margin-right:20px;
+
+  &:last-child {
+    margin-right:0;
+  }
+}
+
+.switch {
+  margin-bottom:20px;
+  margin-top:-5px;
 }

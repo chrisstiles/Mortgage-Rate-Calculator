@@ -1,0 +1,43 @@
+/*---------------------------*/
+/* Switch */
+/*---------------------------*/
+
+@import '@styles/mixins';
+
+.wrapper {
+  display:flex;
+  align-items:center;
+}
+
+.text {
+  color:#fff;
+  font-size:12px;
+  text-transform:uppercase;
+  font-weight:600;
+}
+
+.label {
+  @include noSelect;
+  margin-right:12px;
+  font-size:14px;
+  font-weight:600;
+  color:#252525;
+  line-height:1;
+  margin-top:-1px;
+}
+
+:global {
+  .react-switch-bg {
+    > div {
+      &:first-child {
+        text-align:left;
+        padding-left:12px;
+      }
+
+      &:last-child {
+        text-align:right;
+        padding-right:12px;
+      }
+    }
+  }
+}

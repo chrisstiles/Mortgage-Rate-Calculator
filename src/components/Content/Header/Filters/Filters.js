@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback, memo } from 'react';
 import styles from './filters.module.scss';
-import { Button } from '@input';
+import { Button, Switch } from '@input';
 import ProductFilter from './ProductFilter';
 
 export default memo(function Filters({
@@ -77,15 +77,25 @@ export default memo(function Filters({
         Close
       </Button>
       
-      <div style={{ display: 'flex' }}>
-        <div style={{ marginRight: 15 }}>
-          Fixed:<br /><br />
-          {fixedComponents}
-        </div>
-        <div style={{ marginRight: 15 }}>
-          Adjustable:<br /><br />
-          {adjustableComponents}
-        </div>
+      <div className={styles.column}>
+        <Switch
+          value={!filterState.fixed}
+          name="fixed"
+          label="Fixed"
+          className={styles.switch}
+          onChange={setFilterState}
+        />
+        {fixedComponents}
+      </div>
+      <div className={styles.column}>
+        <Switch
+          value={!filterState.adjustable}
+          name="adjustable"
+          label="Adjustable"
+          className={styles.switch}
+          onChange={setFilterState}
+        />
+        {adjustableComponents}
       </div>
 
     </div>

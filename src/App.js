@@ -139,6 +139,7 @@ export default function App() {
         controlsHeight={controlsHeight}
         effectiveDate={effectiveDate}
         loanType={state.loanType}
+        setControlsOpen={setControlsOpen}
       />
     </div>
   );

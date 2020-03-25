@@ -3,6 +3,7 @@ import { Header, Row, Cell } from './TableElements';
 import Product from './Product';
 import Rate from './Rate';
 import Currency from './Currency';
+import NoDataMessage from './NoDataMessage';
 import styles from './RateTable.module.scss';
 import { orderBy, findKey } from 'lodash';
 import config from '@config';
@@ -14,7 +15,9 @@ export default memo(function RateTable({
   data,
   shiftY,
   isLoading,
-  filterState
+  filterState,
+  resetFilters,
+  setControlsOpen
 }) {
   const [sortState, setSortState] = useState(() => {
     let { by, order, key } = cache.get(keys.SORT_STATE, {});
@@ -69,6 +72,11 @@ export default memo(function RateTable({
 
       return true;
     });
+
+    // No products found for these filters
+    if (!filteredData.length) {
+      return null;
+    }
 
     const byArr = [sortState.by].flat();
     const orderArr = [sortState.order];
@@ -130,7 +138,7 @@ export default memo(function RateTable({
   }, [sortState, data, filterState]);
 
   const components = useMemo(() => {
-    if (!data?.length) {
+    if (!filteredRows?.length) {
       return null;
     }
 
@@ -164,21 +172,32 @@ export default memo(function RateTable({
         </Cell>
       </Row>
     ));
-  }, [filteredRows, isLoading, data]);
+  }, [filteredRows, isLoading]);
 
   return (
-    <div
-      className={classNames(styles.wrapper, {
-        [styles.loading]: isLoading
-      })}
-    >
-      <Header
-        shiftY={shiftY}
-        sortState={sortState}
-        updateSort={updateSort}
+    <React.Fragment>
+      <div
+        className={classNames(styles.wrapper, {
+          [styles.loading]: isLoading,
+          [styles.disabled]: !isLoading && !filteredRows?.length
+        })}
+      >
+        <Header
+          shiftY={shiftY}
+          sortState={sortState}
+          hasData={!!filteredRows?.length}
+          updateSort={updateSort}
+        />
+        {components}
+      </div>
+      <NoDataMessage
+        isLoading={isLoading}
+        data={data}
+        filteredData={filteredRows}
+        resetFilters={resetFilters}
+        setControlsOpen={setControlsOpen}
       />
-      {components}
-    </div>
+    </React.Fragment>
   );
 });
 
