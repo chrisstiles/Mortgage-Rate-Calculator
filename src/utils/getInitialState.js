@@ -130,6 +130,12 @@ export default function() {
     formattedState[key] = transform(value);
   });
 
+  if (formattedState[keys.LOAN_AMOUNT] >= formattedState[keys.HOME_VALUE]) {
+    // Default to 80% LTV
+    const loanAmount = formattedState[keys.LOAN_AMOUNT];
+    formattedState[keys.HOME_VALUE] = (loanAmount * 10) / 8;
+  }
+
   if (!formFields.includes(keys.ZIP_CODE)) {
     formattedState.zipCode = defaults.zipCode;
     formattedState.city = defaults.city;
