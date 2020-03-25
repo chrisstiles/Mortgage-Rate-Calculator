@@ -74,8 +74,6 @@ export function getFootprint(type = 'short') {
   return states.length ? states : ['CA'];
 }
 
-window.footprint = footprint;
-
 export function isInFootprint(zipCodeOrState) {
   if (!zipCodeOrState) {
     return false;
