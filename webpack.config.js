@@ -167,7 +167,7 @@ module.exports = (env, argv) => {
     Object.assign(config, {
       output: {
         path: path.resolve(__dirname, 'docs'),
-        filename: 'js/[name].[hash].js'
+        filename: 'js/[name].js'
       },
       devtool: 'source-map',
       plugins: [
