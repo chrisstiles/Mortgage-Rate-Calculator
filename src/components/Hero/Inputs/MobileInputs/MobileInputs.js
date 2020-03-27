@@ -93,7 +93,10 @@ const MobileInputs = memo(React.forwardRef(({
             className={styles.handle}
           />
           <div className={styles.content}>
-            <FocusLock disabled={!controlsOpen}>
+            <FocusLock
+              disabled={!controlsOpen}
+              autoFocus={false}
+            >
               {children}
             </FocusLock>
           </div>
