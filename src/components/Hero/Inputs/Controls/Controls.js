@@ -36,6 +36,7 @@ export default memo(function ControlComponents({
   errors,
   controlsOpen,
   onChange,
+  theme,
   updateErrors
 }) {
   const [canValidate, setCanValidate] = useState([]);
@@ -97,6 +98,7 @@ export default memo(function ControlComponents({
       name,
       tabIndex,
       loanType,
+      theme,
       value: state[name],
       key: name,
       hasError: !!errors.find(e => e.name === name),

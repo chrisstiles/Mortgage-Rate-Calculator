@@ -22,6 +22,7 @@ export default function Select({
   label,
   placeholder,
   maxWidth,
+  theme = 'light',
   fieldClassName,
   fieldStyle,
   tabIndex = 0,
@@ -105,11 +106,13 @@ export default function Select({
       label={label}
       className={fieldClassName}
       style={fieldStyle}
+      theme={theme}
       maxWidth={maxWidth}
     >
       <div
         ref={ref}
         className={classNames(styles.wrapper, {
+          [styles.dark]: theme === 'dark',
           [styles.focus]: isOpen,
           [styles.hasError]: hasError
         })}

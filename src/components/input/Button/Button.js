@@ -10,6 +10,8 @@ export default function Button({
   showArrow: _showArrow,
   theme = 'primary',
   style = {},
+  contentStyle = {},
+  contentClassName,
   fontSize,
   isClose,
   closeTooltipText = 'Close',
@@ -32,7 +34,8 @@ export default function Button({
       {href ?
         <a href={href} {...props}>
           <div
-            className={styles.content}
+            className={classNames(styles.content, contentClassName)}
+            style={contentStyle}
             tabIndex="-1"
           >
             {children}
@@ -41,7 +44,8 @@ export default function Button({
       :
         <button {...props}>
           <div
-            className={styles.content}
+            className={classNames(styles.content, contentClassName)}
+            style={contentStyle}
             tabIndex="-1"
           >
             {children}

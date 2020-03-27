@@ -104,3 +104,10 @@
   font-size:.8em;
   opacity:.8;
 }
+
+/*---------------------------*/
+/* Dark Theme */
+
+.dark {
+  @include inputStyles($theme: dark);
+}

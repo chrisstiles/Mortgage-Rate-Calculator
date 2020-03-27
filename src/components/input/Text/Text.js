@@ -13,16 +13,21 @@ export default memo(function Text({
   type = 'text',
   format,
   isCurrency,
+  theme = 'light',
+  size,
   icon: _icon,
+  iconPosition = 'left',
   iconStyle = {},
   iconLeft,
-  insetLeft,
+  iconPadding,
   iconClassName,
   style = {},
   fieldStyle,
+  width,
   maxWidth,
   validate,
   loanType,
+  inlineLabel,
   hasError,
   onChange,
   onFocus,
@@ -58,12 +63,13 @@ export default memo(function Text({
   }, [onChange, name]);
 
   const [props, icon] = useMemo(() => {
+    const paddingProperty = iconPosition === 'right' ? 'paddingRight' : 'paddingLeft';
     const props = {
       value,
       type,
       validate,
       className: classNames(styles.input, className),
-      style: { ...style, paddingLeft: insetLeft },
+      style: { ...style, [paddingProperty]: iconPadding },
       onFocus: handleFocus,
       onBlur: handleBlur,
     };
@@ -83,8 +89,8 @@ export default memo(function Text({
       props.allowNegative = false;
       props.decimalSeparator = false;
 
-      const insetLeft = props.insetLeft ?? 30;
-      props.style = { ...props.style, paddingLeft: insetLeft };
+      const padding = props.iconPadding ?? (size === 'small' ? 20 : 30);
+      props.style = { ...props.style, [paddingProperty]: padding };
     }
 
     return [props, icon];
@@ -92,9 +98,11 @@ export default memo(function Text({
     value,
     format,
     isCurrency,
+    size,
     _icon,
+    iconPosition,
     className,
-    insetLeft,
+    iconPadding,
     style,
     type,
     isNumber,
@@ -109,14 +117,21 @@ export default memo(function Text({
       label={label}
       className={fieldClassName}
       style={fieldStyle}
+      theme={theme}
+      size={size}
+      inlineLabel={inlineLabel}
       maxWidth={maxWidth}
     >
       <div
         className={classNames(styles.wrapper, {
+          [styles.dark]: theme === 'dark',
+          [styles.small]: size === 'small',
+          [styles.leftIcon]: icon && iconPosition !== 'right',
+          [styles.rightIcon]: icon && iconPosition === 'right',
           [styles.focus]: isFocused,
-          [styles.hasIcon]: icon,
           [styles.hasError]: hasError
         })}
+        style={{ width }}
       >
         {icon &&
           <div

@@ -28,18 +28,34 @@ export default function RateSliders({ data, filterState, setFilterState }) {
     return [min, max];
   }, [data]);
 
-  console.log(min.rate, max.rate)
-
   return (
-    <div className={styles.column}>
+    <React.Fragment>
       <Slider
         label="Interest Rate"
         value={[min.rate, max.rate]}
         min={min.rate}
         max={max.rate}
-        minDistance={.001}
+        minDistance={.050}
         step={.001}
       />
-    </div>
+
+      <Slider
+        label="Closing Costs"
+        value={[min.rate, max.rate]}
+        min={min.rate}
+        max={max.rate}
+        minDistance={.050}
+        step={.001}
+      />
+
+      <Slider
+        label="Monthly Payments"
+        value={[min.rate, max.rate]}
+        min={min.rate}
+        max={max.rate}
+        minDistance={.050}
+        step={.001}
+      />
+    </React.Fragment>
   );
 }

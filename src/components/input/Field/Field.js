@@ -9,16 +9,28 @@ export default function Field({
   children,
   maxWidth,
   style = {},
+  theme,
+  size,
+  inlineLabel,
   ...restProps
 }) {
   return (
     <div
-      className={classNames('fieldWrapper', styles.wrapper, className)}
+      className={classNames(
+        'fieldWrapper',
+        styles.wrapper,
+        className,
+        {
+          [styles.dark]: theme === 'dark',
+          [styles.inlineLabel]: inlineLabel,
+          [styles.small]: size === 'small'
+        }
+      )}
       style={{ ...style, maxWidth }}
       {...restProps}
     >
       {label &&
-        <Label>{label}</Label>
+        <Label className={styles.label}>{label}</Label>
       }
       {children}
     </div>

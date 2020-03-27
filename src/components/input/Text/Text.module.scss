@@ -15,14 +15,11 @@
   position:absolute;
   top:0;
   bottom:0;
-  left:15px;
   z-index: 100;
-  color:#cacaca;
   display:flex;
   align-items:center;
   justify-content:center;
   line-height:1;
-  font-size:14px;
   cursor:default;
   pointer-events:none;
 
@@ -32,9 +29,23 @@
   }
 }
 
-.hasIcon {
+.leftIcon {
   .input {
     padding-left:40px;
+  }
+
+  .icon {
+    left:15px;
+  }
+}
+
+.rightIcon {
+  .input {
+    padding-right:40px;
+  }
+
+  .icon {
+    right:15px;
   }
 }
 
@@ -68,5 +79,47 @@
 
   &::-ms-clear {
     display: none;
+  }
+}
+
+
+/*---------------------------*/
+/* Dark Theme */
+
+.dark {
+  @include inputStyles($theme: dark);
+}
+
+
+/*---------------------------*/
+/* Small Inputs */
+
+.small {
+  height:28px;
+  font-size:12px;
+
+  .input {
+    height:28px;
+    padding:0 10px;
+  }
+
+  &.leftIcon {
+    .input {
+      padding-left:25px;
+    }
+
+    .icon {
+      left:8px;
+    }
+  }
+
+  &.rightIcon {
+    .input {
+      padding-right:25px;
+    }
+
+    .icon {
+      right:8px;
+    }
   }
 }

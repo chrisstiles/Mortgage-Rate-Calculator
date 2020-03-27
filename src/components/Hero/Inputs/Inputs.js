@@ -45,6 +45,7 @@ export default memo(function Inputs({
       errors={errors}
       updateErrors={updateErrors}
       controlsOpen={controlsOpen}
+      theme={isMobile ? 'light' : 'dark'}
       onChange={setState}
     />
   );

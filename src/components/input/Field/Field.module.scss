@@ -4,4 +4,28 @@
 
 .wrapper {
   position:relative;
+  color:#252525;
+  flex-shrink:0;
+}
+
+.dark {
+  color:#fff;
+}
+
+.small {
+  .label {
+    font-size:12px;
+  }
+}
+
+.inlineLabel {
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+
+  .label {
+    margin-bottom:0;
+    margin-right:10px;
+    flex-grow:0;
+  }
 }
