@@ -8,9 +8,14 @@
   width:370px;
   max-width:100%;
   margin-bottom:60px;
+  position:relative;
 
   &:last-child {
     margin-bottom:0;
+  }
+
+  &:hover {
+    z-index: 300;
   }
 }
 
@@ -29,6 +34,7 @@
   color:#252525;
   display:block;
   margin-right:8px;
+  cursor:text;
 }
 
 .inputs {
