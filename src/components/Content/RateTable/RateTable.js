@@ -10,6 +10,7 @@ import config from '@config';
 import { sort, keys } from '@enums';
 import { cache } from '@app';
 import classNames from 'classnames';
+import { isNumber } from 'lodash';
 
 export default memo(function RateTable({
   data,
@@ -63,10 +64,20 @@ export default memo(function RateTable({
     // Filter rows
     const filteredData = data.filter(({
       type,
-      term
+      term,
+      rate
     }) => {
+      const f = filterState;
       // Product type
-      if (filterState[type] || filterState.products?.includes(term)) {
+      if (f[type] || f.products?.includes(term)) {
+        return false;
+      }
+
+      // Rate
+      if (
+        (isNumber(f.rate.min) && f.rate.min > rate) ||
+        (isNumber(f.rate.max) && f.rate.max < rate)
+      ) {
         return false;
       }
 

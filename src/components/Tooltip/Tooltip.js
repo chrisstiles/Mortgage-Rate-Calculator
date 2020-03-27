@@ -7,6 +7,7 @@ export default memo(function Tooltip({
   children,
   text = '',
   forceHidden,
+  offset,
   ...restProps
 }) {
   return (
@@ -20,6 +21,7 @@ export default memo(function Tooltip({
           className={classNames(styles.tooltip, {
             [styles.hidden]: forceHidden
           })}
+          style={{ marginTop: offset }}
         >
           {text}
         </div>

@@ -1,6 +1,6 @@
-import { isPlainObject, isFunction, isString, findKey, isEqual } from 'lodash';
+import { isPlainObject, isFunction, isString, findKey, isEqual, isNumber } from 'lodash';
 import { cache } from '@app';
-import { footprint } from '@config';
+import { footprint, minDecimals, maxDecimals } from '@config';
 import states from '@utils/states';
 
 export function getState(state, value, name) {
@@ -39,8 +39,17 @@ export function formatCurrency(num) {
   return `$${num}`;
 }
 
-export function formatPercent(num1, num2) {
-  return `${Math.round(((num1 / num2) * 100))}%`;
+export function formatPercent(num1, num2, addDecimals) {
+  let num = !isNumber(num2) ? num1 : Math.round(((num1 / num2) * 100));
+
+  if (addDecimals) {
+    num = Number(num).toLocaleString('en-US', {
+      minimumFractionDigits: minDecimals,
+      maximumFractionDigits: maxDecimals
+    });
+  }
+
+  return `${num}%`;
 }
 
 export function getUSState(str) {

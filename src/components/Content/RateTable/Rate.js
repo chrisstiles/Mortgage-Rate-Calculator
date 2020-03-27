@@ -2,12 +2,8 @@ import React from 'react';
 import styles from './RateTable.module.scss';
 import { RateBadge } from './icons';
 import classNames from 'classnames';
-import {
-  minDecimals,
-  maxDecimals,
-  highlightLowestRate,
-  showBadges
-} from '@config';
+import { highlightLowestRate, showBadges } from '@config';
+import { formatPercent } from '@helpers';
 
 export default function Rate({ rate, apr, isMinRate }) {
   return (
@@ -16,21 +12,12 @@ export default function Rate({ rate, apr, isMinRate }) {
         [styles.highlight]: isMinRate && highlightLowestRate
       })}
     >
-      {formatRate(rate)} <Divider /> {formatRate(apr)}
+      {formatPercent(rate, null, true)} <Divider /> {formatPercent(apr, null, true)}
       {isMinRate && showBadges &&
         <RateBadge className={styles.badge} />
       }
     </div>
   );
-}
-
-function formatRate(num) {
-  num = Number(num).toLocaleString('en-US', {
-    minimumFractionDigits: minDecimals,
-    maximumFractionDigits: maxDecimals
-  });
-
-  return `${num}%`;
 }
 
 export function Divider() {
