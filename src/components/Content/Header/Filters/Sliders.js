@@ -18,20 +18,6 @@ export default function Sliders({ data, filterState, setFilterState }) {
       return [min, max];
     }
 
-    // data.forEach(({ rate, apr, closingCosts, payment }, index) => {
-    //   if (index === 0) {
-    //     min.rate = rate;
-    //     min.apr = apr;
-    //     max.rate = rate;
-    //     max.apr = apr;
-    //   } else {
-    //     min.rate = Math.min(min.rate, rate);
-    //     min.apr = Math.min(min.apr, apr);
-    //     max.rate = Math.max(max.rate, rate);
-    //     max.apr = Math.max(max.rate, apr);
-    //   }
-    // });
-
     data.forEach((item, index) => {
       [keys.RATE, keys.CLOSING_COSTS, keys.PAYMENT].forEach(key => {
         if (index === 0) {
