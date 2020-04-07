@@ -1,4 +1,11 @@
-import React, { useState, useMemo, useCallback, useRef, memo, useEffect } from 'react';
+import React, {
+  useState,
+  useMemo,
+  useCallback,
+  useRef,
+  memo,
+  useEffect
+} from 'react';
 import { Field } from '@input';
 import classNames from 'classnames';
 import styles from './Text.module.scss';
@@ -38,11 +45,13 @@ export default memo(function Text({
   const isNumber = isCurrency || format;
 
   const valueRef = useRef('');
-  useEffect(() => { valueRef.current = value; });
+  useEffect(() => {
+    valueRef.current = value;
+  });
 
   const handleFocus = useCallback(() => {
     setIsFocused(true);
-    
+
     if (onFocus) {
       onFocus(valueRef.current, name);
     }
@@ -50,20 +59,24 @@ export default memo(function Text({
 
   const handleBlur = useCallback(() => {
     setIsFocused(false);
-    
+
     if (onBlur) {
       onBlur(valueRef.current, name);
     }
   }, [onBlur, name]);
 
-  const handleChange = useCallback(value => {
-    if (onChange) {
-      onChange(value, name);
-    }
-  }, [onChange, name]);
+  const handleChange = useCallback(
+    value => {
+      if (onChange) {
+        onChange(value, name);
+      }
+    },
+    [onChange, name]
+  );
 
   const [props, icon] = useMemo(() => {
-    const paddingProperty = iconPosition === 'right' ? 'paddingRight' : 'paddingLeft';
+    const paddingProperty =
+      iconPosition === 'right' ? 'paddingRight' : 'paddingLeft';
     const props = {
       value,
       type,
@@ -71,7 +84,7 @@ export default memo(function Text({
       className: classNames(styles.input, className),
       style: { ...style, [paddingProperty]: iconPadding },
       onFocus: handleFocus,
-      onBlur: handleBlur,
+      onBlur: handleBlur
     };
 
     if (isNumber) {
@@ -111,7 +124,7 @@ export default memo(function Text({
     handleChange,
     validate
   ]);
- 
+
   return (
     <Field
       label={label}
@@ -133,20 +146,20 @@ export default memo(function Text({
         })}
         style={{ width }}
       >
-        {icon &&
+        {icon && (
           <div
             className={classNames(styles.icon, iconClassName)}
             style={{ ...iconStyle, left: iconLeft }}
           >
             {icon}
           </div>
-        }
+        )}
         <React.Fragment>
-          {isNumber ?
+          {isNumber ? (
             <NumberFormat {...{ ...props, ...restProps }} />
-          :
+          ) : (
             <input {...{ ...props, ...restProps }} />
-          }
+          )}
         </React.Fragment>
       </div>
     </Field>

@@ -1,8 +1,8 @@
 import React, { memo } from 'react';
 import styles from './filters.module.scss';
-import { Button, Slider } from '@input';
+import { Button } from '@input';
 import ProductTypes from './ProductTypes';
-import RateSliders from './RateSliders';
+import Sliders from './Sliders';
 import { ReactComponent as Reset } from './reset.svg';
 
 export default memo(function Filters({
@@ -50,7 +50,7 @@ export default memo(function Filters({
         />
 
         <div className={styles.column}>
-          <RateSliders
+          <Sliders
             data={data}
             filterState={filterState}
             setFilterState={setFilterState}

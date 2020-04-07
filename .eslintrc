@@ -6,16 +6,17 @@
   },
   "parserOptions": {
     "ecmaVersion": 2018,
-    "sourceType": "module"
+    "sourceType": "module",
+    "ecamaFeatures": {
+      "jsx": "react"
+    }
   },
-  "extends": "react-app",
+  "extends": ["react-app"],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
   },
-  "plugins": [
-    "babel"
-  ],
+  "plugins": ["react", "babel"],
   "rules": {
     "no-unused-expressions": 0,
     "babel/no-unused-expressions": 0

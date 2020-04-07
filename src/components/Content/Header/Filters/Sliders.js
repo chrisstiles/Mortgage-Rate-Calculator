@@ -1,17 +1,28 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Slider } from '@input';
 import { formatPercent } from '@helpers';
 
-export default function RateSliders({ data, filterState, setFilterState }) {
+export default function Sliders({
+  data,
+  filterState,
+  setFilterState
+}) {
   const [min, max] = useMemo(() => {
-    const min = { rate: null, apr: null };
-    const max = { rate: null, apr: null };
+    const defaultValues = {
+      rate: null,
+      apr: null,
+      closingCosts: null,
+      payment: null
+    };
+
+    const min = { ...defaultValues };
+    const max = { ...defaultValues };
 
     if (!data?.length) {
       return [min, max];
     }
 
-    data.forEach(({ rate, apr }, index) =>  {
+    data.forEach(({ rate, apr, closingCosts, payment }, index) => {
       if (index === 0) {
         min.rate = rate;
         min.apr = apr;
@@ -28,23 +39,28 @@ export default function RateSliders({ data, filterState, setFilterState }) {
     return [min, max];
   }, [data]);
 
-  console.log(filterState.rate.min)
-
-  const handleChange = useCallback((value, name) => {
-    const [min, max] = value;
-    setFilterState({ [name]: { min, max } }, name);
-  }, [setFilterState]);
+  const handleChange = useCallback(
+    (value, name) => {
+      const [min, max] = value;
+      setFilterState({ [name]: { min, max } }, name);
+    },
+    [setFilterState]
+  );
 
   return (
     <React.Fragment>
       <Slider
         label="Interest Rate"
         name="rate"
-        value={getValue([filterState.rate.min, filterState.rate.max], min.rate, max.rate)}
+        value={getValue(
+          [filterState.rate.min, filterState.rate.max],
+          min.rate,
+          max.rate
+        )}
         min={min.rate}
         max={max.rate}
-        minDistance={.030}
-        step={.001}
+        minDistance={0.03}
+        step={0.001}
         inputWidth={70}
         transformValue={v => formatPercent(v, null, true)}
         onAfterChange={handleChange}

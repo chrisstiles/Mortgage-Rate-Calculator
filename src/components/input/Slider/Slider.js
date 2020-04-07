@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Text } from '@input';
 import Tooltip from '@components/Tooltip';
 import styles from './Slider.module.scss';
@@ -21,50 +21,109 @@ export default function Slider({
   isPercent,
   onAfterChange
 }) {
+  const [isDragging, setIsDragging] = useState(false);
   const [currentValue, setCurrentValue] = useState([
     value[0] ?? min,
     value[1] ?? max
   ]);
 
-  const [isDragging, setIsDragging] = useState(false);
-  const prevRef = useRef({});
+  const [textValue, setTextValue] = useState({
+    min: getValue(currentValue[0], isPercent),
+    max: getValue(currentValue[1], isPercent)
+  });
+
+  const getValueWithinDistance = useCallback(
+    (num, name) => {
+      const isMin = name === 'min';
+      const value = currentValue.slice();
+
+      if (isMin) {
+        if (num < min) {
+          num = min;
+        } else if (num > currentValue[1] - minDistance) {
+          num = currentValue[1] - minDistance;
+        }
+      } else {
+        if (num > max) {
+          num = max;
+        } else if (num < currentValue[0] + minDistance) {
+          num = currentValue[0] + minDistance;
+        }
+      }
+
+      value[isMin ? 0 : 1] = num;
+
+      return value;
+    },
+    [currentValue, max, min, minDistance]
+  );
+
+  const handleTextChange = useCallback(
+    (value, name) => {
+      setTextValue(prevValue => ({
+        ...prevValue,
+        [name]: value
+      }));
+
+      const _value = parseFloat(value);
+
+      if (!isNaN(_value)) {
+        setCurrentValue(getValueWithinDistance(_value, name));
+      }
+    },
+    [getValueWithinDistance]
+  );
+
+  const handleTextBlur = useCallback(() => {
+    if (onAfterChange) {
+      onAfterChange(currentValue, name);
+    }
+  }, [currentValue, onAfterChange, name]);
 
   useEffect(() => {
-    prevRef.current.min = value[0] ?? min;
-    prevRef.current.max = value[1] ?? max;
-  }, [value, min, max]);
+    setCurrentValue(value.slice());
+    setTextValue({
+      min: getValue(value[0], isPercent),
+      max: getValue(value[1], isPercent)
+    });
+  }, [value, isPercent]);
 
-  const handleChange = useCallback(value => {
-    setCurrentValue(value);
-  }, []);
+  const handleChange = useCallback(
+    value => {
+      setCurrentValue(value.slice());
+      setTextValue({
+        min: getValue(value[0], isPercent),
+        max: getValue(value[1], isPercent)
+      });
+    },
+    [isPercent]
+  );
 
   // Only change min or max value if the user has changed it
-  const handleAfterChange = useCallback(sliderValue => {
-    const [min, max] = sliderValue;
-    const newValue = [
-      min === prevRef.current.min ? value[0] : sliderValue[0],
-      max === prevRef.current.max ? value[1] : sliderValue[1]
-    ];
+  const handleAfterChange = useCallback(
+    sliderValue => {
+      if (onAfterChange) {
+        onAfterChange(sliderValue, name);
+      }
 
-    if (onAfterChange) {
-      onAfterChange(newValue, name);
-    }
-
-    setIsDragging(false);
-  }, [setIsDragging, value, name, onAfterChange]);
+      setIsDragging(false);
+    },
+    [setIsDragging, name, onAfterChange]
+  );
 
   const textProps = {
     isCurrency,
     size: 'small',
     width: inputWidth,
-    inlineLabel: true
+    inlineLabel: true,
+    onChange: handleTextChange,
+    onBlur: handleTextBlur
   };
 
   if (isPercent) {
     textProps.icon = '%';
     textProps.iconPosition = 'right';
   }
-
   return (
     <div
       className={classNames(styles.wrapper, className, {
@@ -72,21 +131,18 @@ export default function Slider({
       })}
     >
       <div className={styles.top}>
-        {label &&
-          <label className={styles.label}>
-            {label}
-          </label>
-        }
+        {label && <label className={styles.label}>{label}</label>}
         <div className={styles.inputs}>
           <Text
-            value={getValue(currentValue[0] ?? min, isPercent)}
-            label="Max:"
+            value={textValue.min}
+            label="Min:"
+            name="min"
             {...textProps}
           />
-
           <Text
-            value={getValue(currentValue[1] ?? max, isPercent)}
-            label="Min:"
+            value={textValue.max}
+            label="Max:"
+            name="max"
             {...textProps}
           />
         </div>
@@ -103,13 +159,16 @@ export default function Slider({
         onChange={handleChange}
         onAfterChange={handleAfterChange}
         renderThumb={(props, state) => {
-          const value = transformValue ? transformValue(state.valueNow) : state.valueNow;
+          const value = transformValue
+            ? transformValue(state.valueNow)
+            : state.valueNow;
 
           return (
             <div {...props}>
               <Tooltip
                 text={value}
                 offset={0}
+                forceVisible={isDragging}
               >
                 <div className={styles.value} />
               </Tooltip>
