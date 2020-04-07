@@ -15,7 +15,9 @@ function getMinMax() {
 
       const { min, max } = value;
 
-      return (min === null || !isNaN(min)) && (max === null || !isNaN(max));
+      return (
+        (min === null || !isNaN(min)) && (max === null || !isNaN(max))
+      );
     },
     transform: ({ min, max }) => {
       if (min !== null) {
@@ -66,9 +68,13 @@ export default function getInitialFilterState() {
     const cachedValue = cachedFilters[key];
 
     if (validate(cachedValue)) {
-      formattedState[key] = transform ? transform(cachedValue) : cachedValue;
+      formattedState[key] = transform
+        ? transform(cachedValue)
+        : cachedValue;
     } else {
-      formattedState[key] = transform ? transform(defaultValue) : defaultValue;
+      formattedState[key] = transform
+        ? transform(defaultValue)
+        : defaultValue;
     }
   });
 

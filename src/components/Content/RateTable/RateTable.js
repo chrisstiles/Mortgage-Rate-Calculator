@@ -31,7 +31,7 @@ export default memo(function RateTable({
     if (!order || !sort.order[order.toUpperCase()]) {
       order = config.sortOrder;
     }
-    
+
     return { by, order, key };
   });
 
@@ -46,7 +46,7 @@ export default memo(function RateTable({
         key: findSortKey(sortBy)
       };
 
-      if (prevState.key === newState.key)  {
+      if (prevState.key === newState.key) {
         const { ASC, DESC } = sort.order;
         newState.order = prevState.order === ASC ? DESC : ASC;
       }
@@ -62,27 +62,31 @@ export default memo(function RateTable({
     }
 
     // Filter rows
-    const filteredData = data.filter(({
-      type,
-      term,
-      rate
-    }) => {
-      const f = filterState;
-      // Product type
-      if (f[type] || f.products?.includes(term)) {
-        return false;
-      }
+    const filteredData = data.filter(
+      ({ type, term, rate, closingCosts, payment }) => {
+        const f = filterState;
+        // Product type
+        if (f[type] || f.products?.includes(term)) {
+          return false;
+        }
 
-      // Rate
-      if (
-        (isNumber(f.rate.min) && f.rate.min > rate) ||
-        (isNumber(f.rate.max) && f.rate.max < rate)
-      ) {
-        return false;
-      }
+        if (
+          // Rate
+          (isNumber(f.rate.min) && f.rate.min > rate) ||
+          (isNumber(f.rate.max) && f.rate.max < rate) ||
+          // Closing costs
+          (isNumber(f.closingCosts.min) && f.closingCosts.min > closingCosts) ||
+          (isNumber(f.closingCosts.max) && f.closingCosts.max < closingCosts) ||
+          // Monthly payment
+          (isNumber(f.payment.min) && f.payment.min > payment) ||
+          (isNumber(f.payment.max) && f.payment.max < payment)
+        ) {
+          return false;
+        }
 
-      return true;
-    });
+        return true;
+      }
+    );
 
     // No products found for these filters
     if (!filteredData.length) {
@@ -159,30 +163,16 @@ export default memo(function RateTable({
     return filteredRows.map((item, index) => (
       <Row key={index}>
         <Cell>
-          <Product
-            term={item.term}
-            type={item.type}
-            isLoading={isLoading}
-          />
+          <Product term={item.term} type={item.type} isLoading={isLoading} />
         </Cell>
         <Cell hasBadge={item.isMinRate}>
-          <Rate
-            rate={item.rate}
-            apr={item.apr}
-            isMinRate={item.isMinRate}
-          />
+          <Rate rate={item.rate} apr={item.apr} isMinRate={item.isMinRate} />
         </Cell>
         <Cell>
-          <Currency
-            amount={item.closingCosts}
-            isClosingCosts
-          />
+          <Currency amount={item.closingCosts} isClosingCosts />
         </Cell>
         <Cell hasBadge={item.isMinPayment}>
-          <Currency
-            amount={item.payment}
-            isMinPayment={item.isMinPayment}
-          />
+          <Currency amount={item.payment} isMinPayment={item.isMinPayment} />
         </Cell>
       </Row>
     ));

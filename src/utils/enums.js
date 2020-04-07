@@ -1,8 +1,10 @@
-// The list of all possible keys used in 
+// The list of all possible keys used in
 // both editable fields and URL parameters
 export const keys = Object.freeze({
+  APR: 'apr',
   CURRENT_LOCATION: 'currentLocation',
   CITY: 'city',
+  CLOSING_COSTS: 'closingCosts',
   CREDIT_SCORE: 'creditScore',
   FILTER_STATE: 'filterState',
   HAS_VISITED: 'hasVisited',
@@ -12,7 +14,9 @@ export const keys = Object.freeze({
   LOAN_STATE: 'loanState',
   LOAN_TYPE: 'loanType',
   OCCUPANCY_TYPE: 'occupancyType',
+  PAYMENT: 'payment',
   PROPERTY_TYPE: 'propertyType',
+  RATE: 'rate',
   SORT_STATE: 'sortState',
   STATE: 'state',
   USER_SET_LOCATION: 'userSetLocation',
@@ -56,11 +60,14 @@ export const creditScoreRanges = Object.freeze({
 });
 
 export const propertyTypes = Object.freeze({
-  SFR: { value: 'sfr', label: 'Single family home'},
+  SFR: { value: 'sfr', label: 'Single family home' },
   PUD: { value: 'pud', label: 'Planned development' },
   CONDO: { value: 'condo', label: 'Condo' },
   MULTI_UNIT: { value: 'multiUnit', label: '2-4 Unit' },
-  MANUFACTURED: { value: 'manufacturedHome', label: 'Manufactured home' }
+  MANUFACTURED: {
+    value: 'manufacturedHome',
+    label: 'Manufactured home'
+  }
 });
 
 export const occupancyTypes = Object.freeze({

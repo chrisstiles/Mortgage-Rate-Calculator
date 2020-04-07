@@ -1,18 +1,14 @@
 import React, { useCallback, useMemo } from 'react';
 import { Slider } from '@input';
-import { formatPercent } from '@helpers';
+import { formatPercent, formatCurrency } from '@helpers';
+import { keys } from '@enums';
 
-export default function Sliders({
-  data,
-  filterState,
-  setFilterState
-}) {
+export default function Sliders({ data, filterState, setFilterState }) {
   const [min, max] = useMemo(() => {
     const defaultValues = {
-      rate: null,
-      apr: null,
-      closingCosts: null,
-      payment: null
+      [keys.RATE]: null,
+      [keys.CLOSING_COSTS]: null,
+      [keys.PAYMENT]: null
     };
 
     const min = { ...defaultValues };
@@ -22,18 +18,30 @@ export default function Sliders({
       return [min, max];
     }
 
-    data.forEach(({ rate, apr, closingCosts, payment }, index) => {
-      if (index === 0) {
-        min.rate = rate;
-        min.apr = apr;
-        max.rate = rate;
-        max.apr = apr;
-      } else {
-        min.rate = Math.min(min.rate, rate);
-        min.apr = Math.min(min.apr, apr);
-        max.rate = Math.max(max.rate, rate);
-        max.apr = Math.max(max.rate, apr);
-      }
+    // data.forEach(({ rate, apr, closingCosts, payment }, index) => {
+    //   if (index === 0) {
+    //     min.rate = rate;
+    //     min.apr = apr;
+    //     max.rate = rate;
+    //     max.apr = apr;
+    //   } else {
+    //     min.rate = Math.min(min.rate, rate);
+    //     min.apr = Math.min(min.apr, apr);
+    //     max.rate = Math.max(max.rate, rate);
+    //     max.apr = Math.max(max.rate, apr);
+    //   }
+    // });
+
+    data.forEach((item, index) => {
+      [keys.RATE, keys.CLOSING_COSTS, keys.PAYMENT].forEach(key => {
+        if (index === 0) {
+          min[key] = item[key];
+          max[key] = item[key];
+        } else {
+          min[key] = Math.min(min[key], item[key]);
+          max[key] = Math.max(max[key], item[key]);
+        }
+      });
     });
 
     return [min, max];
@@ -51,17 +59,17 @@ export default function Sliders({
     <React.Fragment>
       <Slider
         label="Interest Rate"
-        name="rate"
+        name={keys.RATE}
         value={getValue(
-          [filterState.rate.min, filterState.rate.max],
-          min.rate,
-          max.rate
+          [filterState[keys.RATE].min, filterState[keys.RATE].max],
+          min[keys.RATE],
+          max[keys.RATE]
         )}
-        min={min.rate}
-        max={max.rate}
-        minDistance={0.03}
+        min={min[keys.RATE]}
+        max={max[keys.RATE]}
+        minDistance={0.025}
         step={0.001}
-        inputWidth={70}
+        inputWidth={65}
         transformValue={v => formatPercent(v, null, true)}
         onAfterChange={handleChange}
         isPercent
@@ -69,20 +77,34 @@ export default function Sliders({
 
       <Slider
         label="Closing Costs"
-        value={[min.rate, max.rate]}
-        min={min.rate}
-        max={max.rate}
-        minDistance={1}
+        name={keys.CLOSING_COSTS}
+        value={getValue(
+          [filterState[keys.CLOSING_COSTS].min, filterState[keys.CLOSING_COSTS].max],
+          min[keys.CLOSING_COSTS],
+          max[keys.CLOSING_COSTS]
+        )}
+        min={min[keys.CLOSING_COSTS]}
+        max={max[keys.CLOSING_COSTS]}
+        minDistance={70}
+        transformValue={v => formatCurrency(v)}
+        onAfterChange={handleChange}
         step={1}
         isCurrency
       />
 
       <Slider
         label="Monthly Payments"
-        value={[min.rate, max.rate]}
-        min={min.rate}
-        max={max.rate}
-        minDistance={1}
+        name={keys.PAYMENT}
+        value={getValue(
+          [filterState[keys.PAYMENT].min, filterState[keys.PAYMENT].max],
+          min[keys.PAYMENT],
+          max[keys.PAYMENT]
+        )}
+        min={min[keys.PAYMENT]}
+        max={max[keys.PAYMENT]}
+        minDistance={55}
+        transformValue={v => formatCurrency(v)}
+        onAfterChange={handleChange}
         step={1}
         isCurrency
       />
@@ -91,8 +113,5 @@ export default function Sliders({
 }
 
 function getValue(value, min, max) {
-  return [
-    Math.max(min, value[0] ?? min),
-    Math.min(max, value[1] ?? max)
-  ];
+  return [Math.max(min, value[0] ?? min), Math.min(max, value[1] ?? max)];
 }
