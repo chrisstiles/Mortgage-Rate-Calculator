@@ -5,71 +5,67 @@
 @import '@styles/colors';
 
 .wrapper {
-  width:370px;
-  max-width:100%;
-  margin-bottom:60px;
-  position:relative;
+  width: 370px;
+  max-width: 100%;
+  margin-bottom: 60px;
+  position: relative;
 
   &:last-child {
-    margin-bottom:0;
+    margin-bottom: 0;
   }
 
-  &:hover {
-    z-index: 300;
+  &.dragging {
+    z-index: 400;
   }
 }
 
 .top {
-  margin-top:-7px;
-  margin-bottom:17px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  margin-top: -7px;
+  margin-bottom: 17px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .label {
-  line-height:1;
-  font-size:14px;
-  font-weight:600;
-  color:#252525;
-  display:block;
-  margin-right:8px;
-  cursor:text;
+  line-height: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: #252525;
+  display: block;
+  margin-right: 8px;
+  cursor: text;
 }
 
 .inputs {
-  display:flex;
-  align-items:center;
-  margin-right:-5px;
+  display: flex;
+  align-items: center;
+  margin-right: -5px;
 
   > * {
-    margin-right:15px;
+    margin-right: 15px;
 
     &:last-child {
-      margin-right:0;
+      margin-right: 0;
     }
   }
 
   label {
-    color:#5a5a5a !important;
+    color: #5a5a5a !important;
   }
 }
 
-$inactiveShadow:
-  0px 2px 5px rgba(0, 0, 0, 0.05),
-  0px 1px 2px rgba(0, 0, 0, 0.1),
-  0px 1px 4px rgba(0, 0, 0, 0.1);
+$inactiveShadow: 0px 2px 5px rgba(0, 0, 0, 0.05),
+  0px 1px 2px rgba(0, 0, 0, 0.1), 0px 1px 4px rgba(0, 0, 0, 0.1);
 
-$activeShadow:
-  0px 2px 5px rgba(0, 0, 0, 0.05),
-  0px 1px 2px rgba(0, 0, 0, 0.1),
-  0px 1px 4px rgba(0, 0, 0, 0.1),
-  0 0 0 6px rgba(17, 65, 66, .1);
+$activeShadow: 0px 2px 5px rgba(0, 0, 0, 0.05),
+  0px 1px 2px rgba(0, 0, 0, 0.1), 0px 1px 4px rgba(0, 0, 0, 0.1),
+  0 0 0 6px rgba(17, 65, 66, 0.1);
 
 :global {
   .sliderTrack {
-    background-color:#b9b9b9;
-    height:4px;
+    background-color: #b9b9b9;
+    height: 4px;
   }
 
   .sliderTrack-0,
@@ -87,15 +83,15 @@ $activeShadow:
   }
 
   .sliderThumb {
-    width:14px;
-    height:14px;
-    background-color:#fff;
+    width: 14px;
+    height: 14px;
+    background-color: #fff;
     box-shadow: $inactiveShadow;
-    border-radius:50%;
-    top:-5px;
-    outline:none;
-    text-align:center;
-    cursor:pointer;
+    border-radius: 50%;
+    top: -5px;
+    outline: none;
+    text-align: center;
+    cursor: pointer;
 
     &.active {
       box-shadow: $activeShadow !important;
@@ -110,16 +106,16 @@ $activeShadow:
 .dragging {
   :global(.sliderThumb) {
     &:hover {
-      box-shadow:$inactiveShadow;
+      box-shadow: $inactiveShadow;
     }
   }
 }
 
 .value {
-  position:relative;
-  width:24px;
-  height:24px;
-  border-radius:50%;
-  top:-5px;
-  left:-5px;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  top: -5px;
+  left: -5px;
 }

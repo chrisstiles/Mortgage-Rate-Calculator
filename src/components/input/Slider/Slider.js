@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Text } from '@input';
 import Tooltip from '@components/Tooltip';
+import useEvent from '@hooks/useEvent';
 import styles from './Slider.module.scss';
 import ReactSlider from 'react-slider';
 import classNames from 'classnames';
@@ -21,11 +22,17 @@ export default function Slider({
   isPercent,
   onAfterChange
 }) {
-  const [isDragging, setIsDragging] = useState(false);
+  const [currentThumb, setCurrentThumb] = useState(null);
   const [currentValue, setCurrentValue] = useState([
     value[0] ?? min,
     value[1] ?? max
   ]);
+
+  const [isDragging, setIsDragging] = useState(false);
+  useEvent('mouseup', window, () => {
+    setIsDragging(false);
+    setCurrentThumb(null);
+  });
 
   const [textValue, setTextValue] = useState({
     min: getValue(currentValue[0], isPercent),
@@ -78,6 +85,8 @@ export default function Slider({
     if (onAfterChange) {
       onAfterChange(currentValue, name);
     }
+
+    setIsDragging(false);
   }, [currentValue, onAfterChange, name]);
 
   useEffect(() => {
@@ -107,6 +116,7 @@ export default function Slider({
       }
 
       setIsDragging(false);
+      setCurrentThumb(null);
     },
     [setIsDragging, name, onAfterChange]
   );
@@ -124,6 +134,7 @@ export default function Slider({
     textProps.icon = '%';
     textProps.iconPosition = 'right';
   }
+
   return (
     <div
       className={classNames(styles.wrapper, className, {
@@ -165,13 +176,19 @@ export default function Slider({
 
           return (
             <div {...props}>
-              <Tooltip
-                text={value}
-                offset={0}
-                forceVisible={isDragging}
+              <div
+                onMouseDown={() => {
+                  setCurrentThumb(state.index);
+                }}
               >
-                <div className={styles.value} />
-              </Tooltip>
+                <Tooltip
+                  text={value}
+                  offset={0}
+                  forceVisible={currentThumb === state.index}
+                >
+                  <div className={styles.value} />
+                </Tooltip>
+              </div>
             </div>
           );
         }}

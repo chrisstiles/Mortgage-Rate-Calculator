@@ -12,13 +12,17 @@ export default memo(function Tooltip({
   ...restProps
 }) {
   return (
-    <div className={classNames(styles.wrapper, className)} {...restProps}>
+    <div
+      className={classNames(styles.wrapper, className, {
+        [styles.visible]: forceVisible
+      })}
+      {...restProps}
+    >
       {children}
       {text && (
         <div
           className={classNames(styles.tooltip, {
-            [styles.hidden]: forceHidden,
-            [styles.visible]: forceVisible
+            [styles.hidden]: forceHidden
           })}
           style={{ marginTop: offset }}
         >
