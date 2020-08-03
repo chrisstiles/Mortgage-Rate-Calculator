@@ -6,51 +6,50 @@
 @import '@styles/colors';
 
 .wrapper {
-  padding:29px 35px 22px 35px;
-  overflow:hidden;
+  padding: 29px 35px 22px 35px;
+  overflow: hidden;
 }
-
 
 /*---------------------------*/
 /* Top */
 
 .top {
-  display:flex;
-  align-items:center;
-  border-bottom:1px solid #D6D6D6;
-  padding-bottom:30px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #d6d6d6;
+  padding-bottom: 30px;
 }
 
 .rateIcon {
-  width:60px;
-  height:60px;
-  flex-grow:0;
-  flex-shrink:0;
-  margin-left:-3px;
+  width: 60px;
+  height: 60px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-left: -3px;
 }
 
 .title {
-  font-weight:600;
-  color:#252525;
-  margin-bottom:2px;
+  font-weight: 600;
+  color: #252525;
+  margin-bottom: 2px;
 }
 
 .subtitle {
-  color:#585858;
+  color: #585858;
 }
 
 .info {
-  margin:0 12px;
-  flex-grow:1;
+  margin: 0 12px;
+  flex-grow: 1;
 
   .title {
-    font-size:18px;
+    font-size: 18px;
     text-transform: uppercase;
   }
 
   .subtitle {
-    font-size:11px;
-    
+    font-size: 11px;
+
     &.hidden {
       opacity: 0;
     }
@@ -58,38 +57,37 @@
 }
 
 .chat {
-  display:flex;
-  margin-right:5px;
+  display: flex;
+  margin-right: 5px;
 
   .title {
-    font-size:15px;
+    font-size: 15px;
   }
 
   .subtitle {
-    font-size:12px;
+    font-size: 12px;
   }
 }
 
 .chatIcon {
-  width:40px;
-  height:40px;
-  margin-right:10px;
-  position:relative;
-  top:-4px;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  position: relative;
+  top: -4px;
 }
-
 
 /*---------------------------*/
 /* Middle */
 
 .middle {
-  display:flex;
-  justify-content:space-between;
-  margin-top:22px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 22px;
 }
 
 .filterButton {
-  margin-left:-15px;
+  margin-left: -15px;
 
   &.active {
     svg,
@@ -102,7 +100,7 @@
 .loading {
   .filterButton {
     @include noSelect;
-    opacity:.3;
-    pointer-events:none;
+    opacity: 0.3;
+    pointer-events: none;
   }
 }

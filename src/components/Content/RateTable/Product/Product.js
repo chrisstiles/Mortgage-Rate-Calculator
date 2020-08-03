@@ -2,17 +2,17 @@ import React, { memo } from 'react';
 import styles from './Product.module.scss';
 import { colors } from '@config';
 
-export default memo(function Product({ term, isAdjustable, isLoading }) {
+export default memo(function Product({ term, type, isLoading }) {
   if (!term) {
     return null;
   }
 
   const { main, text } = isLoading ? colors['15'] : colors[term] ?? colors.default;
   term = [String(term)];
-
-  if (isAdjustable === undefined) {
-    isAdjustable = term[0].includes('/');
-  }
+  const isAdjustable = type.match(/adjustable/i);
+  // if (isAdjustable === undefined) {
+  //   // isAdjustable = term[0].includes('/');
+  // }
 
   if (isAdjustable) {
     const termArr = term[0].split('/');
@@ -23,24 +23,13 @@ export default memo(function Product({ term, isAdjustable, isLoading }) {
   const typeText = [isAdjustable ? 'Adjustable' : 'Fixed', 'Rate Mortgage'].join(' ');
 
   return (
-    <div 
-      className={styles.wrapper}
-      style={{ color: main }}
-    >
-      <div
-        className={styles.term}
-        style={{ backgroundColor: main }}
-      >
+    <div className={styles.wrapper} style={{ color: main }}>
+      <div className={styles.term} style={{ backgroundColor: main }}>
         {termText}
       </div>
 
-      <div
-        className={styles.type}
-        style={{ color: main }}
-      >
-        <span style={{ color: text }}>
-          {typeText}
-        </span>
+      <div className={styles.type} style={{ color: main }}>
+        <span style={{ color: text }}>{typeText}</span>
       </div>
     </div>
   );

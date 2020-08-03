@@ -62,31 +62,29 @@ export default memo(function RateTable({
     }
 
     // Filter rows
-    const filteredData = data.filter(
-      ({ type, term, rate, closingCosts, payment }) => {
-        const f = filterState;
-        // Product type
-        if (f[type] || f.products?.includes(term)) {
-          return false;
-        }
-
-        if (
-          // Rate
-          (isNumber(f.rate.min) && f.rate.min > rate) ||
-          (isNumber(f.rate.max) && f.rate.max < rate) ||
-          // Closing costs
-          (isNumber(f.closingCosts.min) && f.closingCosts.min > closingCosts) ||
-          (isNumber(f.closingCosts.max) && f.closingCosts.max < closingCosts) ||
-          // Monthly payment
-          (isNumber(f.payment.min) && f.payment.min > payment) ||
-          (isNumber(f.payment.max) && f.payment.max < payment)
-        ) {
-          return false;
-        }
-
-        return true;
+    const filteredData = data.filter(({ type, term, rate, closingCosts, payment }) => {
+      const f = filterState;
+      // Product type
+      if (f[type] || f.products?.includes(term)) {
+        return false;
       }
-    );
+
+      if (
+        // Rate
+        (isNumber(f.rate.min) && f.rate.min > rate) ||
+        (isNumber(f.rate.max) && f.rate.max < rate) ||
+        // Closing costs
+        (isNumber(f.closingCosts.min) && f.closingCosts.min > closingCosts) ||
+        (isNumber(f.closingCosts.max) && f.closingCosts.max < closingCosts) ||
+        // Monthly payment
+        (isNumber(f.payment.min) && f.payment.min > payment) ||
+        (isNumber(f.payment.max) && f.payment.max < payment)
+      ) {
+        return false;
+      }
+
+      return true;
+    });
 
     // No products found for these filters
     if (!filteredData.length) {
@@ -160,22 +158,33 @@ export default memo(function RateTable({
       return null;
     }
 
-    return filteredRows.map((item, index) => (
-      <Row key={index}>
-        <Cell>
-          <Product term={item.term} type={item.type} isLoading={isLoading} />
-        </Cell>
-        <Cell hasBadge={item.isMinRate}>
-          <Rate rate={item.rate} apr={item.apr} isMinRate={item.isMinRate} />
-        </Cell>
-        <Cell>
-          <Currency amount={item.closingCosts} isClosingCosts />
-        </Cell>
-        <Cell hasBadge={item.isMinPayment}>
-          <Currency amount={item.payment} isMinPayment={item.isMinPayment} />
-        </Cell>
-      </Row>
-    ));
+    return filteredRows.map((item, index) => {
+      const isAdjustable = item.type.match(/adjustable/i);
+      // const term =
+
+      return (
+        <Row key={index}>
+          <Cell>
+            <Product
+              term={item.term}
+              type={item.type}
+              isAdjustable={isAdjustable}
+              months={item.months}
+              isLoading={isLoading}
+            />
+          </Cell>
+          <Cell hasBadge={item.isMinRate}>
+            <Rate rate={item.rate} apr={item.apr} isMinRate={item.isMinRate} />
+          </Cell>
+          <Cell>
+            <Currency amount={item.closingCosts} isClosingCosts />
+          </Cell>
+          <Cell hasBadge={item.isMinPayment}>
+            <Currency amount={item.payment} isMinPayment={item.isMinPayment} />
+          </Cell>
+        </Row>
+      );
+    });
   }, [filteredRows, isLoading]);
 
   return (

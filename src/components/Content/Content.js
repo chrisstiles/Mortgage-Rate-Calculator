@@ -1,6 +1,7 @@
 import React, { useState, useCallback, memo, useEffect } from 'react';
 import Header from './Header';
 import RateTable from './RateTable';
+import CTA from './CTA';
 import LoadingBar from './LoadingBar';
 import styles from './Content.module.scss';
 import getInitialFilterState, { defaultFilters } from '@utils/getInitialFilterState';
@@ -36,7 +37,7 @@ export default memo(function ContentWrapper({
 
   const shiftY = controlsHeight ?? 0;
   const [hasInitialized, setHasInitialized] = useState(false);
-  
+
   useEffect(() => {
     setTimeout(() => setHasInitialized(true), 100);
   }, []);
@@ -51,10 +52,7 @@ export default memo(function ContentWrapper({
         marginTop: -shiftY
       }}
     >
-      <div
-        className={styles.angle}
-        style={{ height: controlsHeight + 150 }}
-      />
+      <div className={styles.angle} style={{ height: controlsHeight + 150 }} />
       <Content
         loanType={loanType}
         shiftY={-shiftY}
@@ -69,40 +67,43 @@ export default memo(function ContentWrapper({
   );
 });
 
-const Content = memo(({
-  loanType,
-  shiftY,
-  isLoading,
-  effectiveDate,
-  filterState,
-  setFilterState,
-  setControlsOpen,
-  resetFilters
-}) => {
-  return (
-    <div
-      className={classNames(styles.content, {
-        [styles.loading]: isLoading
-      })}
-    >
-      {isLoading && <LoadingBar />}
-      <Header
-        data={sampleData}
-        loanType={loanType}
-        isLoading={isLoading}
-        effectiveDate={effectiveDate}
-        filterState={filterState}
-        setFilterState={setFilterState}
-        resetFilters={resetFilters}
-      />
-      <RateTable
-        data={sampleData}
-        shiftY={shiftY}
-        isLoading={isLoading}
-        filterState={filterState}
-        setControlsOpen={setControlsOpen}
-        resetFilters={resetFilters}
-      />
-    </div>
-  );
-});
+const Content = memo(
+  ({
+    loanType,
+    shiftY,
+    isLoading,
+    effectiveDate,
+    filterState,
+    setFilterState,
+    setControlsOpen,
+    resetFilters
+  }) => {
+    return (
+      <div
+        className={classNames(styles.content, {
+          [styles.loading]: isLoading
+        })}
+      >
+        {isLoading && <LoadingBar />}
+        <Header
+          data={sampleData}
+          loanType={loanType}
+          isLoading={isLoading}
+          effectiveDate={effectiveDate}
+          filterState={filterState}
+          setFilterState={setFilterState}
+          resetFilters={resetFilters}
+        />
+        <RateTable
+          data={sampleData}
+          shiftY={shiftY}
+          isLoading={isLoading}
+          filterState={filterState}
+          setControlsOpen={setControlsOpen}
+          resetFilters={resetFilters}
+        />
+        <CTA />
+      </div>
+    );
+  }
+);

@@ -20,19 +20,22 @@ export default function App() {
   const [effectiveDate, setEffectiveDate] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const prevState = useRef(null);
-  const fetchRates = useCallback(async state => {
-    const stateKeys = Object.keys(state).filter(k => k !== keys.LOAN_TYPE);
+  const fetchRates = useCallback(
+    async state => {
+      const stateKeys = Object.keys(state).filter(k => k !== keys.LOAN_TYPE);
 
-    if (!prevState.current || !compareObjects(state, prevState.current, stateKeys)) {
-      setIsLoading(true);
-      setTimeout(() => {
-        setEffectiveDate(new Date());
-        setIsLoading(false);
-      }, 1000);
-    }
+      if (!prevState.current || !compareObjects(state, prevState.current, stateKeys)) {
+        setIsLoading(true);
+        setTimeout(() => {
+          setEffectiveDate(new Date());
+          setIsLoading(false);
+        }, 1000);
+      }
 
-    prevState.current = state;
-  }, [setIsLoading]);
+      prevState.current = state;
+    },
+    [setIsLoading]
+  );
 
   const setState = useCallback((value, name) => {
     _setState(state => {
@@ -46,6 +49,8 @@ export default function App() {
       return newState;
     });
   }, []);
+
+  console.log(state);
 
   // Loads zip codes if they aren't cached in local storage
   const zipCodeInitComplete = useRef(!!zipCodes);
@@ -100,7 +105,7 @@ export default function App() {
               }
             }
           } catch (error) {
-            console.log(error)
+            console.error(error);
           } finally {
             setHasInitialLocation(true);
           }
