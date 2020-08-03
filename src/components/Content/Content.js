@@ -15,9 +15,10 @@ import getInitialFilterState, {
 } from '@utils/getInitialFilterState';
 import classNames from 'classnames';
 import sampleData from './RateTable/sample-data.json';
-import { getState, getLoanTerm } from '@helpers';
 import { cache } from '@app';
 import { keys } from '@enums';
+import formatData from '@utils/formatData';
+import { getState } from '@helpers';
 
 export default memo(function ContentWrapper({
   isLoading,
@@ -53,27 +54,7 @@ export default memo(function ContentWrapper({
   // Adjust the formatting and shape of data
   // to match what the front-end app expects
   const data = useMemo(() => {
-    if (!Array.isArray(sampleData)) {
-      return [];
-    }
-
-    return sampleData
-      .map(p => {
-        // Converts term value to be formatted based on product
-        // IE: fixed: 30, adjustable: 5/1
-        p.term = getLoanTerm(p.months, p.type);
-
-        if (!p.term) {
-          return null;
-        }
-
-        // We store a numeric value for the term for sorting
-        p.termValue = parseInt(p.term.split('/')[0]);
-        p.type = p.type.toLowerCase();
-
-        return p;
-      })
-      .filter(p => p);
+    return formatData(sampleData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sampleData]);
 

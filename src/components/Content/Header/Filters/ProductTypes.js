@@ -2,7 +2,6 @@ import React, { useMemo, useCallback, memo } from 'react';
 import { Switch } from '@input';
 import styles from './filters.module.scss';
 import ProductFilter from './ProductFilter';
-import { isFixedRate, isAdjustableRate } from '@helpers';
 
 export default memo(function ProductTypes({
   data,
@@ -37,14 +36,14 @@ export default memo(function ProductTypes({
     const adjustable = [];
 
     data.forEach(product => {
-      const type = product.type.toLowerCase();
-      const term = product.term;
-
-      if (isFixedRate(type) && !fixed.find(p => p.term === term)) {
+      if (
+        product.isFixed &&
+        !fixed.find(p => p.term === product.term)
+      ) {
         fixed.push(product);
       } else if (
-        isAdjustableRate(type) &&
-        !adjustable.find(p => p.term === term)
+        product.isAdjustable &&
+        !adjustable.find(p => p.term === product.term)
       ) {
         adjustable.push(product);
       }
@@ -53,17 +52,17 @@ export default memo(function ProductTypes({
     const createComponents = products => {
       return products
         .sort((a, b) => parseInt(b.term) - parseInt(a.term))
-        .map(({ term, type }) => {
+        .map(({ term, type, isAdjustable }) => {
           const isActive = !filterState.products?.includes(term);
           const isDisabled = !!filterState[type];
 
           return (
             <ProductFilter
               key={term}
+              term={term}
+              isAdjustable={isAdjustable}
               isActive={isActive}
               isDisabled={isDisabled}
-              term={term}
-              type={type}
               onClick={handleProductClick}
             />
           );

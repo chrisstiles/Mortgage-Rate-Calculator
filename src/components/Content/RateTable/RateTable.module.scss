@@ -41,7 +41,8 @@
 
 .row {
   .cell {
-    padding: 8px 15px;
+    padding: 0 15px;
+    height: 62px;
   }
 
   &:last-child {
@@ -132,7 +133,8 @@
     }
 
     &:global(.focus-visible) {
-      box-shadow: 0 0 0 2px rgba(25, 58, 60, 0.7), 0 0 0 6px rgba(162, 237, 241, 0.3);
+      box-shadow: 0 0 0 2px rgba(25, 58, 60, 0.7),
+        0 0 0 6px rgba(162, 237, 241, 0.3);
       z-index: 600;
     }
   }

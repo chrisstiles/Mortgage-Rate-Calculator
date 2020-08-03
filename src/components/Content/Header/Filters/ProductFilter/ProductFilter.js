@@ -2,11 +2,10 @@ import React, { memo } from 'react';
 import styles from './ProductFilter.module.scss';
 import { colors } from '@config';
 import classNames from 'classnames';
-import { isAdjustableRate } from '@helpers';
 
 export default memo(function ProductFilter({
   term,
-  type,
+  isAdjustable,
   isActive = true,
   isDisabled,
   onClick = () => {}
@@ -17,7 +16,7 @@ export default memo(function ProductFilter({
     }
   };
 
-  const typeText = isAdjustableRate(type) ? 'ARM' : 'Year Fixed';
+  const typeText = isAdjustable ? 'ARM' : 'Year Fixed';
 
   return (
     <button

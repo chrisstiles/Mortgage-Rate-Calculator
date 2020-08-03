@@ -1,7 +1,6 @@
 import React, { memo } from 'react';
 import styles from './Product.module.scss';
 import { colors } from '@config';
-import { isAdjustableRate } from '@helpers';
 
 export default memo(function Product({ product, isLoading }) {
   const { main, text } = isLoading
@@ -9,16 +8,14 @@ export default memo(function Product({ product, isLoading }) {
     : colors[product.term] ?? colors.default;
   let term = [product.term];
 
-  const isAdjustable = isAdjustableRate(product.type);
-
-  if (isAdjustable) {
+  if (product.isAdjustable) {
     const termArr = term[0].split('/');
     term = [termArr[0], <span key="slash">/</span>, termArr[1]];
   }
 
-  const termText = [...term, isAdjustable ? '' : ' Year'];
+  const termText = [...term, product.isAdjustable ? '' : ' Year'];
   const typeText = [
-    isAdjustable ? 'Adjustable' : 'Fixed',
+    product.isAdjustable ? 'Adjustable' : 'Fixed',
     'Rate Mortgage'
   ].join(' ');
 
