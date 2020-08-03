@@ -60,20 +60,29 @@ export const creditScoreRanges = Object.freeze({
 });
 
 export const propertyTypes = Object.freeze({
-  SFR: { value: 'sfr', label: 'Single family home' },
-  PUD: { value: 'pud', label: 'Planned development' },
-  CONDO: { value: 'condo', label: 'Condo' },
-  MULTI_UNIT: { value: 'multiUnit', label: '2-4 Unit' },
+  SFR: {
+    value: 'Single Family - 1 unit',
+    label: 'Single family home'
+  },
+  PUD: {
+    value: 'Planned Unit Development (PUD)',
+    label: 'Planned development'
+  },
+  CONDO: { value: 'Condo', label: 'Condo' },
+  MULTI_UNIT: { value: '2-4 Unit', label: '2-4 Unit' },
   MANUFACTURED: {
-    value: 'manufacturedHome',
+    value: 'Manufactured Home',
     label: 'Manufactured home'
   }
 });
 
 export const occupancyTypes = Object.freeze({
-  OWNER_OCCUPIED: { value: 'ownerOccupied', label: 'Owner occupied' },
-  SECOND_HOME: { value: 'secondHome', label: 'Second home' },
-  INVESTMENT: { value: 'investment', label: 'Investment' }
+  OWNER_OCCUPIED: {
+    value: 'Owner Occupied',
+    label: 'Owner occupied'
+  },
+  SECOND_HOME: { value: 'Second Home', label: 'Second home' },
+  INVESTMENT: { value: 'Investment Property', label: 'Investment' }
 });
 
 // The columns and order user can
