@@ -32,15 +32,17 @@ export function randomBetween(min, max) {
 }
 
 export function formatCurrency(num) {
-  num = Number(num).toLocaleString('en-US', {
-    maximumFractionDigits: 2
+  const isNegative = num < 0;
+  num = Math.abs(Number(num)).toLocaleString('en-US', {
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 2
   });
 
-  return `$${num}`;
+  return isNegative ? `—$${num}` : `$${num}`;
 }
 
 export function formatPercent(num1, num2, addDecimals) {
-  let num = !isNumber(num2) ? num1 : Math.round(((num1 / num2) * 100));
+  let num = !isNumber(num2) ? num1 : Math.round((num1 / num2) * 100);
 
   if (addDecimals) {
     num = Number(num).toLocaleString('en-US', {
@@ -128,7 +130,7 @@ export function compareObjects(a, b, keys) {
 
   const getObj = obj => {
     const newObj = {};
-    keys.forEach(key => newObj[key] = obj[key]);
+    keys.forEach(key => (newObj[key] = obj[key]));
     return newObj;
   };
 
