@@ -29,7 +29,7 @@ export default memo(function Filters({
             onClick={resetFilters}
           >
             <Reset /> Reset
-        </Button>
+          </Button>
 
           <Button
             theme="minimal"
@@ -58,5 +58,5 @@ export default memo(function Filters({
         </div>
       </div>
     </div>
-  )
+  );
 });

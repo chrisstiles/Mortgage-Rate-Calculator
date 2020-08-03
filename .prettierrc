@@ -7,5 +7,5 @@
   "jsxBracketSameLine": false,
   "bracketSpacing": true,
   "arrowParens": "avoid",
-  "printWidth": 90
+  "printWidth": 70
 }

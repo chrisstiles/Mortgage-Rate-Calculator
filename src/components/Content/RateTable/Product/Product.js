@@ -1,18 +1,15 @@
 import React, { memo } from 'react';
 import styles from './Product.module.scss';
 import { colors } from '@config';
+import { isAdjustableRate } from '@helpers';
 
-export default memo(function Product({ term, type, isLoading }) {
-  if (!term) {
-    return null;
-  }
+export default memo(function Product({ product, isLoading }) {
+  const { main, text } = isLoading
+    ? colors['15']
+    : colors[product.term] ?? colors.default;
+  let term = [product.term];
 
-  const { main, text } = isLoading ? colors['15'] : colors[term] ?? colors.default;
-  term = [String(term)];
-  const isAdjustable = type.match(/adjustable/i);
-  // if (isAdjustable === undefined) {
-  //   // isAdjustable = term[0].includes('/');
-  // }
+  const isAdjustable = isAdjustableRate(product.type);
 
   if (isAdjustable) {
     const termArr = term[0].split('/');
@@ -20,7 +17,10 @@ export default memo(function Product({ term, type, isLoading }) {
   }
 
   const termText = [...term, isAdjustable ? '' : ' Year'];
-  const typeText = [isAdjustable ? 'Adjustable' : 'Fixed', 'Rate Mortgage'].join(' ');
+  const typeText = [
+    isAdjustable ? 'Adjustable' : 'Fixed',
+    'Rate Mortgage'
+  ].join(' ');
 
   return (
     <div className={styles.wrapper} style={{ color: main }}>

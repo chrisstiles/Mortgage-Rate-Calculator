@@ -2,27 +2,31 @@ import React, { useMemo, useCallback, memo } from 'react';
 import { Switch } from '@input';
 import styles from './filters.module.scss';
 import ProductFilter from './ProductFilter';
+import { isFixedRate, isAdjustableRate } from '@helpers';
 
 export default memo(function ProductTypes({
   data,
   filterState,
   setFilterState
 }) {
-  const handleProductClick = useCallback((value, name) => {
-    setFilterState(({ products: prevProducts = [], ...state }) => {
-      if (!Array.isArray(prevProducts)) {
-        prevProducts = [];
-      }
+  const handleProductClick = useCallback(
+    (value, name) => {
+      setFilterState(({ products: prevProducts = [], ...state }) => {
+        if (!Array.isArray(prevProducts)) {
+          prevProducts = [];
+        }
 
-      const products = prevProducts.filter(p => p !== name);
+        const products = prevProducts.filter(p => p !== name);
 
-      if (!value) {
-        products.push(name);
-      }
+        if (!value) {
+          products.push(name);
+        }
 
-      return { ...state, products };
-    });
-  }, [setFilterState]);
+        return { ...state, products };
+      });
+    },
+    [setFilterState]
+  );
 
   const [fixedComponents, adjustableComponents] = useMemo(() => {
     if (!data?.length) {
@@ -34,11 +38,14 @@ export default memo(function ProductTypes({
 
     data.forEach(product => {
       const type = product.type.toLowerCase();
-      const term = product.term.toLowerCase();
+      const term = product.term;
 
-      if (type === 'fixed' && !fixed.find(p => p.term === term)) {
+      if (isFixedRate(type) && !fixed.find(p => p.term === term)) {
         fixed.push(product);
-      } else if (type === 'adjustable' && !adjustable.find(p => p.term === term)) {
+      } else if (
+        isAdjustableRate(type) &&
+        !adjustable.find(p => p.term === term)
+      ) {
         adjustable.push(product);
       }
     });
@@ -61,7 +68,7 @@ export default memo(function ProductTypes({
             />
           );
         });
-    }
+    };
 
     return [createComponents(fixed), createComponents(adjustable)];
   }, [data, filterState, handleProductClick]);

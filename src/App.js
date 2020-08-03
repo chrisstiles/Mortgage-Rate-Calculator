@@ -1,4 +1,9 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useRef
+} from 'react';
 import Content from './components/Content';
 import Hero from './components/Hero';
 import getInitialState from '@utils/getInitialState';
@@ -12,19 +17,29 @@ const initialState = getInitialState();
 export default function App() {
   const [controlsOpen, setControlsOpen] = useState(false);
   const [controlsHeight, setControlsHeight] = useState(null);
-  const [zipCodes, setZipCodes] = useState(() => cache.get(keys.ZIP_CODES));
+  const [zipCodes, setZipCodes] = useState(() =>
+    cache.get(keys.ZIP_CODES)
+  );
   const [state, _setState] = useState(initialState);
   const [hasInitialLocation, setHasInitialLocation] = useState(() => {
-    return !!(initialState.userSetLocation || cache.getSession(keys.CURRENT_LOCATION));
+    return !!(
+      initialState.userSetLocation ||
+      cache.getSession(keys.CURRENT_LOCATION)
+    );
   });
   const [effectiveDate, setEffectiveDate] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const prevState = useRef(null);
   const fetchRates = useCallback(
     async state => {
-      const stateKeys = Object.keys(state).filter(k => k !== keys.LOAN_TYPE);
+      const stateKeys = Object.keys(state).filter(
+        k => k !== keys.LOAN_TYPE
+      );
 
-      if (!prevState.current || !compareObjects(state, prevState.current, stateKeys)) {
+      if (
+        !prevState.current ||
+        !compareObjects(state, prevState.current, stateKeys)
+      ) {
         setIsLoading(true);
         setTimeout(() => {
           setEffectiveDate(new Date());
@@ -49,8 +64,6 @@ export default function App() {
       return newState;
     });
   }, []);
-
-  console.log(state);
 
   // Loads zip codes if they aren't cached in local storage
   const zipCodeInitComplete = useRef(!!zipCodes);
@@ -84,10 +97,15 @@ export default function App() {
     if (zipCodes && !locationInitComplete.current) {
       locationInitComplete.current = true;
 
-      if (!initialState.userSetLocation && !cache.getSession(keys.CURRENT_LOCATION)) {
+      if (
+        !initialState.userSetLocation &&
+        !cache.getSession(keys.CURRENT_LOCATION)
+      ) {
         const getUserLocation = async () => {
           try {
-            const response = await fetch('https://freegeoip.app/json/');
+            const response = await fetch(
+              'https://freegeoip.app/json/'
+            );
             const { zip_code: zipCode } = await response.json();
 
             if (zipCode) {
@@ -101,7 +119,10 @@ export default function App() {
                 // Only store current location in session. This allows us
                 // to prevent refetching location on reload or page navigation
                 // but will still find their location next time they visit
-                cache.setSession(keys.CURRENT_LOCATION, currentLocation);
+                cache.setSession(
+                  keys.CURRENT_LOCATION,
+                  currentLocation
+                );
               }
             }
           } catch (error) {

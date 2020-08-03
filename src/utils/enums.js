@@ -80,7 +80,7 @@ export const occupancyTypes = Object.freeze({
 // sort the rate table by
 export const sort = Object.freeze({
   by: {
-    PRODUCT: ['type', 'term'],
+    PRODUCT: ['type', 'termValue'],
     RATE: ['rate', 'apr'],
     CLOSING_COSTS: 'closingCosts',
     PAYMENT: 'payment'

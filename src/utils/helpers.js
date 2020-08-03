@@ -1,4 +1,11 @@
-import { isPlainObject, isFunction, isString, findKey, isEqual, isNumber } from 'lodash';
+import {
+  isPlainObject,
+  isFunction,
+  isString,
+  findKey,
+  isEqual,
+  isNumber
+} from 'lodash';
 import { cache } from '@app';
 import { footprint, minDecimals, maxDecimals } from '@config';
 import states from '@utils/states';
@@ -101,7 +108,9 @@ export function isInFootprint(zipCodeOrState) {
     state = (zipCodes[zipCodeOrState] ?? [])[1];
   }
 
-  return !!(state && states.find(s => s.toLowerCase() === state.toLowerCase()));
+  return !!(
+    state && states.find(s => s.toLowerCase() === state.toLowerCase())
+  );
 }
 
 export function mapObject(obj, fn) {
@@ -144,5 +153,54 @@ export function call(thisOrMethod, methodOrArg, ...args) {
 
   if (isFunction(methodOrArg)) {
     return methodOrArg.apply(thisOrMethod, [...args]);
+  }
+}
+
+export function isAdjustableRate(type) {
+  if (!type) {
+    return false;
+  }
+
+  return !!type.trim().match(/^adjustable/i);
+}
+
+export function isFixedRate(type) {
+  if (!type) {
+    return false;
+  }
+
+  return !!type.trim().match(/^fixed/i);
+}
+
+export function getLoanTerm(months, type) {
+  if (!months || !type) {
+    console.log('Undefined term or product type');
+    return null;
+  }
+
+  if (type.trim().match(/^fixed/i)) {
+    if (isNaN(months) || Number(months) % 12 !== 0) {
+      console.error('Invalid fixed term', months);
+      return null;
+    }
+
+    return String(Number(months) / 12);
+  } else if (type.trim().match(/^adjustable/i)) {
+    const termArr = months.split('/');
+    const fixedTerm = Number(termArr[0]);
+
+    if (
+      termArr.length === 1 ||
+      isNaN(fixedTerm) ||
+      fixedTerm % 12 !== 0
+    ) {
+      console.error('Invalid adjustable term', months);
+      return null;
+    }
+
+    return `${fixedTerm / 12}/1`;
+  } else {
+    console.error('Invalid product type', type);
+    return null;
   }
 }

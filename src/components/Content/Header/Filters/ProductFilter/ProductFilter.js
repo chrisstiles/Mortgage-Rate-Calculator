@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import styles from './ProductFilter.module.scss';
 import { colors } from '@config';
 import classNames from 'classnames';
+import { isAdjustableRate } from '@helpers';
 
 export default memo(function ProductFilter({
   term,
@@ -16,7 +17,7 @@ export default memo(function ProductFilter({
     }
   };
 
-  const typeText = type === 'adjustable' ? 'ARM' : 'Year Fixed';
+  const typeText = isAdjustableRate(type) ? 'ARM' : 'Year Fixed';
 
   return (
     <button
@@ -29,7 +30,9 @@ export default memo(function ProductFilter({
     >
       <div
         className={styles.circle}
-        style={{ backgroundColor: colors[term]?.main ?? colors.default.main }}
+        style={{
+          backgroundColor: colors[term]?.main ?? colors.default.main
+        }}
       />
       <div className={styles.text}>
         {term} {typeText}

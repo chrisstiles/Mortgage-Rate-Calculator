@@ -1,8 +1,6 @@
 import React, { useState, useCallback, memo, useMemo } from 'react';
-import { Header, Row, Cell } from './TableElements';
-import Product from './Product';
-import Rate from './Rate';
-import Currency from './Currency';
+import { Header } from './TableElements';
+import ProductRow from './ProductRow';
 import NoDataMessage from './NoDataMessage';
 import styles from './RateTable.module.scss';
 import { orderBy, findKey } from 'lodash';
@@ -62,29 +60,33 @@ export default memo(function RateTable({
     }
 
     // Filter rows
-    const filteredData = data.filter(({ type, term, rate, closingCosts, payment }) => {
-      const f = filterState;
-      // Product type
-      if (f[type] || f.products?.includes(term)) {
-        return false;
-      }
+    const filteredData = data.filter(
+      ({ type, term, rate, closingCosts, payment }) => {
+        const f = filterState;
+        // Product type
+        if (f[type] || f.products?.includes(term)) {
+          return false;
+        }
 
-      if (
-        // Rate
-        (isNumber(f.rate.min) && f.rate.min > rate) ||
-        (isNumber(f.rate.max) && f.rate.max < rate) ||
-        // Closing costs
-        (isNumber(f.closingCosts.min) && f.closingCosts.min > closingCosts) ||
-        (isNumber(f.closingCosts.max) && f.closingCosts.max < closingCosts) ||
-        // Monthly payment
-        (isNumber(f.payment.min) && f.payment.min > payment) ||
-        (isNumber(f.payment.max) && f.payment.max < payment)
-      ) {
-        return false;
-      }
+        if (
+          // Rate
+          (isNumber(f.rate.min) && f.rate.min > rate) ||
+          (isNumber(f.rate.max) && f.rate.max < rate) ||
+          // Closing costs
+          (isNumber(f.closingCosts.min) &&
+            f.closingCosts.min > closingCosts) ||
+          (isNumber(f.closingCosts.max) &&
+            f.closingCosts.max < closingCosts) ||
+          // Monthly payment
+          (isNumber(f.payment.min) && f.payment.min > payment) ||
+          (isNumber(f.payment.max) && f.payment.max < payment)
+        ) {
+          return false;
+        }
 
-      return true;
-    });
+        return true;
+      }
+    );
 
     // No products found for these filters
     if (!filteredData.length) {
@@ -126,7 +128,10 @@ export default memo(function RateTable({
       apr = parseFloat(apr);
       payment = parseFloat(payment);
 
-      if (rate < minRate.rate || (rate === minRate.rate && apr < minRate.apr)) {
+      if (
+        rate < minRate.rate ||
+        (rate === minRate.rate && apr < minRate.apr)
+      ) {
         minRate.rate = rate;
         minRate.apr = apr;
         minRate.indexes = [index];
@@ -158,33 +163,9 @@ export default memo(function RateTable({
       return null;
     }
 
-    return filteredRows.map((item, index) => {
-      const isAdjustable = item.type.match(/adjustable/i);
-      // const term =
-
-      return (
-        <Row key={index}>
-          <Cell>
-            <Product
-              term={item.term}
-              type={item.type}
-              isAdjustable={isAdjustable}
-              months={item.months}
-              isLoading={isLoading}
-            />
-          </Cell>
-          <Cell hasBadge={item.isMinRate}>
-            <Rate rate={item.rate} apr={item.apr} isMinRate={item.isMinRate} />
-          </Cell>
-          <Cell>
-            <Currency amount={item.closingCosts} isClosingCosts />
-          </Cell>
-          <Cell hasBadge={item.isMinPayment}>
-            <Currency amount={item.payment} isMinPayment={item.isMinPayment} />
-          </Cell>
-        </Row>
-      );
-    });
+    return filteredRows.map((item, index) => (
+      <ProductRow key={index} item={item} isLoading={isLoading} />
+    ));
   }, [filteredRows, isLoading]);
 
   return (
@@ -215,5 +196,8 @@ export default memo(function RateTable({
 });
 
 export function findSortKey(by) {
-  return findKey(sort.by, v => JSON.stringify(v) === JSON.stringify(by));
+  return findKey(
+    sort.by,
+    v => JSON.stringify(v) === JSON.stringify(by)
+  );
 }
