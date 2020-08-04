@@ -2,6 +2,7 @@
 // both editable fields and URL parameters
 export const keys = Object.freeze({
   APR: 'apr',
+  CASH_OUT_AMOUNT: 'cashOutAmount',
   CURRENT_LOCATION: 'currentLocation',
   CITY: 'city',
   CLOSING_COSTS: 'closingCosts',
@@ -34,6 +35,17 @@ export const field = Object.freeze({
   OCCUPANCY_TYPE: keys.OCCUPANCY_TYPE,
   PROPERTY_TYPE: keys.PROPERTY_TYPE,
   ZIP_CODE: keys.ZIP_CODE
+});
+
+export const requestBody = Object.freeze({
+  LoanAmount: keys.LOAN_AMOUNT,
+  PropertyValue: keys.HOME_VALUE,
+  LoanPurpose: keys.LOAN_TYPE,
+  PropertyType: keys.PROPERTY_TYPE,
+  OccupancyType: keys.OCCUPANCY_TYPE,
+  ZipCode: keys.ZIP_CODE,
+  FicoScore: keys.CREDIT_SCORE,
+  CashOutAmount: keys.CASH_OUT_AMOUNT
 });
 
 export const creditScoreRanges = Object.freeze({

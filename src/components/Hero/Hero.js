@@ -1,4 +1,10 @@
-import React, { useState, useCallback, useEffect, useRef, memo } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  useRef,
+  memo
+} from 'react';
 import Inputs from './Inputs';
 import LoanTypeTabs from './LoanTypeTabs';
 import Assumptions from './Assumptions';
@@ -7,6 +13,7 @@ import { Button } from '@input';
 import useWindowSize from '@hooks/useWindowSize';
 import { Phone } from './icons';
 import { getState } from '@helpers';
+import { api } from '@app';
 import { keys } from '@enums';
 import { mobileSize } from '@config';
 
@@ -19,10 +26,11 @@ export default memo(function Hero({
   zipCodes,
   setState,
   setControlsOpen,
-  setControlsHeight,
-  fetchRates
+  setControlsHeight
 }) {
-  const [currentState, _setCurrentState] = useState(() => ({ ...state }));
+  const [currentState, _setCurrentState] = useState(() => ({
+    ...state
+  }));
   const setCurrentState = useCallback((value, name) => {
     _setCurrentState(state => getState(state, value, name));
   }, []);
@@ -39,7 +47,7 @@ export default memo(function Hero({
       if (error) {
         newErrors.push({ name, error });
       }
-      
+
       return newErrors;
     });
   }, []);
@@ -56,7 +64,7 @@ export default memo(function Hero({
     if (hasErrors) {
       errors.forEach(({ name }) => {
         newState[name] = state[name];
-        
+
         if (name === keys.ZIP_CODE) {
           newState.city = state.city;
         }
@@ -71,8 +79,7 @@ export default memo(function Hero({
     }
 
     setState(newState);
-    
-    setTimeout(() => fetchRates(newState), 0);
+    setTimeout(() => api.fetchRates(newState), 0);
   }, [
     state,
     currentState,
@@ -80,8 +87,7 @@ export default memo(function Hero({
     controlsOpen,
     setControlsOpen,
     setCurrentState,
-    setState,
-    fetchRates
+    setState
   ]);
 
   const hasInitialized = useRef(false);

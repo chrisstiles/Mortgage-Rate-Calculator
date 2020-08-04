@@ -9,9 +9,11 @@ import Hero from './components/Hero';
 import getInitialState from '@utils/getInitialState';
 import { keys } from '@enums';
 import CacheService from '@utils/CacheService';
-import { getState, isInFootprint, compareObjects } from '@helpers';
+import API from '@utils/API';
+import { getState, isInFootprint } from '@helpers';
 
 const cache = new CacheService();
+const api = new API();
 const initialState = getInitialState();
 
 export default function App() {
@@ -20,6 +22,7 @@ export default function App() {
   const [zipCodes, setZipCodes] = useState(() =>
     cache.get(keys.ZIP_CODES)
   );
+  const [data, setData] = useState([]);
   const [state, _setState] = useState(initialState);
   const [hasInitialLocation, setHasInitialLocation] = useState(() => {
     return !!(
@@ -29,28 +32,6 @@ export default function App() {
   });
   const [effectiveDate, setEffectiveDate] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const prevState = useRef(null);
-  const fetchRates = useCallback(
-    async state => {
-      const stateKeys = Object.keys(state).filter(
-        k => k !== keys.LOAN_TYPE
-      );
-
-      if (
-        !prevState.current ||
-        !compareObjects(state, prevState.current, stateKeys)
-      ) {
-        setIsLoading(true);
-        setTimeout(() => {
-          setEffectiveDate(new Date());
-          setIsLoading(false);
-        }, 1000);
-      }
-
-      prevState.current = state;
-    },
-    [setIsLoading]
-  );
 
   const setState = useCallback((value, name) => {
     _setState(state => {
@@ -135,16 +116,20 @@ export default function App() {
         getUserLocation();
       }
     }
-  }, [setState, zipCodes, fetchRates]);
+  }, [setState, zipCodes]);
+
+  useEffect(() => {
+    api.setCallbacks({ setData, setIsLoading, setEffectiveDate });
+  }, [setData, setIsLoading, setEffectiveDate]);
 
   // Fetch initially displayed rates
   const rateInitComplete = useRef(false);
   useEffect(() => {
     if (zipCodes && hasInitialLocation && !rateInitComplete.current) {
       rateInitComplete.current = true;
-      fetchRates(state);
+      api.fetchRates(state);
     }
-  }, [zipCodes, hasInitialLocation, fetchRates, state]);
+  }, [zipCodes, hasInitialLocation, state]);
 
   return (
     <div className={controlsOpen ? 'controlsOpen' : 'controlsClosed'}>
@@ -158,7 +143,6 @@ export default function App() {
         setState={setState}
         setControlsOpen={setControlsOpen}
         setControlsHeight={setControlsHeight}
-        fetchRates={fetchRates}
       />
       <Content
         isLoading={isLoading}
@@ -171,4 +155,4 @@ export default function App() {
   );
 }
 
-export { cache };
+export { cache, api };

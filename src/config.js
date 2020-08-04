@@ -8,6 +8,11 @@ const {
 } = require('@enums');
 
 module.exports = {
+  /*-- API Endpoint URI --*/
+
+  endpoint:
+    'https://morris.fremontbank.com/api/external/getretailloanproducts',
+
   /*-- Form Fields --*/
 
   // Configure which fields to include in the
