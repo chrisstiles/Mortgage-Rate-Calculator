@@ -11,11 +11,11 @@
 /* Shared Styles */
 
 * {
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   background-repeat: no-repeat;
-  -webkit-tap-highlight-color:rgba(0,0,0,0);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-overflow-scrolling: touch;
@@ -32,20 +32,20 @@ html {
 }
 
 body {
-  margin:0;
-  padding:0;
-  background-color:$pageBackground;
-  overflow-y:scroll;
+  margin: 0;
+  padding: 0;
+  background-color: $pageBackground;
+  overflow-y: scroll;
 }
 
 #mortgage-rates-wrapper {
   @include textStyles;
-  position:relative;
+  position: relative;
 
   h1 {
     font-family: $serif;
     letter-spacing: normal !important;
     line-height: 1.1 !important;
-    font-weight:600 !important;
+    font-weight: 500 !important;
   }
 }
