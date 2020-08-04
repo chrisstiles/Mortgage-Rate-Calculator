@@ -6,14 +6,21 @@ import {
   call,
   getLoanTerm,
   isAdjustableRate,
-  isFixedRate
+  isFixedRate,
+  isPurchase,
+  isRefinance
 } from '@helpers';
 import sampleData from './sample-data.json';
 
 export default class API {
   #isFetching = false;
   #callbacks = {};
-  #prevState = null;
+  #currentState = null;
+  #currentType = null;
+  #currentData = {
+    purchase: null,
+    refinance: null
+  };
 
   isFetching() {
     return this.#isFetching;
@@ -28,18 +35,28 @@ export default class API {
     this.#callbacks = callbacks;
   }
 
-  async fetchRates(state) {
+  async fetchRates(state = {}) {
+    if (
+      !state ||
+      (!isPurchase(state[keys.LOAN_TYPE]) &&
+        !isRefinance(state[keys.LOAN_TYPE]))
+    ) {
+      return;
+    }
+
+    // const currentType = state[keys.LOAN_TYPE].toLowerCase();
+
     const stateKeys = Object.keys(state).filter(
       k => k !== keys.LOAN_TYPE
     );
 
     if (
-      !this.#prevState ||
-      !compareObjects(state, this.#prevState, stateKeys)
+      !this.#currentState ||
+      !compareObjects(state, this.#currentState, stateKeys)
     ) {
       this.#isFetching = true;
       call(this.#callbacks.setIsLoading, true);
-      this.#prevState = state;
+      this.#currentState = state;
 
       if (useSampleData) {
         setTimeout(() => {

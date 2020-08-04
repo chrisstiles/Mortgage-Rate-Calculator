@@ -131,6 +131,10 @@ export function objectWithoutKey(object, key) {
 }
 
 export function compareObjects(a, b, keys) {
+  if ((!a && b) || (a && !b)) {
+    return false;
+  }
+
   if (!keys) {
     return isEqual(a, b);
   }
@@ -170,6 +174,22 @@ export function isFixedRate(type) {
   }
 
   return !!type.trim().match(/^fixed/i);
+}
+
+export function isPurchase(type) {
+  if (!type) {
+    return false;
+  }
+
+  return !!type.trim().match(/^purchase/i);
+}
+
+export function isRefinance(type) {
+  if (!type) {
+    return false;
+  }
+
+  return !!type.trim().match(/^refinance/i);
 }
 
 export function getLoanTerm(months, type) {
