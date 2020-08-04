@@ -84,6 +84,10 @@ export default class API {
   finishFetching(data = []) {
     this.#isFetching = false;
     call(this.#callbacks.setData, formatData(data));
+    call(
+      this.#callbacks.setEffectiveDate,
+      data?.length ? new Date() : null
+    );
     call(this.#callbacks.setIsLoading, false);
   }
 }

@@ -27,10 +27,7 @@ export default function Header({
   return (
     <React.Fragment>
       <div className={styles.wrapper}>
-        <Top
-          loanType={loanType}
-          effectiveDate={effectiveDate}
-        />
+        <Top loanType={loanType} effectiveDate={effectiveDate} />
         <Middle
           isLoading={isLoading}
           filtersOpen={filtersOpen}
@@ -50,8 +47,12 @@ export default function Header({
 }
 
 function Top({ loanType, effectiveDate }) {
-  const dateString = effectiveDate ? format(effectiveDate, 'MMMM Do, YYYY') : null;
-  const timeString = effectiveDate ? format(effectiveDate, 'h:mm A') : null;
+  const dateString = effectiveDate
+    ? format(effectiveDate, 'MMMM Do, YYYY')
+    : null;
+  const timeString = effectiveDate
+    ? format(effectiveDate, 'h:mm A')
+    : null;
 
   return (
     <div className={styles.top}>
@@ -60,20 +61,20 @@ function Top({ loanType, effectiveDate }) {
         <div className={styles.title}>
           {upperFirst(loanType)} Mortgage Rates
         </div>
-        <div
-          className={classNames(styles.subtitle, {
-            [styles.hidden]: !effectiveDate
-          })}
-        >
-          Effective as of {dateString} at {timeString}
-        </div>
+        {dateString && timeString && (
+          <div
+            className={classNames(styles.subtitle, {
+              [styles.hidden]: !effectiveDate
+            })}
+          >
+            Effective as of {dateString} at {timeString}
+          </div>
+        )}
       </div>
       <div className={styles.chat}>
         <Chat className={styles.chatIcon} />
         <div>
-          <div className={styles.title}>
-            Have questions?
-          </div>
+          <div className={styles.title}>Have questions?</div>
           <div className={styles.subtitle}>
             Chat with a helpful loan officer
           </div>
@@ -102,10 +103,7 @@ function Middle({ isLoading, filtersOpen, setFiltersOpen }) {
         Filter Rates and Products
       </Button>
 
-      <Button
-        theme="outline"
-        fontSize={13}
-      >
+      <Button theme="outline" fontSize={13}>
         <Bell />
         Sign Up For Rate Alerts
       </Button>
