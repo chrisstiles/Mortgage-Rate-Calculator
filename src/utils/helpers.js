@@ -165,7 +165,7 @@ export function isAdjustableRate(type) {
     return false;
   }
 
-  return !!type.trim().match(/^adjustable/i);
+  return !!type.trim().match(/^adjustable$/i);
 }
 
 export function isFixedRate(type) {
@@ -173,7 +173,7 @@ export function isFixedRate(type) {
     return false;
   }
 
-  return !!type.trim().match(/^fixed/i);
+  return !!type.trim().match(/^fixed$/i);
 }
 
 export function isPurchase(type) {
@@ -181,7 +181,7 @@ export function isPurchase(type) {
     return false;
   }
 
-  return !!type.trim().match(/^purchase/i);
+  return !!type.trim().match(/^purchase$/i);
 }
 
 export function isRefinance(type) {
@@ -189,7 +189,7 @@ export function isRefinance(type) {
     return false;
   }
 
-  return !!type.trim().match(/^refinance/i);
+  return !!type.trim().match(/^refinance$/i);
 }
 
 export function getLoanTerm(months, type) {

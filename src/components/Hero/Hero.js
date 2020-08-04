@@ -79,7 +79,6 @@ export default memo(function Hero({
     }
 
     setState(newState);
-    setTimeout(() => api.fetchRates(newState), 0);
   }, [
     state,
     currentState,

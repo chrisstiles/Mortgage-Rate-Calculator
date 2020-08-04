@@ -110,8 +110,8 @@ module.exports = {
   // These are used in rate table and filters
   colors: {
     '10': { main: '#288dd4', text: '#1e689c' },
-    '20': { main: '#3e9c5b', text: '#2d8046' },
     '15': { main: '#116A7F', text: '#006076' },
+    '20': { main: '#3e9c5b', text: '#2d8046' },
     '30': { main: '#E36F2B', text: '#99491A' },
     '5/1': { main: '#219D9F', text: '#007173' },
     '7/1': { main: '#F0B023', text: '#9F6F00' },

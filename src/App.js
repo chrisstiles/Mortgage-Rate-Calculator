@@ -41,6 +41,7 @@ export default function App() {
         newState.userSetLocation = true;
       }
 
+      setTimeout(() => api.fetchRates(newState), 0);
       cache.set(keys.LOAN_STATE, newState);
       return newState;
     });

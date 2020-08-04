@@ -10,7 +10,8 @@ import {
   isPurchase,
   isRefinance
 } from '@helpers';
-import sampleData from './sample-data.json';
+import sampleDataPurchase from './sample-data-purchase.json';
+import sampleDataRefinance from './sample-data-refinance.json';
 
 export default class API {
   #isFetching = false;
@@ -18,6 +19,10 @@ export default class API {
   #currentState = null;
   #currentType = null;
   #currentData = {
+    purchase: null,
+    refinance: null
+  };
+  #effectiveDates = {
     purchase: null,
     refinance: null
   };
@@ -44,68 +49,97 @@ export default class API {
       return;
     }
 
-    // const currentType = state[keys.LOAN_TYPE].toLowerCase();
-
-    const stateKeys = Object.keys(state).filter(
-      k => k !== keys.LOAN_TYPE
+    const currentType = state[keys.LOAN_TYPE].toLowerCase();
+    const typeChanged = currentType !== this.#currentType;
+    const inputsChanged = !compareObjects(
+      state,
+      this.#currentState,
+      Object.keys(state).filter(k => k !== keys.LOAN_TYPE)
     );
 
     if (
-      !this.#currentState ||
-      !compareObjects(state, this.#currentState, stateKeys)
+      !inputsChanged &&
+      typeChanged &&
+      this.#currentData[currentType]
     ) {
+      this.#currentType = currentType;
+      this.setEffectiveDate();
+      call(this.#callbacks.setData, this.#currentData[currentType]);
+      return;
+    } else if (inputsChanged || currentType !== this.#currentType) {
       this.#isFetching = true;
-      call(this.#callbacks.setIsLoading, true);
-      this.#currentState = state;
+      this.#currentType = currentType;
 
-      if (useSampleData) {
-        setTimeout(() => {
-          this.finishFetching(sampleData);
-        }, sampleLoadingTime);
-
-        return;
+      if (inputsChanged) {
+        this.#currentData.purchase = null;
+        this.#currentData.refinance = null;
       }
 
-      const init = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept-Encoding': 'gzip, deflate',
-          Accept: '*/*',
-          // TODO: Remove this header once CORS issue is resolved
-          origin: 'morris.fremontbank.com'
-        }
-      };
+      this.makeRequest(state);
+    }
+  }
 
-      try {
-        init.body = formatRequestBody(state);
-        const response = await fetch(endpoint, init);
+  async makeRequest(state) {
+    call(this.#callbacks.setIsLoading, true);
+    this.#currentState = state;
 
-        if (!response.ok) {
-          console.error('Invalid response', response);
-          this.finishFetching();
-          return;
-        }
+    if (useSampleData) {
+      setTimeout(() => {
+        this.finishFetching(sampleData[this.#currentType]);
+      }, sampleLoadingTime);
 
-        const json = await response.json();
+      return;
+    }
 
-        this.finishFetching(json);
-      } catch (e) {
-        console.error(e);
+    const init = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip, deflate',
+        Accept: '*/*',
+        // TODO: Remove this header once CORS issue is resolved
+        origin: 'morris.fremontbank.com'
+      }
+    };
+
+    try {
+      init.body = formatRequestBody(state);
+      const response = await fetch(endpoint, init);
+
+      if (!response.ok) {
+        console.error('Invalid response', response);
         this.finishFetching();
         return;
       }
+
+      const json = await response.json();
+
+      this.finishFetching(json);
+    } catch (e) {
+      console.error(e);
+      this.finishFetching();
+      return;
     }
   }
 
   finishFetching(data = []) {
     this.#isFetching = false;
+    this.setEffectiveDate(data?.length ? new Date() : null);
     call(this.#callbacks.setData, formatData(data));
-    call(
-      this.#callbacks.setEffectiveDate,
-      data?.length ? new Date() : null
-    );
     call(this.#callbacks.setIsLoading, false);
+
+    if (data?.length) {
+      this.#currentData[this.#currentType] = data;
+    }
+  }
+
+  setEffectiveDate(date) {
+    if (date === undefined) {
+      date = this.#effectiveDates[this.#currentType] ?? new Date();
+    }
+
+    this.#effectiveDates[this.#currentType] = date;
+    call(this.#callbacks.setEffectiveDate, date);
   }
 }
 
@@ -156,3 +190,8 @@ function formatData(data) {
     })
     .filter(p => p);
 }
+
+const sampleData = {
+  purchase: sampleDataPurchase,
+  refinance: sampleDataRefinance
+};
