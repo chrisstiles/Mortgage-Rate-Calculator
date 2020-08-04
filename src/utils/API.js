@@ -1,4 +1,4 @@
-import { endpoint } from '@config';
+import { endpoint, useSampleData, sampleLoadingTime } from '@config';
 import { keys, requestBody } from '@enums';
 import { isPlainObject } from 'lodash';
 import {
@@ -8,12 +8,12 @@ import {
   isAdjustableRate,
   isFixedRate
 } from '@helpers';
+import sampleData from './sample-data.json';
 
 export default class API {
   #isFetching = false;
   #callbacks = {};
   #prevState = null;
-  #finishFetching;
 
   isFetching() {
     return this.#isFetching;
@@ -39,37 +39,53 @@ export default class API {
     ) {
       this.#isFetching = true;
       call(this.#callbacks.setIsLoading, true);
+      this.#prevState = state;
+
+      if (useSampleData) {
+        setTimeout(() => {
+          this.finishFetching(sampleData);
+        }, sampleLoadingTime);
+
+        return;
+      }
 
       const init = {
-        method: 'POST'
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept-Encoding': 'gzip, deflate',
+          Accept: '*/*',
+          // TODO: Remove this header once CORS issue is resolved
+          origin: 'morris.fremontbank.com'
+        }
       };
 
       try {
         init.body = formatRequestBody(state);
+        const response = await fetch(endpoint, init);
+
+        if (!response.ok) {
+          console.error('Invalid response', response);
+          this.finishFetching();
+          return;
+        }
+
+        const json = await response.json();
+
+        this.finishFetching(json);
       } catch (e) {
         console.error(e);
-        this.#isFetching = false;
-        call(this.#callbacks.setData, []);
-        call(this.#callbacks.setIsLoading, false);
+        this.finishFetching();
         return;
       }
-
-      const response = await fetch(endpoint, init);
-
-      // Fetch rates here
-      setTimeout(() => {
-        call(this.#callbacks.setEffectiveDate, new Date());
-        call(this.#callbacks.setIsLoading, false);
-      }, 1000);
     }
-
-    this.#isFetching = false;
-    this.#prevState = state;
   }
 
-  // #finishFetching(data) {
-
-  // }
+  finishFetching(data = []) {
+    this.#isFetching = false;
+    call(this.#callbacks.setData, formatData(data));
+    call(this.#callbacks.setIsLoading, false);
+  }
 }
 
 function formatRequestBody(state) {
@@ -91,7 +107,7 @@ function formatRequestBody(state) {
     }
   });
 
-  return;
+  return JSON.stringify(request);
 }
 
 function formatData(data) {

@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useCallback,
-  useEffect,
-  useMemo,
-  memo
-} from 'react';
+import React, { useState, useCallback, useEffect, memo } from 'react';
 import Header from './Header';
 import RateTable from './RateTable';
 import CTA from './CTA';
@@ -14,13 +8,12 @@ import getInitialFilterState, {
   defaultFilters
 } from '@utils/getInitialFilterState';
 import classNames from 'classnames';
-import sampleData from './RateTable/sample-data.json';
 import { cache } from '@app';
 import { keys } from '@enums';
-import formatData from '@utils/formatData';
 import { getState } from '@helpers';
 
 export default memo(function ContentWrapper({
+  data,
   isLoading,
   controlsHeight,
   effectiveDate,
@@ -50,13 +43,6 @@ export default memo(function ContentWrapper({
   useEffect(() => {
     setTimeout(() => setHasInitialized(true), 100);
   }, []);
-
-  // Adjust the formatting and shape of data
-  // to match what the front-end app expects
-  const data = useMemo(() => {
-    return formatData(sampleData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sampleData]);
 
   return (
     <div

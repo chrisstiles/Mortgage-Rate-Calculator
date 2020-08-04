@@ -8,10 +8,23 @@ const {
 } = require('@enums');
 
 module.exports = {
+  /*-- Use Sample Data --*/
+
+  // Whether or not to use sample data to prevent
+  // continuously loading data from MORRIS API in
+  useSampleData: false,
+  sampleLoadingTime: 3000,
+
   /*-- API Endpoint URI --*/
 
+  // endpoint:
+  //   'https://morris.fremontbank.com/api/external/getretailloanproducts',
+
+  // TODO: This is currently using a proxy
+  // to get around CORS issue making requests
+  // from outside fremontbank.com
   endpoint:
-    'https://morris.fremontbank.com/api/external/getretailloanproducts',
+    'https://cors-anywhere.herokuapp.com/https://morris.fremontbank.com/api/external/getretailloanproducts',
 
   /*-- Form Fields --*/
 
@@ -79,6 +92,10 @@ module.exports = {
   /*-- Rate Table Messages --*/
 
   messages: {
+    // Displayed on the initial page load before any
+    // rates have already been displayed
+    initialLoad: 'Loading your customized rates...',
+
     // Displayed if no rates were returned for the loan
     // assumptions the user has entered
     noData: `We couldn't find any products available for the loan details you entered. Try changing your loan assumptions.`,

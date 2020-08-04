@@ -22,7 +22,7 @@ export default function App() {
   const [zipCodes, setZipCodes] = useState(() =>
     cache.get(keys.ZIP_CODES)
   );
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
   const [state, _setState] = useState(initialState);
   const [hasInitialLocation, setHasInitialLocation] = useState(() => {
     return !!(
@@ -145,6 +145,7 @@ export default function App() {
         setControlsHeight={setControlsHeight}
       />
       <Content
+        data={data}
         isLoading={isLoading}
         controlsHeight={controlsHeight}
         effectiveDate={effectiveDate}

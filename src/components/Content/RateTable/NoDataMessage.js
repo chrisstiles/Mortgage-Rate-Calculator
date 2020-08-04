@@ -10,6 +10,11 @@ export default function NoDataMessage({
   resetFilters,
   setControlsOpen
 }) {
+  // Data is set to null on initial load
+  if (data === null) {
+    return <Message message={messages.initialLoad} />;
+  }
+
   if (isLoading || filteredData?.length) {
     return null;
   }
@@ -27,17 +32,23 @@ export default function NoDataMessage({
   };
 
   return (
+    <Message
+      message={message}
+      buttonText={buttonText}
+      onButtonClick={handleButtonClick}
+    />
+  );
+}
+
+function Message({ message, buttonText, onButtonClick }) {
+  return (
     <div className={styles.messageWrapper}>
-      <div className={styles.messageText}>
-        {message}
-      </div>
-      <Button
-        theme="outline"
-        fontSize={12}
-        onClick={handleButtonClick}
-      >
-        {buttonText}
-      </Button>
+      <div className={styles.messageText}>{message}</div>
+      {buttonText && onButtonClick && (
+        <Button theme="outline" fontSize={12} onClick={onButtonClick}>
+          {buttonText}
+        </Button>
+      )}
     </div>
   );
 }
