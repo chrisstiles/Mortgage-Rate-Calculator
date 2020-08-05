@@ -42,6 +42,7 @@ export default function App() {
         newState.userSetLocation = true;
       }
 
+      api.fetchRates(newState);
       cache.set(keys.LOAN_STATE, newState);
       return newState;
     });
@@ -122,12 +123,6 @@ export default function App() {
   useEffect(() => {
     api.setCallbacks({ setData, setIsLoading, setEffectiveDate });
   }, [setData, setIsLoading, setEffectiveDate]);
-
-  useEffect(() => {
-    if (rateInitComplete.current) {
-      api.fetchRates(state);
-    }
-  }, [state]);
 
   // Fetch initially displayed rates
   const rateInitComplete = useRef(false);
