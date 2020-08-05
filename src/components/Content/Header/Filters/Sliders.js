@@ -3,7 +3,11 @@ import { Slider } from '@input';
 import { formatPercent, formatCurrency } from '@helpers';
 import { keys } from '@enums';
 
-export default function Sliders({ data, filterState, setFilterState }) {
+export default function Sliders({
+  data,
+  filterState,
+  setFilterState
+}) {
   const [min, max] = useMemo(() => {
     const defaultValues = {
       [keys.RATE]: null,
@@ -24,8 +28,14 @@ export default function Sliders({ data, filterState, setFilterState }) {
           min[key] = item[key];
           max[key] = item[key];
         } else {
-          min[key] = Math.min(min[key], item[key]);
-          max[key] = Math.max(max[key], item[key]);
+          min[key] = Math.min(
+            parseFloat(min[key]),
+            parseFloat(item[key])
+          );
+          max[key] = Math.max(
+            parseFloat(max[key]),
+            parseFloat(item[key])
+          );
         }
       });
     });
@@ -55,7 +65,6 @@ export default function Sliders({ data, filterState, setFilterState }) {
         max={max[keys.RATE]}
         minDistance={0.025}
         step={0.001}
-        inputWidth={65}
         transformValue={v => formatPercent(v, null, true)}
         onAfterChange={handleChange}
         isPercent
@@ -65,31 +74,38 @@ export default function Sliders({ data, filterState, setFilterState }) {
         label="Closing Costs"
         name={keys.CLOSING_COSTS}
         value={getValue(
-          [filterState[keys.CLOSING_COSTS].min, filterState[keys.CLOSING_COSTS].max],
+          [
+            filterState[keys.CLOSING_COSTS].min,
+            filterState[keys.CLOSING_COSTS].max
+          ],
           min[keys.CLOSING_COSTS],
           max[keys.CLOSING_COSTS]
         )}
         min={min[keys.CLOSING_COSTS]}
         max={max[keys.CLOSING_COSTS]}
-        minDistance={70}
-        transformValue={v => formatCurrency(v)}
+        minDistance={300}
+        transformValue={v => formatCurrency(v, false)}
         onAfterChange={handleChange}
         step={1}
         isCurrency
+        allowNegative
       />
 
       <Slider
         label="Monthly Payments"
         name={keys.PAYMENT}
         value={getValue(
-          [filterState[keys.PAYMENT].min, filterState[keys.PAYMENT].max],
+          [
+            filterState[keys.PAYMENT].min,
+            filterState[keys.PAYMENT].max
+          ],
           min[keys.PAYMENT],
           max[keys.PAYMENT]
         )}
         min={min[keys.PAYMENT]}
         max={max[keys.PAYMENT]}
-        minDistance={55}
-        transformValue={v => formatCurrency(v)}
+        minDistance={150}
+        transformValue={v => formatCurrency(v, false)}
         onAfterChange={handleChange}
         step={1}
         isCurrency
@@ -99,5 +115,8 @@ export default function Sliders({ data, filterState, setFilterState }) {
 }
 
 function getValue(value, min, max) {
-  return [Math.max(min, value[0] ?? min), Math.min(max, value[1] ?? max)];
+  return [
+    Math.max(min, value[0] ?? min),
+    Math.min(max, value[1] ?? max)
+  ];
 }

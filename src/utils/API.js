@@ -5,7 +5,7 @@ import {
   rateCacheExpiration
 } from '@config';
 import { keys, requestBody } from '@enums';
-import { isPlainObject } from 'lodash';
+import { isPlainObject, round } from 'lodash';
 import {
   compareObjects,
   call,
@@ -237,6 +237,7 @@ function formatData(data) {
       // We store a numeric value for the term for sorting
       p.termValue = parseInt(p.term.split('/')[0]);
       p.type = p.type.toLowerCase();
+      p.payment = round(p.payment, 2);
 
       return p;
     })

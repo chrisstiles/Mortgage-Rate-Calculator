@@ -21,7 +21,7 @@ function getMinMax() {
     },
     transform: ({ min, max }) => {
       if (min !== null) {
-        min = Math.max(0, parseFloat(min));
+        min = parseFloat(min);
       }
 
       if (max !== null) {

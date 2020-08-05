@@ -20,6 +20,7 @@ export default memo(function Text({
   type = 'text',
   format,
   isCurrency,
+  allowNegative,
   theme = 'light',
   size,
   icon: _icon,
@@ -99,10 +100,11 @@ export default memo(function Text({
     if (isCurrency) {
       icon = icon === undefined ? '$' : icon;
       props.thousandSeparator = true;
-      props.allowNegative = false;
+      props.allowNegative = allowNegative;
       props.decimalSeparator = false;
 
-      const padding = props.iconPadding ?? (size === 'small' ? 20 : 30);
+      const padding =
+        props.iconPadding ?? (size === 'small' ? 20 : 30);
       props.style = { ...props.style, [paddingProperty]: padding };
     }
 
@@ -111,6 +113,7 @@ export default memo(function Text({
     value,
     format,
     isCurrency,
+    allowNegative,
     size,
     _icon,
     iconPosition,

@@ -16,7 +16,7 @@ export default function Slider({
   max = 100,
   minDistance = 10,
   step = 1,
-  inputWidth = 70,
+  inputWidth = 72,
   transformValue,
   isCurrency,
   isPercent,
@@ -202,5 +202,5 @@ function getValue(value, isPercent) {
     return Number(value).toFixed(minDecimals);
   }
 
-  return value;
+  return parseInt(value);
 }

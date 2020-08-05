@@ -39,18 +39,26 @@ export function randomBetween(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-export function formatCurrency(num) {
+export function formatCurrency(num, showDecimals = true) {
+  if (isString(num)) {
+    num = num.replace(/[$,]/g, '');
+  }
+
   const isNegative = num < 0;
+  const decimals = showDecimals ? 2 : 0;
+
   num = Math.abs(Number(num)).toLocaleString('en-US', {
-    maximumFractionDigits: 2,
-    minimumFractionDigits: 2
+    maximumFractionDigits: decimals,
+    minimumFractionDigits: decimals
   });
 
-  return isNegative ? `—$${num}` : `$${num}`;
+  return isNegative ? `-$${num}` : `$${num}`;
 }
 
 export function formatPercent(num1, num2, addDecimals) {
-  let num = !isNumber(num2) ? num1 : Math.round((num1 / num2) * 100);
+  let num = !isNumber(num2 || isNaN(Number(num2)))
+    ? num1
+    : Math.round((parseFloat(num1) / parseFloat(num2)) * 100);
 
   if (addDecimals) {
     num = Number(num).toLocaleString('en-US', {
