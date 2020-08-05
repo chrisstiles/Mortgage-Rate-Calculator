@@ -4,7 +4,8 @@ import {
   isString,
   findKey,
   isEqual,
-  isNumber
+  isNumber,
+  sortBy
 } from 'lodash';
 import { cache } from '@app';
 import { footprint, minDecimals, maxDecimals } from '@config';
@@ -150,6 +151,24 @@ export function compareObjects(a, b, keys) {
   return isEqual(getObj(a), getObj(b));
 }
 
+export function compareArrays(a, b, checkOrder) {
+  if (!Array.isArray(a) || !Array.isArray(b)) {
+    console.error('Arguments must be arrays');
+    return false;
+  }
+
+  if (a.length !== b.length) {
+    return false;
+  }
+
+  if (!checkOrder) {
+    a = sortBy(a);
+    b = sortBy(b);
+  }
+
+  return isEqual(a, b);
+}
+
 export function call(thisOrMethod, methodOrArg, ...args) {
   if (isFunction(thisOrMethod)) {
     return thisOrMethod.apply(this, [methodOrArg, ...args]);
@@ -192,6 +211,11 @@ export function isRefinance(type) {
   return !!type.trim().match(/^refinance$/i);
 }
 
+export function isValidDate(date) {
+  date = new Date(date);
+  return date instanceof Date && !isNaN(date);
+}
+
 export function getLoanTerm(months, type) {
   if (!months || !type) {
     console.log('Undefined term or product type');
@@ -223,4 +247,28 @@ export function getLoanTerm(months, type) {
     console.error('Invalid product type', type);
     return null;
   }
+}
+
+// Returns the time difference (defaults to milliseconds)
+export function getTimeDifference(a, b, unit) {
+  a = new Date(a);
+  b = new Date(b);
+
+  if (!isValidDate(a) || !isValidDate(b)) {
+    console.error('Invalid date');
+    return null;
+  }
+
+  let diffMs = Math.abs(b - a);
+  let diff = diffMs;
+
+  if (unit === 'minutes') {
+    diff = Math.round(((diffMs % 86400000) % 3600000) / 60000);
+  } else if (unit === 'hours') {
+    diff = Math.floor((diffMs % 86400000) / 3600000);
+  } else if (unit === 'days') {
+    diff = Math.floor(diffMs / 86400000);
+  }
+
+  return diff;
 }

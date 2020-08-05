@@ -12,7 +12,9 @@ export default memo(function LoanTypeTabs({
 }) {
   const purchaseIsActive = loanType === 'purchase';
   const [firstTab] = useState(() => {
-    const { loanType: defaultLoanType = 'refinance' } = config.defaults;
+    const {
+      loanType: defaultLoanType = 'refinance'
+    } = config.defaults;
     const { displayDefaultTabFirst = true } = config;
 
     if (displayDefaultTabFirst) {
@@ -86,10 +88,7 @@ function Tab({
       })}
       onClick={() => setLoanType(loanType)}
     >
-      <div
-        className={styles.content}
-        tabIndex="-1"
-      >
+      <div className={styles.content} tabIndex="-1">
         {children}
       </div>
     </button>

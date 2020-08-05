@@ -2,6 +2,9 @@
 // both editable fields and URL parameters
 export const keys = Object.freeze({
   APR: 'apr',
+  CACHED_RATES_PURCHASE: 'cachedRatesPurchase',
+  CACHED_RATES_REFINANCE: 'cachedRatesRefinance',
+  CACHED_REQUEST_STATE: 'cachedRequestState',
   CASH_OUT_AMOUNT: 'cashOutAmount',
   CURRENT_LOCATION: 'currentLocation',
   CITY: 'city',

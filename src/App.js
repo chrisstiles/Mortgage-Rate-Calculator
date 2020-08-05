@@ -13,6 +13,7 @@ import API from '@utils/API';
 import { getState, isInFootprint } from '@helpers';
 
 const cache = new CacheService();
+window.cache = cache;
 const api = new API();
 const initialState = getInitialState();
 
@@ -41,7 +42,6 @@ export default function App() {
         newState.userSetLocation = true;
       }
 
-      setTimeout(() => api.fetchRates(newState), 0);
       cache.set(keys.LOAN_STATE, newState);
       return newState;
     });
@@ -122,6 +122,12 @@ export default function App() {
   useEffect(() => {
     api.setCallbacks({ setData, setIsLoading, setEffectiveDate });
   }, [setData, setIsLoading, setEffectiveDate]);
+
+  useEffect(() => {
+    if (rateInitComplete.current) {
+      api.fetchRates(state);
+    }
+  }, [state]);
 
   // Fetch initially displayed rates
   const rateInitComplete = useRef(false);

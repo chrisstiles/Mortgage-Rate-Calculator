@@ -8,7 +8,12 @@ const {
 } = require('@enums');
 
 module.exports = {
-  /*-- Use Sample Data --*/
+  /*-- Data --*/
+
+  // The app caches fetched rates in the user's browser
+  // to make loading quicker. This value is the maximum
+  // amount of time (in minutes) those cached rates are valid
+  rateCacheExpiration: 30, // minutes
 
   // Whether or not to use sample data to prevent
   // continuously loading data from MORRIS API in

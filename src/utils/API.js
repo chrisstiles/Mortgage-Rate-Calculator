@@ -1,15 +1,22 @@
-import { endpoint, useSampleData, sampleLoadingTime } from '@config';
+import {
+  endpoint,
+  useSampleData,
+  sampleLoadingTime,
+  rateCacheExpiration
+} from '@config';
 import { keys, requestBody } from '@enums';
 import { isPlainObject } from 'lodash';
 import {
   compareObjects,
   call,
   getLoanTerm,
+  getTimeDifference,
   isAdjustableRate,
   isFixedRate,
   isPurchase,
   isRefinance
 } from '@helpers';
+import { cache } from '@app';
 import sampleDataPurchase from './sample-data-purchase.json';
 import sampleDataRefinance from './sample-data-refinance.json';
 
@@ -26,6 +33,48 @@ export default class API {
     purchase: null,
     refinance: null
   };
+
+  constructor() {
+    this.#currentState = cache.get(keys.CACHED_REQUEST_STATE);
+
+    if (this.#currentState) {
+      this.getCachedData('purchase');
+      this.getCachedData('refinance');
+    }
+  }
+
+  getCachedData(type) {
+    const key = getCacheKey(type);
+    const { effectiveDate, data } = cache.get(key, {});
+
+    if (effectiveDate && data) {
+      const date = new Date(effectiveDate);
+      const diff = getTimeDifference(date, new Date(), 'minutes');
+
+      if (diff !== null && diff <= rateCacheExpiration) {
+        this.#currentData[type] = data;
+        this.#effectiveDates[type] = date;
+      }
+    }
+  }
+
+  setCachedData() {
+    const type = this.#currentType;
+    const data = this.#currentData[type];
+    const effectiveDate = this.#effectiveDates[type];
+
+    if (data && effectiveDate) {
+      const key = getCacheKey(type);
+      cache.set(key, { effectiveDate, data });
+      cache.set(keys.CACHED_REQUEST_STATE, this.#currentState);
+    }
+  }
+
+  removeCachedData() {
+    cache.set(keys.CACHED_RATES_PURCHASE, null);
+    cache.set(keys.CACHED_RATES_REFINANCE, null);
+    cache.set(keys.CACHED_REQUEST_STATE, null);
+  }
 
   isFetching() {
     return this.#isFetching;
@@ -65,6 +114,7 @@ export default class API {
       this.#currentType = currentType;
       this.setEffectiveDate();
       call(this.#callbacks.setData, this.#currentData[currentType]);
+      call(this.#callbacks.setIsLoading, false);
       return;
     } else if (inputsChanged || currentType !== this.#currentType) {
       this.#isFetching = true;
@@ -73,6 +123,7 @@ export default class API {
       if (inputsChanged) {
         this.#currentData.purchase = null;
         this.#currentData.refinance = null;
+        this.removeCachedData();
       }
 
       this.makeRequest(state);
@@ -130,6 +181,7 @@ export default class API {
 
     if (data?.length) {
       this.#currentData[this.#currentType] = data;
+      this.setCachedData();
     }
   }
 
@@ -189,6 +241,12 @@ function formatData(data) {
       return p;
     })
     .filter(p => p);
+}
+
+function getCacheKey(type) {
+  return isPurchase(type)
+    ? keys.CACHED_RATES_PURCHASE
+    : keys.CACHED_RATES_REFINANCE;
 }
 
 const sampleData = {

@@ -13,7 +13,7 @@ import { Button } from '@input';
 import useWindowSize from '@hooks/useWindowSize';
 import { Phone } from './icons';
 import { getState } from '@helpers';
-import { api } from '@app';
+// import { api } from '@app';
 import { keys } from '@enums';
 import { mobileSize } from '@config';
 
@@ -79,6 +79,7 @@ export default memo(function Hero({
     }
 
     setState(newState);
+    // setTimeout(() => api.fetchRates(newState), 0);
   }, [
     state,
     currentState,
