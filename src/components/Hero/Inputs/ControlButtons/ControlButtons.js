@@ -3,6 +3,7 @@ import { Button } from '@input';
 import styles from './ControlButtons.module.scss';
 import classNames from 'classnames';
 import { compareObjects } from '@helpers';
+import { keys } from '@enums';
 
 export default memo(function ControlButtons({
   className,
@@ -13,7 +14,12 @@ export default memo(function ControlButtons({
   setState,
   setControlsOpen
 }) {
-  const canRefresh = !compareObjects(state, prevState) && !hasErrors;
+  const canRefresh =
+    !compareObjects(
+      state,
+      prevState,
+      Object.keys(state).filter(k => k !== keys.LOAN_TYPE)
+    ) && !hasErrors;
 
   const handleResetClick = () => {
     setState(prevState);
@@ -22,8 +28,6 @@ export default memo(function ControlButtons({
 
   const handleRefreshClick = () => {
     if (canRefresh) {
-      // setControlsOpen(false);
-      // setState(state);
       refreshData();
     }
   };
