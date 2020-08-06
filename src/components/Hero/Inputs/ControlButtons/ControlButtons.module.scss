@@ -1,0 +1,41 @@
+/*---------------------------*/
+/* Controls Buttons */
+/*---------------------------*/
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 15px 17px 15px;
+  background: rgba(#fff, 0.04);
+
+  > * {
+    margin-right: 15px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.reset {
+  color: #e6e6e6;
+  text-transform: none;
+  font-weight: 400;
+
+  &:hover {
+    background-color: rgba(#fff, 0.06);
+  }
+
+  svg {
+    margin-right: 6px !important;
+  }
+}
+
+.refresh {
+  &.disabled {
+    background-color: #a9a9a9;
+    opacity: 0.6;
+    color: #ffffff;
+    pointer-events: none;
+  }
+}

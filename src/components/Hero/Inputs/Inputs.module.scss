@@ -3,8 +3,8 @@
 /*---------------------------*/
 
 .inputWrapper {
-  position:relative;
-  pointer-events:none;
+  position: relative;
+  pointer-events: none;
 
   &.open {
     pointer-events: auto;
@@ -12,20 +12,19 @@
 }
 
 .inputs {
-  position:absolute;
-  left:0;
-  right:0;
-  top:0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
 
   label {
-    line-height:1;
-    font-size:13px;
+    line-height: 1;
+    font-size: 13px;
   }
 }
 
 @mixin addDelay($baseDelay: 0, $delay: 60) {
   @for $i from 1 through 7 {
-
     &:nth-child(#{$i}) {
       transition-delay: #{($i - 1) * $delay + $baseDelay}ms;
     }
@@ -33,104 +32,42 @@
 }
 
 .inner {
-  overflow:hidden;
-  padding:25px 25px 10px 25px;
+  overflow: hidden;
 }
 
 .row {
-  display:flex;
-  margin-bottom:20px;
-  pointer-events:none;
-  flex-wrap:wrap;
+  display: flex;
+  padding: 25px 25px 10px 25px;
+  pointer-events: none;
+  flex-wrap: wrap;
 
   &:last-child {
-    margin-bottom:0;
+    margin-bottom: 0;
   }
 
   > * {
-    width:100%;
-    flex-grow:1;
-    margin-right:15px;
-    margin-bottom:18px;
-    transform:translateY(50px);
-    opacity:0;
-    transition: all .4s cubic-bezier(.29, .02, .31, 1);
+    width: 100%;
+    flex-grow: 1;
+    margin-right: 15px;
+    margin-bottom: 18px;
+    transform: translateY(50px);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.29, 0.02, 0.31, 1);
     transition-property: opacity, transform !important;
     will-change: transition, opacity;
 
     &:last-child {
-      margin-right:0;
+      margin-right: 0;
     }
   }
-}
 
-.outline {
-  position:absolute;
-  top:0;
-  right:0;
-  bottom:0;
-  left:0;
-  border:2px dashed rgba(#fff, .5);
-  border-top:none;
-  z-index: -1;
-  transition: opacity .3s;
-  opacity:0;
-
-  .top {
-    position:absolute;
-    top:0;
-    left:0;
-    right:0;
-    display:flex;
-
-    span {
-      display:block;
-      padding:0 12px;
-      text-transform:uppercase;
-      font-weight:600;
-      font-size:12px;
-      margin-top:-6px;
-    }
-
-    &:before,
-    &:after {
-      content:"";
-      display:block;
-      border-top:2px dashed rgba(#fff, .5);
-      height:2px;
-    }
-
-    &:before {
-      width:40px;
-    }
-
-    &:after {
-      flex-grow:1;
-    }
-  }
-}
-
-.hasError {
-  .outline {
-    border-color:rgba(247, 182, 182, 0.85);
-
-    .top {
-      &:before,
-      &:after {
-        border-color: rgba(247, 182, 182, 0.85);
-      }
-    }
-  }
-}
-
-.open {
-  .row {
-    pointer-events:auto;
+  @at-root .open & {
+    pointer-events: auto;
 
     > * {
       opacity: 1;
-      transform:translateY(0);
-      transition: all .4s cubic-bezier(.09, .51, .39, 1);
+      transform: translateY(0);
+      transition: all 0.4s cubic-bezier(0.09, 0.51, 0.39, 1);
     }
 
     &:nth-child(1) > * {
@@ -141,9 +78,80 @@
       @include addDelay(80);
     }
   }
+}
 
-  .outline {
-    transition: opacity .6s;
+$transition: opacity 0.3s;
+$openTransition: opacity 0.6s;
+
+.controlButtons {
+  opacity: 0;
+  transition: $transition;
+
+  @at-root .open & {
+    transition: $openTransition;
+    opacity: 1;
+  }
+}
+
+.outline {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border: 2px dashed rgba(#fff, 0.5);
+  border-top: none;
+  z-index: 11;
+  pointer-events: none;
+  transition: $transition;
+  opacity: 0;
+
+  .top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+
+    span {
+      display: block;
+      padding: 0 12px;
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 12px;
+      margin-top: -6px;
+    }
+
+    &:before,
+    &:after {
+      content: '';
+      display: block;
+      border-top: 2px dashed rgba(#fff, 0.5);
+      height: 2px;
+    }
+
+    &:before {
+      width: 40px;
+    }
+
+    &:after {
+      flex-grow: 1;
+    }
+  }
+
+  @at-root .hasError & {
+    border-color: rgba(247, 182, 182, 0.85);
+
+    .top {
+      &:before,
+      &:after {
+        border-color: rgba(247, 182, 182, 0.85);
+      }
+    }
+  }
+
+  @at-root .open & {
+    transition: $openTransition;
     opacity: 1;
   }
 }

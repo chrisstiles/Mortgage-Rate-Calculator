@@ -2,6 +2,11 @@ import React from 'react';
 import styles from './Button.module.scss';
 import classNames from 'classnames';
 import Tooltip from '@components/Tooltip';
+import { Reset } from './icons';
+
+const icons = {
+  reset: Reset
+};
 
 export default function Button({
   children,
@@ -12,6 +17,8 @@ export default function Button({
   style = {},
   contentStyle = {},
   contentClassName,
+  icon,
+  iconClassName,
   fontSize,
   isClose,
   closeTooltipText = 'Close',
@@ -29,38 +36,36 @@ export default function Button({
     })
   };
 
+  const Icon = icons[icon];
+
+  const content = (
+    <div
+      className={classNames(styles.content, contentClassName)}
+      style={contentStyle}
+      tabIndex="-1"
+    >
+      {Icon && (
+        <Icon className={classNames(styles.icon, iconClassName)} />
+      )}
+      {children}
+    </div>
+  );
+
   const component = (
     <React.Fragment>
-      {href ?
+      {href ? (
         <a href={href} {...props}>
-          <div
-            className={classNames(styles.content, contentClassName)}
-            style={contentStyle}
-            tabIndex="-1"
-          >
-            {children}
-          </div>
+          {content}
         </a>
-      :
-        <button {...props}>
-          <div
-            className={classNames(styles.content, contentClassName)}
-            style={contentStyle}
-            tabIndex="-1"
-          >
-            {children}
-          </div>
-        </button>
-      }
+      ) : (
+        <button {...props}>{content}</button>
+      )}
     </React.Fragment>
   );
 
   if (isClose && closeTooltipText) {
     return (
-      <Tooltip
-        text={closeTooltipText}
-        className={className}
-      >
+      <Tooltip text={closeTooltipText} className={className}>
         {component}
       </Tooltip>
     );

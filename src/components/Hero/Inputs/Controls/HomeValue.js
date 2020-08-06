@@ -4,14 +4,15 @@ import { keys } from '@enums';
 import { upperFirst } from 'lodash';
 
 function HomeValue(props) {
-  const text = props.loanType === 'purchase' ? 'Purchase Price' : 'Home Value';
+  const text =
+    props.loanType === 'purchase' ? 'Purchase Price' : 'Home Value';
 
   return (
     <Text
       label={text}
       placeholder={text}
       name={keys.HOME_VALUE}
-      maxWidth={145}
+      maxWidth={120}
       isCurrency
       {...props}
     />
@@ -19,7 +20,8 @@ function HomeValue(props) {
 }
 
 function validate(num, state) {
-  const name = state.loanType === 'purchase' ? 'purchase price' : 'home value';
+  const name =
+    state.loanType === 'purchase' ? 'purchase price' : 'home value';
   num = parseFloat(num);
 
   if (isNaN(num)) {

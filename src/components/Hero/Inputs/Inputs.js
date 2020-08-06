@@ -1,6 +1,13 @@
-import React, { useState, useRef, useEffect, useCallback, memo } from 'react';
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  memo
+} from 'react';
 import Controls from './Controls';
 import MobileInputs from './MobileInputs';
+import ControlButtons from './ControlButtons';
 import styles from './Inputs.module.scss';
 import useResizeObserver from '@hooks/useResizeObserver';
 import useWindowSize from '@hooks/useWindowSize';
@@ -8,6 +15,7 @@ import classNames from 'classnames';
 
 export default memo(function Inputs({
   state,
+  prevState,
   loanType,
   controlsOpen,
   controlsHeight,
@@ -16,12 +24,16 @@ export default memo(function Inputs({
   isMobile,
   updateErrors,
   setState,
+  refreshData,
   setControlsOpen
 }) {
   const ref = useRef(null);
-  const handleResize = useCallback(({ height }) => {
-    setControlsHeight(height);
-  }, [setControlsHeight]);
+  const handleResize = useCallback(
+    ({ height }) => {
+      setControlsHeight(height);
+    },
+    [setControlsHeight]
+  );
 
   useResizeObserver(ref, handleResize);
 
@@ -62,21 +74,31 @@ export default memo(function Inputs({
     );
   }
 
+  const hasErrors = !!errors?.length;
+
   return (
     <div
       className={classNames(styles.inputWrapper, {
         [styles.open]: controlsOpen,
-        [styles.hasError]: !!errors?.length
+        [styles.hasError]: hasErrors
       })}
       style={{ marginBottom: controlsHeight + offset }}
     >
-      <div
-        ref={ref}
-        className={styles.inputs}
-      >
+      <div ref={ref} className={styles.inputs}>
         <Outline />
         <div className={styles.inner}>
           <Row>{controls}</Row>
+          <ControlButtons
+            state={state}
+            prevState={prevState}
+            className={classNames(styles.controlButtons, {
+              open: controlsOpen
+            })}
+            hasErrors={hasErrors}
+            refreshData={refreshData}
+            setState={setState}
+            setControlsOpen={setControlsOpen}
+          />
         </div>
       </div>
     </div>
@@ -84,11 +106,7 @@ export default memo(function Inputs({
 });
 
 function Row({ children }) {
-  return (
-    <div className={styles.row}>
-      {children}
-    </div>
-  );
+  return <div className={styles.row}>{children}</div>;
 }
 
 function Outline() {

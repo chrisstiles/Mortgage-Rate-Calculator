@@ -22,11 +22,8 @@ export default memo(function AssumptionsText({
   const hasError = !!errors?.length;
 
   return (
-    <div
-      className={styles.content}
-      tabIndex="-1"
-    >
-      {isLoading || !hasInitialLocation ?
+    <div className={styles.content} tabIndex="-1">
+      {isLoading || !hasInitialLocation ? (
         <BoxText
           icon={
             <Spinner
@@ -36,7 +33,7 @@ export default memo(function AssumptionsText({
             />
           }
         />
-      :
+      ) : (
         <React.Fragment>
           <BoxText
             icon={<Home className={styles.home} />}
@@ -45,7 +42,7 @@ export default memo(function AssumptionsText({
             transitionDirection="down"
           />
 
-          {!isMobile &&
+          {!isMobile && (
             <React.Fragment>
               <BoxText
                 icon={<Gear className={styles.gear} />}
@@ -60,9 +57,9 @@ export default memo(function AssumptionsText({
                 isVisible={hasError}
               />
             </React.Fragment>
-          }
+          )}
         </React.Fragment>
-      }
+      )}
       <div
         className={classNames(styles.arrowWrapper, {
           [styles.loading]: isLoading
@@ -79,44 +76,40 @@ export default memo(function AssumptionsText({
   );
 });
 
-const BoxText = memo(({
-  icon,
-  text,
-  isVisible = true,
-  transitionDirection = 'down'
-}) => {
-  const translateAmount = 10;
-  const translate = transitionDirection === 'down' ? translateAmount : -translateAmount;
+const BoxText = memo(
+  ({
+    icon,
+    text,
+    isVisible = true,
+    transitionDirection = 'down'
+  }) => {
+    const translateAmount = 10;
+    const translate =
+      transitionDirection === 'down'
+        ? translateAmount
+        : -translateAmount;
 
-  return (
-    <div
-      className={classNames(styles.textWrapper, {
-        [styles.visible]: isVisible
-      })}
-      style={{
-        transform: `translateY(${translate}px)`
-      }}
-    >
-      <div className={styles.icon}>
-        {icon}
+    return (
+      <div
+        className={classNames(styles.textWrapper, {
+          [styles.visible]: isVisible
+        })}
+        style={{
+          transform: `translateY(${translate}px)`
+        }}
+      >
+        <div className={styles.icon}>{icon}</div>
+
+        {text && <div className={styles.text}>{text}</div>}
       </div>
+    );
+  }
+);
 
-      {text &&
-        <div className={styles.text}>
-          {text}
-        </div>
-      }
-    </div>
-  );
-});
-
-function getLoanText({
-  loanType,
-  loanAmount,
-  homeValue,
-  zipCode,
-  creditScore
-}, zipCodes) {
+function getLoanText(
+  { loanType, loanAmount, homeValue, zipCode, creditScore },
+  zipCodes
+) {
   const parts = [];
   const isPurchase = loanType === 'purchase';
 
@@ -125,7 +118,7 @@ function getLoanText({
 
   // Loan amount
   if (loanAmount !== undefined) {
-    parts.push(formatCurrency(homeValue));
+    parts.push(formatCurrency(homeValue, false));
   }
 
   parts.push(isPurchase ? 'home' : 'loan');
@@ -145,19 +138,28 @@ function getLoanText({
 
     if (score?.label) {
       const a = isVowel(score.label) ? 'an' : 'a';
-      parts.push(`with ${a} ${score.label.toLowerCase()} credit score`);
+      parts.push(
+        `with ${a} ${score.label.toLowerCase()} credit score`
+      );
     }
   }
 
   // Down payment
+  loanAmount = parseInt(loanAmount);
+  homeValue = parseInt(homeValue);
+
   if (isPurchase && !isNaN(loanAmount) && !isNaN(homeValue)) {
     if (homeValue > loanAmount) {
-      const percent = formatPercent(homeValue - loanAmount, homeValue);
+      const percent = formatPercent(
+        homeValue - loanAmount,
+        homeValue
+      );
       parts.push(`and ${percent} down`);
     }
   }
-  
-  const text = parts.join(' ')
+
+  const text = parts
+    .join(' ')
     .replace(/\s\s+/g, ' ')
     .replace(' .', '.');
 
@@ -166,5 +168,5 @@ function getLoanText({
       <span className={styles.title}>Your Loan:</span>
       {` ${upperFirst(text)}.`}
     </React.Fragment>
-  )
+  );
 }

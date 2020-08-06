@@ -10,7 +10,7 @@ function LoanAmount(props) {
       label="Loan Amount"
       placeholder="Loan Amount"
       name={keys.LOAN_AMOUNT}
-      maxWidth={145}
+      maxWidth={120}
       hasError={props.hasError}
       isCurrency
       {...props}
@@ -27,15 +27,20 @@ function validate(num, state) {
   }
 
   if (num < minLoanAmount) {
-    return `Please enter a loan amount of at least ${formatCurrency(minLoanAmount)}`;
+    return `Please enter a loan amount of at least ${formatCurrency(
+      minLoanAmount
+    )}`;
   }
 
   if (num > maxLoanAmount) {
-    return `Please enter a loan amount of ${formatCurrency(maxLoanAmount)} or less`;
+    return `Please enter a loan amount of ${formatCurrency(
+      maxLoanAmount
+    )} or less`;
   }
 
   if (num >= parseFloat(state[keys.HOME_VALUE])) {
-    const name = state.loanType === 'purchase' ? 'purchase price' : 'home value';
+    const name =
+      state.loanType === 'purchase' ? 'purchase price' : 'home value';
     return `Loan amount must be lower than ${name}`;
   }
 }

@@ -13,7 +13,6 @@ import { Button } from '@input';
 import useWindowSize from '@hooks/useWindowSize';
 import { Phone } from './icons';
 import { getState } from '@helpers';
-// import { api } from '@app';
 import { keys } from '@enums';
 import { mobileSize } from '@config';
 
@@ -52,12 +51,7 @@ export default memo(function Hero({
     });
   }, []);
 
-  const handleAssumptionsClick = useCallback(() => {
-    if (!controlsOpen) {
-      setControlsOpen(true);
-      return;
-    }
-
+  const refreshData = useCallback(() => {
     const newState = { ...currentState, loanType: state.loanType };
     const hasErrors = errors?.length;
 
@@ -83,11 +77,19 @@ export default memo(function Hero({
     state,
     currentState,
     errors,
-    controlsOpen,
-    setControlsOpen,
     setCurrentState,
-    setState
+    setState,
+    setControlsOpen
   ]);
+
+  const handleAssumptionsClick = useCallback(() => {
+    if (!controlsOpen) {
+      setControlsOpen(true);
+      return;
+    }
+
+    refreshData();
+  }, [controlsOpen, setControlsOpen, refreshData]);
 
   const hasInitialized = useRef(false);
 
@@ -125,6 +127,7 @@ export default memo(function Hero({
         </div>
         <Inputs
           state={currentState}
+          prevState={state}
           loanType={state.loanType}
           controlsOpen={controlsOpen}
           controlsHeight={controlsHeight}
@@ -133,6 +136,7 @@ export default memo(function Hero({
           setControlsHeight={setControlsHeight}
           updateErrors={updateErrors}
           setState={setCurrentState}
+          refreshData={refreshData}
           setControlsOpen={setControlsOpen}
         />
       </div>

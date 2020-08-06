@@ -3,7 +3,6 @@ import styles from './filters.module.scss';
 import { Button } from '@input';
 import ProductTypes from './ProductTypes';
 import Sliders from './Sliders';
-import { ReactComponent as Reset } from './reset.svg';
 
 export default memo(function Filters({
   data,
@@ -23,12 +22,13 @@ export default memo(function Filters({
         <div className={styles.buttons}>
           <Button
             theme="minimal"
+            icon="reset"
             fontSize={13}
             className={styles.reset}
             contentStyle={{ paddingLeft: 10, paddingRight: 10 }}
             onClick={resetFilters}
           >
-            <Reset /> Reset
+            Reset
           </Button>
 
           <Button
