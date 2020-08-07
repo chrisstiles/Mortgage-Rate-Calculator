@@ -101,11 +101,15 @@ module.exports = {
     // rates have already been displayed
     initialLoad: 'Loading your customized rates...',
 
+    // Text that replaces the effective date while loading
+    effectiveDateLoadingText: 'Loading rates and products...',
+
     // Displayed if no rates were returned for the loan
     // assumptions the user has entered
     noData: `We couldn't find any products available for the loan details you entered. Try changing your loan assumptions.`,
 
-    // Displayed if no products met the user's filter criteria
+    // Products have been loaded, but none meet
+    // the user's current filter criteria
     noFilteredData: `No products found that meet your filter criteria. Try changing the rate and product filters.`
   },
 

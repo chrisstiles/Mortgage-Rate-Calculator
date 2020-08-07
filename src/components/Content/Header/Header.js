@@ -6,6 +6,7 @@ import styles from './Header.module.scss';
 import { upperFirst } from 'lodash';
 import classNames from 'classnames';
 import { format } from 'fecha';
+import { messages } from '@config';
 
 export default function Header({
   data,
@@ -27,7 +28,11 @@ export default function Header({
   return (
     <React.Fragment>
       <div className={styles.wrapper}>
-        <Top loanType={loanType} effectiveDate={effectiveDate} />
+        <Top
+          loanType={loanType}
+          effectiveDate={effectiveDate}
+          isLoading={isLoading}
+        />
         <Middle
           isLoading={isLoading}
           filtersOpen={filtersOpen}
@@ -46,7 +51,7 @@ export default function Header({
   );
 }
 
-function Top({ loanType, effectiveDate }) {
+function Top({ loanType, effectiveDate, isLoading }) {
   const dateString = effectiveDate
     ? format(effectiveDate, 'MMMM Do, YYYY')
     : null;
@@ -61,14 +66,23 @@ function Top({ loanType, effectiveDate }) {
         <div className={styles.title}>
           {upperFirst(loanType)} Mortgage Rates
         </div>
-        {dateString && timeString && (
-          <div
-            className={classNames(styles.subtitle, {
-              [styles.hidden]: !effectiveDate
-            })}
-          >
-            Effective as of {dateString} at {timeString}
+        {isLoading ? (
+          <div className={styles.subtitle}>
+            {messages.effectiveDateLoadingText}
           </div>
+        ) : (
+          <React.Fragment>
+            {dateString && timeString && (
+              <div
+                className={classNames(styles.subtitle, {
+                  [styles.hidden]: !effectiveDate,
+                  [styles.loading]: isLoading
+                })}
+              >
+                Effective as of {dateString} at {timeString}
+              </div>
+            )}
+          </React.Fragment>
         )}
       </div>
       <div className={styles.chat}>

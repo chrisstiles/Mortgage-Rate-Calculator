@@ -15,8 +15,8 @@ import useResizeObserver from '@hooks/useResizeObserver';
 import useWindowSize from '@hooks/useWindowSize';
 import classNames from 'classnames';
 import { compareObjects } from '@helpers';
-import { keys } from '@enums';
-import { cache, api } from '@app';
+import { keys, field } from '@enums';
+import { cache } from '@app';
 import getInitialState from '@utils/getInitialState';
 
 export default memo(function Inputs({
@@ -65,20 +65,24 @@ export default memo(function Inputs({
       !compareObjects(
         state,
         prevState,
-        Object.keys(state).filter(k => k !== keys.LOAN_TYPE)
+        Object.values(field).filter(k => k !== keys.LOAN_TYPE)
       ) && !errors?.length,
     [state, prevState, errors]
   );
+
+  const cancel = useCallback(() => {
+    setState(prevState);
+    setControlsOpen(false);
+  }, [setState, setControlsOpen, prevState]);
 
   const reset = useCallback(() => {
     if (!isLoading) {
       cache.set(keys.LOAN_STATE, null);
       const state = getInitialState(true);
       setState(state);
-      setControlsOpen(false);
-      api.fetchRates(state, true);
+      refreshData(state);
     }
-  }, [isLoading, setState, setControlsOpen]);
+  }, [isLoading, setState, refreshData]);
 
   const refresh = useCallback(() => {
     if (canRefresh) {
@@ -131,17 +135,17 @@ export default memo(function Inputs({
               theme="minimal"
               className={styles.close}
               color="#dcdcdc"
-              onClick={reset}
+              onClick={cancel}
               closeTooltipText="Cancel"
               isClose
             />
           </div>
           <ControlButtons
+            state={state}
             className={classNames(styles.controlButtons, {
               open: controlsOpen
             })}
-            canRefresh={canRefresh && !isLoading}
-            isLoading={isLoading}
+            canRefresh={canRefresh}
             refresh={refresh}
             reset={reset}
           />

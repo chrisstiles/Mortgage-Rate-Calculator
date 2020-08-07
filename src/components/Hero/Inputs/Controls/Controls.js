@@ -1,4 +1,4 @@
-import React, { useState, useCallback, memo, useEffect } from 'react';
+import React, { useCallback, memo, useEffect } from 'react';
 import { formFields } from '@config';
 import { field } from '@enums';
 import ZipCode from './ZipCode';
@@ -12,7 +12,6 @@ import { isFunction } from 'lodash';
 
 export default memo(function ControlComponents({
   state,
-  // prevState,
   loanType,
   errors,
   canValidate,

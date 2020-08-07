@@ -4,7 +4,7 @@ import {
   sampleLoadingTime,
   rateCacheExpiration
 } from '@config';
-import { keys, requestBody } from '@enums';
+import { keys, requestBody, field } from '@enums';
 import { isPlainObject, round, uniqueId } from 'lodash';
 import {
   compareObjects,
@@ -17,7 +17,6 @@ import {
   isRefinance
 } from '@helpers';
 import { cache } from '@app';
-import getInitialState from '@utils/getInitialState';
 import sampleDataPurchase from './sample-data-purchase.json';
 import sampleDataRefinance from './sample-data-refinance.json';
 
@@ -53,9 +52,8 @@ export default class API {
 
     if (effectiveDate && data) {
       const date = new Date(effectiveDate);
-      const diff = getTimeDifference(date, new Date(), 'minutes');
 
-      if (diff !== null && diff <= rateCacheExpiration) {
+      if (!effectiveDateExpired(date)) {
         this.#currentData[type] = data;
         this.#effectiveDates[type] = date;
       }
@@ -75,6 +73,9 @@ export default class API {
   }
 
   removeCachedData() {
+    this.#currentData.purchase = null;
+    this.#currentData.refinance = null;
+    this.#effectiveDates = { purchase: null, refinance: null };
     cache.set(keys.CACHED_RATES_PURCHASE, null);
     cache.set(keys.CACHED_RATES_REFINANCE, null);
     cache.set(keys.CACHED_REQUEST_STATE, null);
@@ -107,14 +108,15 @@ export default class API {
     const inputsChanged = !compareObjects(
       state,
       this.#currentState,
-      Object.keys(state).filter(k => k !== keys.LOAN_TYPE)
+      Object.values(field).filter(k => k !== keys.LOAN_TYPE)
     );
 
     if (
       !forceFetch &&
       !inputsChanged &&
       typeChanged &&
-      this.#currentData[currentType]
+      this.#currentData[currentType] &&
+      !effectiveDateExpired(this.#effectiveDates[currentType])
     ) {
       this.#currentType = currentType;
       this.setEffectiveDate();
@@ -125,8 +127,6 @@ export default class API {
       this.#currentType = currentType;
 
       if (inputsChanged || forceFetch) {
-        this.#currentData.purchase = null;
-        this.#currentData.refinance = null;
         this.removeCachedData();
       }
 
@@ -274,3 +274,12 @@ const sampleData = {
   purchase: sampleDataPurchase,
   refinance: sampleDataRefinance
 };
+
+function effectiveDateExpired(date) {
+  if (!date) {
+    return true;
+  }
+
+  const diff = getTimeDifference(date, new Date(), 'minutes');
+  return diff === null || diff > rateCacheExpiration;
+}

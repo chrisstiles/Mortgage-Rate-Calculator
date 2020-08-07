@@ -36,6 +36,10 @@
 
 .subtitle {
   color: #585858;
+
+  &.isLoading {
+    opacity: 0.5;
+  }
 }
 
 .info {
