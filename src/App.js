@@ -31,6 +31,7 @@ export default function App() {
       cache.getSession(keys.CURRENT_LOCATION)
     );
   });
+
   const [effectiveDate, setEffectiveDate] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 

@@ -226,7 +226,7 @@ export function isValidDate(date) {
 
 export function getLoanTerm(months, type) {
   if (!months || !type) {
-    console.log('Undefined term or product type');
+    console.error('Undefined term or product type');
     return null;
   }
 

@@ -26,6 +26,11 @@
     background-color: rgba(#fff, 0.06);
   }
 
+  &.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
   svg {
     margin-right: 6px !important;
   }

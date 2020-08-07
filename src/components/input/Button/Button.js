@@ -19,6 +19,7 @@ export default function Button({
   contentClassName,
   icon,
   iconClassName,
+  color,
   fontSize,
   isClose,
   closeTooltipText = 'Close',
@@ -27,7 +28,7 @@ export default function Button({
   const showArrow = theme === 'primary' && (_showArrow || !!href);
   const props = {
     ...restProps,
-    style: { ...style, fontSize },
+    style: { ...style, color, fontSize },
     className: classNames(styles.button, {
       [className]: !isClose || !closeTooltipText,
       [styles.arrow]: showArrow,

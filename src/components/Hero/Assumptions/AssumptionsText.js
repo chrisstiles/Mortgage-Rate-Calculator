@@ -15,11 +15,16 @@ export default memo(function AssumptionsText({
   hasInitialLocation,
   zipCodes = {},
   errors = [],
+  currentInput,
   isMobile,
   controlsOpen
 }) {
   const isLoading = _isLoading || !zipCodes || !hasInitialLocation;
   const hasError = !!errors?.length;
+  const error = !hasError
+    ? null
+    : (errors?.find(({ name }) => name === currentInput) ?? errors[0])
+        ?.error;
 
   return (
     <div className={styles.content} tabIndex="-1">
@@ -53,7 +58,7 @@ export default memo(function AssumptionsText({
 
               <BoxText
                 icon={<Error className={styles.gear} />}
-                text={errors[0]?.error}
+                text={error}
                 isVisible={hasError}
               />
             </React.Fragment>

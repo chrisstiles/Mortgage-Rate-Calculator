@@ -2,44 +2,24 @@ import React, { memo } from 'react';
 import { Button } from '@input';
 import styles from './ControlButtons.module.scss';
 import classNames from 'classnames';
-import { compareObjects } from '@helpers';
-import { keys } from '@enums';
 
 export default memo(function ControlButtons({
   className,
-  state,
-  prevState,
-  hasErrors,
-  refreshData,
-  setState,
-  setControlsOpen
+  canRefresh,
+  isLoading,
+  refresh,
+  reset
 }) {
-  const canRefresh =
-    !compareObjects(
-      state,
-      prevState,
-      Object.keys(state).filter(k => k !== keys.LOAN_TYPE)
-    ) && !hasErrors;
-
-  const handleResetClick = () => {
-    setState(prevState);
-    setControlsOpen(false);
-  };
-
-  const handleRefreshClick = () => {
-    if (canRefresh) {
-      refreshData();
-    }
-  };
-
   return (
     <div className={classNames(styles.wrapper, className)}>
       <Button
-        className={styles.reset}
+        className={classNames(styles.reset, {
+          [styles.disabled]: isLoading
+        })}
         theme="minimal"
         icon="reset"
         fontSize={13}
-        onClick={handleResetClick}
+        onClick={reset}
       >
         Reset loan assumptions
       </Button>
@@ -48,7 +28,7 @@ export default memo(function ControlButtons({
         className={classNames(styles.refresh, {
           [styles.disabled]: !canRefresh
         })}
-        onClick={handleRefreshClick}
+        onClick={refresh}
       >
         Refresh Rates
       </Button>

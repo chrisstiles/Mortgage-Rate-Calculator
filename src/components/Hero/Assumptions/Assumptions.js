@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback, memo } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  memo
+} from 'react';
 import AssumptionsText from './AssumptionsText';
 import { Label } from '@input';
 import Tooltip from '@components/Tooltip';
@@ -6,7 +12,11 @@ import styles from './Assumptions.module.scss';
 import classNames from 'classnames';
 import { keys } from '@enums';
 import { cache } from '@app';
-import { displayPulse, hidePulseAfterFirstVisit, pulseCount } from '@config';
+import {
+  displayPulse,
+  hidePulseAfterFirstVisit,
+  pulseCount
+} from '@config';
 
 export default memo(function Assumptions({
   state,
@@ -17,6 +27,7 @@ export default memo(function Assumptions({
   errors = [],
   controlsOpen,
   isMobile,
+  currentInput,
   onClick
 }) {
   const [canShowTooltip, setCanShowTooltip] = useState(true);
@@ -48,11 +59,16 @@ export default memo(function Assumptions({
     style: { animationIterationCount: pulseCount }
   };
 
-  const [tooltipText, setTooltipText] = useState(() => getTooltipText(controlsOpen, errors));
+  const [tooltipText, setTooltipText] = useState(() =>
+    getTooltipText(controlsOpen, errors)
+  );
   const controlsOpenRef = useRef(controlsOpen);
   const errorsRef = useRef(errors);
   const updateTooltip = useCallback(() => {
-    const text = getTooltipText(controlsOpenRef.current, errorsRef.current);
+    const text = getTooltipText(
+      controlsOpenRef.current,
+      errorsRef.current
+    );
     setTooltipText(text);
   }, []);
 
@@ -62,7 +78,7 @@ export default memo(function Assumptions({
   });
 
   useEffect(() => {
-    setTimeout(updateTooltip, 300)
+    setTimeout(updateTooltip, 300);
   }, [controlsOpen, errors, updateTooltip]);
 
   const handleMouseLeave = useCallback(() => {
@@ -83,12 +99,15 @@ export default memo(function Assumptions({
       text={tooltipText}
       className={classNames(styles.wrapper, {
         [styles.open]: controlsOpen,
-        [styles.hasError]: errors.length,
+        [styles.hasError]: errors.length
       })}
       forceHidden={!canShowTooltip || isLoading || isMobile}
       onMouseLeave={handleMouseLeave}
     >
-      <Label>Get personalized rates by letting us know a little about your loan.</Label>
+      <Label>
+        Get personalized rates by letting us know a little about your
+        loan.
+      </Label>
       <button
         className={classNames(styles.button, {
           [styles.loading]: isLoading
@@ -100,17 +119,18 @@ export default memo(function Assumptions({
           state={state}
           loanType={loanType}
           errors={errors}
+          currentInput={currentInput}
           isLoading={isLoading}
           zipCodes={zipCodes}
           controlsOpen={controlsOpen}
           isMobile={isMobile}
           hasInitialLocation={hasInitialLocation}
         />
-        {pulseIsVisible && !controlsOpen && !isLoading &&
+        {pulseIsVisible && !controlsOpen && !isLoading && (
           <div className={styles.pulseWrapper}>
             <div {...pulseProps} />
           </div>
-        }
+        )}
       </button>
 
       <div className={styles.line} />
@@ -120,7 +140,7 @@ export default memo(function Assumptions({
 
 function getTooltipText(controlsOpen, errors) {
   if (!controlsOpen) {
-    return 'Edit your loan\'s details';
+    return "Edit your loan's details";
   } else if (errors?.length) {
     return 'Fields with errors will revert to default values';
   }

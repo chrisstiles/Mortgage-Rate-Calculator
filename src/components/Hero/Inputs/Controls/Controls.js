@@ -7,77 +7,91 @@ import LoanAmount from './LoanAmount';
 import CreditScore from './CreditScore';
 import PropertyType from './PropertyType';
 import OccupancyType from './OccupancyType';
+import usePrevious from '@hooks/usePrevious';
 import { isFunction } from 'lodash';
-
-/*
-
-Zip Code
-Loan Type
-Home Value
-Loan Amount
-Property Type
-  Single Family - 1 unit
-  Planned Unit Development (PUD)
-  Condo (Default using 'Low-Rise Condo 1-4' for all condo property types)
-  2-4 Unit (Default using 2 unit tracking code for best pricing results)
-  Manufactured Home
-Occupancy Type
-  Owner Occupied
-  Second Home
-  Investment Property
-Credit Score
-Cash Out Amount
-
-*/
 
 export default memo(function ControlComponents({
   state,
+  // prevState,
   loanType,
   errors,
+  canValidate,
   controlsOpen,
   onChange,
   theme,
-  updateErrors
+  updateErrors,
+  setCanValidate,
+  setCurrentInput,
+  refresh
 }) {
-  const [canValidate, setCanValidate] = useState([]);
+  const validate = useCallback(
+    (value, name, currentState = state) => {
+      const { validate } = controls[name];
+      const fn = isFunction(validate) ? validate : validate.fn;
+      const dependencies = validate.dependencies;
+      const _state = { ...currentState, loanType };
 
-  const validate = useCallback((value, name) => {
-    const { validate } = controls[name];
-    const fn = isFunction(validate) ? validate : validate.fn;
-    const dependencies = validate.dependencies;
-    const _state = { ...state, loanType };
-    
-    if (fn) {
-      updateErrors(fn(value, _state), name);
-    }
-    
-    if (dependencies) {
-      [dependencies].flat().forEach(key => {
-        const { validate } = controls[key];
-        const fn = isFunction(validate) ? validate : validate.fn;
-        
-        if (fn) {
-          updateErrors(fn(_state[key], _state), key);
+      if (fn) {
+        updateErrors(fn(value, _state), name);
+      }
+
+      if (dependencies) {
+        [dependencies].flat().forEach(key => {
+          const { validate } = controls[key];
+          const fn = isFunction(validate) ? validate : validate.fn;
+
+          if (fn) {
+            updateErrors(fn(_state[key], _state), key);
+          }
+        });
+      }
+    },
+    [updateErrors, loanType, state]
+  );
+
+  const prevState = usePrevious(state);
+
+  useEffect(() => {
+    if (state && prevState) {
+      Object.keys(controls).forEach(key => {
+        if (state[key] !== prevState[key]) {
+          validate(state[key], key, state);
         }
       });
     }
-  }, [updateErrors, state, loanType]);
+  }, [state, prevState, validate]);
 
-  const handleBlur = useCallback((value, name) => {
-    if (!canValidate.includes(name)) {
-      setCanValidate([...canValidate, name]);
-    }
+  const handleFocus = useCallback(
+    (_value, name) => {
+      setCurrentInput(name);
+    },
+    [setCurrentInput]
+  );
 
-    validate(value, name);
-  }, [canValidate, validate]);
+  const handleBlur = useCallback(
+    (_value, name) => {
+      if (!canValidate.includes(name)) {
+        setCanValidate([...canValidate, name]);
+      }
+    },
+    [canValidate, setCanValidate]
+  );
 
-  const handleChange = useCallback((value, name) => {
-    if (canValidate.includes(name)) {
-      validate(value, name);
-    }
+  const handleChange = useCallback(
+    (value, name) => {
+      onChange(value, name);
+    },
+    [onChange]
+  );
 
-    onChange(value, name);
-  }, [onChange, canValidate, validate]);
+  const handleKeyDown = useCallback(
+    e => {
+      if (e.key === 'Enter') {
+        refresh();
+      }
+    },
+    [refresh]
+  );
 
   const tabIndex = controlsOpen ? 0 : -1;
 
@@ -85,7 +99,7 @@ export default memo(function ControlComponents({
     if (!controlsOpen) {
       setCanValidate([]);
     }
-  }, [controlsOpen]);
+  }, [controlsOpen, setCanValidate]);
 
   return formFields.map(name => {
     const { Component, dependencies } = controls[name];
@@ -99,11 +113,13 @@ export default memo(function ControlComponents({
       tabIndex,
       loanType,
       theme,
+      hasError: !!errors.find(e => e.name === name),
       value: state[name],
       key: name,
-      hasError: !!errors.find(e => e.name === name),
+      onFocus: handleFocus,
       onBlur: handleBlur,
-      onChange: handleChange
+      onChange: handleChange,
+      onKeyDown: handleKeyDown
     };
 
     if (dependencies) {

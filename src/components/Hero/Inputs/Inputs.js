@@ -3,15 +3,21 @@ import React, {
   useRef,
   useEffect,
   useCallback,
+  useMemo,
   memo
 } from 'react';
 import Controls from './Controls';
 import MobileInputs from './MobileInputs';
 import ControlButtons from './ControlButtons';
+import { Button } from '@input';
 import styles from './Inputs.module.scss';
 import useResizeObserver from '@hooks/useResizeObserver';
 import useWindowSize from '@hooks/useWindowSize';
 import classNames from 'classnames';
+import { compareObjects } from '@helpers';
+import { keys } from '@enums';
+import { cache, api } from '@app';
+import getInitialState from '@utils/getInitialState';
 
 export default memo(function Inputs({
   state,
@@ -20,12 +26,17 @@ export default memo(function Inputs({
   controlsOpen,
   controlsHeight,
   setControlsHeight,
+  canValidate,
   errors,
+  visibleErrors,
   isMobile,
+  isLoading,
   updateErrors,
+  setCanValidate,
   setState,
   refreshData,
-  setControlsOpen
+  setControlsOpen,
+  setCurrentInput
 }) {
   const ref = useRef(null);
   const handleResize = useCallback(
@@ -39,7 +50,6 @@ export default memo(function Inputs({
 
   const [offset, setOffset] = useState(getOffset());
   const resizeTimer = useRef(null);
-
   const { width: windowWidth } = useWindowSize();
 
   useEffect(() => {
@@ -50,15 +60,45 @@ export default memo(function Inputs({
     }, 50);
   }, [windowWidth]);
 
+  const canRefresh = useMemo(
+    () =>
+      !compareObjects(
+        state,
+        prevState,
+        Object.keys(state).filter(k => k !== keys.LOAN_TYPE)
+      ) && !errors?.length,
+    [state, prevState, errors]
+  );
+
+  const reset = useCallback(() => {
+    if (!isLoading) {
+      cache.set(keys.LOAN_STATE, null);
+      const state = getInitialState(true);
+      setState(state);
+      setControlsOpen(false);
+      api.fetchRates(state, true);
+    }
+  }, [isLoading, setState, setControlsOpen]);
+
+  const refresh = useCallback(() => {
+    if (canRefresh) {
+      refreshData();
+    }
+  }, [canRefresh, refreshData]);
+
   const controls = (
     <Controls
       state={state}
       loanType={loanType}
-      errors={errors}
-      updateErrors={updateErrors}
+      errors={visibleErrors}
+      canValidate={canValidate}
       controlsOpen={controlsOpen}
       theme={isMobile ? 'light' : 'dark'}
+      updateErrors={updateErrors}
+      setCanValidate={setCanValidate}
+      setCurrentInput={setCurrentInput}
       onChange={setState}
+      refresh={refresh}
     />
   );
 
@@ -74,30 +114,36 @@ export default memo(function Inputs({
     );
   }
 
-  const hasErrors = !!errors?.length;
-
   return (
     <div
       className={classNames(styles.inputWrapper, {
         [styles.open]: controlsOpen,
-        [styles.hasError]: hasErrors
+        [styles.hasError]: !!visibleErrors?.length
       })}
       style={{ marginBottom: controlsHeight + offset }}
     >
       <div ref={ref} className={styles.inputs}>
         <Outline />
         <div className={styles.inner}>
-          <Row>{controls}</Row>
+          <div className={styles.top}>
+            <Row>{controls}</Row>
+            <Button
+              theme="minimal"
+              className={styles.close}
+              color="#dcdcdc"
+              onClick={reset}
+              closeTooltipText="Cancel"
+              isClose
+            />
+          </div>
           <ControlButtons
-            state={state}
-            prevState={prevState}
             className={classNames(styles.controlButtons, {
               open: controlsOpen
             })}
-            hasErrors={hasErrors}
-            refreshData={refreshData}
-            setState={setState}
-            setControlsOpen={setControlsOpen}
+            canRefresh={canRefresh && !isLoading}
+            isLoading={isLoading}
+            refresh={refresh}
+            reset={reset}
           />
         </div>
       </div>

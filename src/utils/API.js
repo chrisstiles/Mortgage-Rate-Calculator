@@ -5,7 +5,7 @@ import {
   rateCacheExpiration
 } from '@config';
 import { keys, requestBody } from '@enums';
-import { isPlainObject, round } from 'lodash';
+import { isPlainObject, round, uniqueId } from 'lodash';
 import {
   compareObjects,
   call,
@@ -17,11 +17,11 @@ import {
   isRefinance
 } from '@helpers';
 import { cache } from '@app';
+import getInitialState from '@utils/getInitialState';
 import sampleDataPurchase from './sample-data-purchase.json';
 import sampleDataRefinance from './sample-data-refinance.json';
 
 export default class API {
-  #isFetching = false;
   #callbacks = {};
   #currentState = null;
   #currentType = null;
@@ -30,6 +30,10 @@ export default class API {
     refinance: null
   };
   #effectiveDates = {
+    purchase: null,
+    refinance: null
+  };
+  #fetchIds = {
     purchase: null,
     refinance: null
   };
@@ -77,7 +81,7 @@ export default class API {
   }
 
   isFetching() {
-    return this.#isFetching;
+    return this.#fetchIds[this.#currentType] !== null;
   }
 
   setCallbacks(callbacks) {
@@ -89,7 +93,7 @@ export default class API {
     this.#callbacks = callbacks;
   }
 
-  async fetchRates(state = {}) {
+  async fetchRates(state = {}, forceFetch) {
     if (
       !state ||
       (!isPurchase(state[keys.LOAN_TYPE]) &&
@@ -107,6 +111,7 @@ export default class API {
     );
 
     if (
+      !forceFetch &&
       !inputsChanged &&
       typeChanged &&
       this.#currentData[currentType]
@@ -117,26 +122,28 @@ export default class API {
       call(this.#callbacks.setIsLoading, false);
       return;
     } else if (inputsChanged || currentType !== this.#currentType) {
-      this.#isFetching = true;
       this.#currentType = currentType;
 
-      if (inputsChanged) {
+      if (inputsChanged || forceFetch) {
         this.#currentData.purchase = null;
         this.#currentData.refinance = null;
         this.removeCachedData();
       }
 
-      this.makeRequest(state);
+      this.makeRequest(state, currentType);
     }
   }
 
-  async makeRequest(state) {
+  async makeRequest(state, type) {
+    const fetchId = uniqueId('fetch');
+    this.#fetchIds[type] = fetchId;
+
     call(this.#callbacks.setIsLoading, true);
     this.#currentState = state;
 
     if (useSampleData) {
       setTimeout(() => {
-        this.finishFetching(sampleData[this.#currentType]);
+        this.finishFetching(sampleData[type], fetchId, type);
       }, sampleLoadingTime);
 
       return;
@@ -159,28 +166,34 @@ export default class API {
 
       if (!response.ok) {
         console.error('Invalid response', response);
-        this.finishFetching();
+        this.finishFetching(null, fetchId, type);
         return;
       }
 
       const json = await response.json();
-
-      this.finishFetching(json);
+      this.finishFetching(json, fetchId, type);
     } catch (e) {
       console.error(e);
-      this.finishFetching();
+      this.finishFetching(null, fetchId, type);
       return;
     }
   }
 
-  finishFetching(data = []) {
-    this.#isFetching = false;
-    this.setEffectiveDate(data?.length ? new Date() : null);
-    call(this.#callbacks.setData, formatData(data));
-    call(this.#callbacks.setIsLoading, false);
+  finishFetching(data = [], fetchId, type) {
+    if (this.#fetchIds[type] !== fetchId) {
+      return;
+    }
+
+    this.#fetchIds[type] = null;
+
+    if (this.#currentType === type) {
+      this.setEffectiveDate(data?.length ? new Date() : null);
+      call(this.#callbacks.setData, formatData(data));
+      call(this.#callbacks.setIsLoading, false);
+    }
 
     if (data?.length) {
-      this.#currentData[this.#currentType] = data;
+      this.#currentData[type] = data;
       this.setCachedData();
     }
   }
@@ -229,8 +242,15 @@ function formatData(data) {
       p.term = getLoanTerm(p.months, p.type);
       p.isAdjustable = isAdjustableRate(p.type);
       p.isFixed = isFixedRate(p.type);
+      p.payment = round(p.payment, 2);
+      p.closingCosts = round(p.closingCosts, 2);
 
-      if (!p.term || (!p.isAdjustable && !p.isFixed)) {
+      if (
+        !p.term ||
+        isNaN(p.payment) ||
+        isNaN(p.closingCosts) ||
+        (!p.isAdjustable && !p.isFixed)
+      ) {
         return null;
       }
 

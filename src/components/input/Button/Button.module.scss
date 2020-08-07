@@ -221,9 +221,10 @@
 
 .close {
   border-radius: 50%;
+  color: #5f5f5f;
 
   &:hover {
-    background-color: #f1f1f1 !important;
+    background-color: rgba(#a0a0a0, 0.1);
   }
 
   &:before {
@@ -243,7 +244,8 @@
       content: '';
       display: block !important;
       position: absolute;
-      background-color: #5f5f5f;
+      // background-color: #5f5f5f;
+      background-color: currentColor;
       transition: none !important;
       border-radius: 5px;
       top: 50%;

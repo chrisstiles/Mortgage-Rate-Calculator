@@ -38,7 +38,7 @@ export default memo(function Hero({
   const updateErrors = useCallback((error, name) => {
     setErrors(errors => {
       if (!errors.length && !error) {
-        return errors;
+        return errors.slice();
       }
 
       const newErrors = errors.slice().filter(e => e.name !== name);
@@ -51,36 +51,51 @@ export default memo(function Hero({
     });
   }, []);
 
-  const refreshData = useCallback(() => {
-    const newState = { ...currentState, loanType: state.loanType };
-    const hasErrors = errors?.length;
+  // We only show an error in assumptions box and field if
+  // the user has blurred. However, we still prevent refreshing
+  // if the field is invalid while the user is typing.
+  // We keep track of fields that can be validated in this array
+  const [canValidate, setCanValidate] = useState([]);
+  const visibleErrors = errors.filter(({ name }) =>
+    canValidate.includes(name)
+  );
 
-    if (hasErrors) {
-      errors.forEach(({ name }) => {
-        newState[name] = state[name];
+  const [currentInput, setCurrentInput] = useState(null);
 
-        if (name === keys.ZIP_CODE) {
-          newState.city = state.city;
-        }
-      });
-    }
+  const refreshData = useCallback(
+    (prevState = currentState) => {
+      const newState = { ...prevState, loanType: state.loanType };
+      const hasErrors = errors?.length;
 
-    setControlsOpen(false);
-    setErrors([]);
+      if (hasErrors) {
+        errors.forEach(({ name }) => {
+          newState[name] = state[name];
 
-    if (hasErrors) {
-      setCurrentState(newState);
-    }
+          if (name === keys.ZIP_CODE) {
+            newState.city = state.city;
+          }
+        });
+      }
 
-    setState(newState);
-  }, [
-    state,
-    currentState,
-    errors,
-    setCurrentState,
-    setState,
-    setControlsOpen
-  ]);
+      setControlsOpen(false);
+      setErrors([]);
+
+      if (hasErrors) {
+        setCurrentState(newState);
+      } else {
+        setState(newState);
+        setCurrentState(newState);
+      }
+    },
+    [
+      state,
+      currentState,
+      errors,
+      setCurrentState,
+      setState,
+      setControlsOpen
+    ]
+  );
 
   const handleAssumptionsClick = useCallback(() => {
     if (!controlsOpen) {
@@ -116,12 +131,13 @@ export default memo(function Hero({
           <Assumptions
             state={currentState}
             loanType={state.loanType}
-            errors={errors}
+            errors={visibleErrors}
             isLoading={isLoading}
             hasInitialLocation={hasInitialLocation}
             controlsOpen={controlsOpen}
             zipCodes={zipCodes}
             isMobile={isMobile}
+            currentInput={currentInput}
             onClick={handleAssumptionsClick}
           />
         </div>
@@ -131,13 +147,18 @@ export default memo(function Hero({
           loanType={state.loanType}
           controlsOpen={controlsOpen}
           controlsHeight={controlsHeight}
+          isLoading={isLoading}
           errors={errors}
+          visibleErrors={visibleErrors}
+          canValidate={canValidate}
           isMobile={isMobile}
           setControlsHeight={setControlsHeight}
           updateErrors={updateErrors}
+          setCanValidate={setCanValidate}
           setState={setCurrentState}
           refreshData={refreshData}
           setControlsOpen={setControlsOpen}
+          setCurrentInput={setCurrentInput}
         />
       </div>
       <Angles />

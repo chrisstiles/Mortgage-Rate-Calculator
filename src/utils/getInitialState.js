@@ -1,9 +1,20 @@
 import { defaults, urlParams, formFields } from '@config';
 import querystring from 'querystring';
-import { isString, isFunction, isRegExp, isBoolean, isPlainObject } from 'lodash';
+import {
+  isString,
+  isFunction,
+  isRegExp,
+  isBoolean,
+  isPlainObject
+} from 'lodash';
 import { cache } from '@app';
 import { isInFootprint } from '@helpers';
-import { keys, creditScoreRanges, propertyTypes, occupancyTypes } from './enums';
+import {
+  keys,
+  creditScoreRanges,
+  propertyTypes,
+  occupancyTypes
+} from './enums';
 
 // This object defines the shape of our shape object.
 
@@ -32,8 +43,12 @@ const state = {
   [keys.CREDIT_SCORE]: {
     defaultValue: defaults.creditScore,
     validate: n => {
-      return isNum(n) && !!Object.values(creditScoreRanges)
-        .find(({ value }) => value === n);
+      return (
+        isNum(n) &&
+        !!Object.values(creditScoreRanges).find(
+          ({ value }) => value === n
+        )
+      );
     },
     transform: parseInt
   },
@@ -57,13 +72,17 @@ const state = {
   [keys.PROPERTY_TYPE]: {
     defaultValue: defaults.propertyType,
     validate: v => {
-      return Object.values(propertyTypes).find(({ value }) => value === v);
+      return Object.values(propertyTypes).find(
+        ({ value }) => value === v
+      );
     }
   },
   [keys.OCCUPANCY_TYPE]: {
     defaultValue: defaults.occupancyType,
     validate: v => {
-      return Object.values(occupancyTypes).find(({ value }) => value === v);
+      return Object.values(occupancyTypes).find(
+        ({ value }) => value === v
+      );
     }
   },
   [keys.USER_SET_LOCATION]: {
@@ -78,20 +97,28 @@ const state = {
   }
 };
 
-const query = querystring.parse(window.location.search.replace(/^\?/, ''));
+const query = querystring.parse(
+  window.location.search.replace(/^\?/, '')
+);
 
-// Make it easy to link to the calculator with URL 
+// Make it easy to link to the calculator with URL
 // parameters without worrying about capitalization
 function findParamKey(obj, key) {
   if (!obj || !key) {
     return null;
   }
 
-  return obj[key] ? key : Object.keys(obj).find(p => p.toLowerCase() === key.toLowerCase());
+  return obj[key]
+    ? key
+    : Object.keys(obj).find(
+        p => p.toLowerCase() === key.toLowerCase()
+      );
 }
 
-export default function() {
-  const cachedState = cache.get(keys.LOAN_STATE) ?? {};
+export default function(ignoreCache) {
+  const cachedState = ignoreCache
+    ? {}
+    : cache.get(keys.LOAN_STATE) ?? {};
   const zipCodes = cache.get(keys.ZIP_CODES);
   const formattedState = {};
 
@@ -108,7 +135,8 @@ export default function() {
     let queryValue = query[findParamKey(query, parameter)]?.trim();
 
     if (isPlainObject(paramOptions)) {
-      queryValue = paramOptions[findParamKey(paramOptions, queryValue)];
+      queryValue =
+        paramOptions[findParamKey(paramOptions, queryValue)];
     }
 
     if (Array.isArray(validate)) {
@@ -116,7 +144,9 @@ export default function() {
     }
 
     if (hasFormField && !formFields.includes(key)) {
-      formattedState[key] = isValid(validate, queryValue) ? queryValue : defaultValue;
+      formattedState[key] = isValid(validate, queryValue)
+        ? queryValue
+        : defaultValue;
       return;
     }
 
@@ -130,7 +160,10 @@ export default function() {
     formattedState[key] = transform(value);
   });
 
-  if (formattedState[keys.LOAN_AMOUNT] >= formattedState[keys.HOME_VALUE]) {
+  if (
+    formattedState[keys.LOAN_AMOUNT] >=
+    formattedState[keys.HOME_VALUE]
+  ) {
     // Default to 80% LTV
     const loanAmount = formattedState[keys.LOAN_AMOUNT];
     formattedState[keys.HOME_VALUE] = (loanAmount * 10) / 8;
@@ -166,7 +199,7 @@ export default function() {
   }
 
   return formattedState;
-};
+}
 
 function isValid(validate, value) {
   return (
