@@ -39,11 +39,7 @@ export function Header({ shiftY, sortState, hasData, updateSort }) {
     </HeaderCell>
   ));
 
-  return (
-    <Row className={styles.header}>
-      {cells}
-    </Row>
-  );
+  return <Row className={styles.header}>{cells}</Row>;
 }
 
 export function HeaderCell({
@@ -77,23 +73,30 @@ export function HeaderCell({
     >
       <div className={styles.headerText}>
         {children}
-        {isCurrent &&
-          <Arrow />
-        }
+        {isCurrent && <Arrow />}
       </div>
     </Cell>
   );
 }
 
-export function Row({ children, className = styles.row }) {
+export function Row({
+  children,
+  className = styles.row,
+  ...restProps
+}) {
   return (
-    <div className={className}>
+    <div className={className} {...restProps}>
       {children}
     </div>
   );
 }
 
-export function Cell({ children, className, hasBadge, ...restProps }) {
+export function Cell({
+  children,
+  className,
+  hasBadge,
+  ...restProps
+}) {
   return (
     <div
       className={classNames(styles.cell, className, {

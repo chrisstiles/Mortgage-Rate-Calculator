@@ -17,8 +17,8 @@ module.exports = {
 
   // Whether or not to use sample data to prevent
   // continuously loading data from MORRIS API in
-  useSampleData: false,
-  sampleLoadingTime: 20000,
+  useSampleData: true,
+  sampleLoadingTime: 2000,
 
   /*-- API Endpoint URI --*/
 

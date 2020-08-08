@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { useState, memo } from 'react';
 import { Row, Cell } from './TableElements';
 import Product from './Product';
 import Rate from './Rate';
+import Modal from '@modal';
 import Currency from './Currency';
 
-export default function ProductRow({ item, isLoading }) {
+export default memo(function ProductRow({ item, isLoading }) {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const handleOpen = e => {
+    if (e.type !== 'keyup' || e.key === 'Enter') {
+      setModalIsOpen(true);
+    }
+  };
+
   return (
-    <Row>
+    <Row onClick={handleOpen} onKeyUp={handleOpen} tabIndex="0">
       <Cell>
         <Product product={item} isLoading={isLoading} />
       </Cell>
@@ -26,6 +35,11 @@ export default function ProductRow({ item, isLoading }) {
           isMinPayment={item.isMinPayment}
         />
       </Cell>
+      <Modal isOpen={modalIsOpen} setIsOpen={setModalIsOpen}>
+        Rate: {item.rate}
+        <br />
+        Closing costs: {item.closingCosts}
+      </Modal>
     </Row>
   );
-}
+});

@@ -20,14 +20,23 @@ const views = [
 module.exports = (env, argv) => {
   const isDev = argv.mode === 'development';
   const isProd = argv.mode === 'production';
-  const cssLoader = isDev ? 'style-loader' : {
-    loader: MiniCssExtractPlugin.loader,
-    options: {
-      publicPath: '../'
-    },
-  };
-  const htmlWebpackPlugins = views.map(view => new HtmlWebpackPlugin(view));
-  const getLocalIdent = (context, localIdentName, localName, options) => {
+  const cssLoader = isDev
+    ? 'style-loader'
+    : {
+        loader: MiniCssExtractPlugin.loader,
+        options: {
+          publicPath: '../'
+        }
+      };
+  const htmlWebpackPlugins = views.map(
+    view => new HtmlWebpackPlugin(view)
+  );
+  const getLocalIdent = (
+    context,
+    localIdentName,
+    localName,
+    options
+  ) => {
     const fileNameOrFolder = context.resourcePath.match(
       /index\.module\.(css|scss|sass)$/
     )
@@ -35,7 +44,8 @@ module.exports = (env, argv) => {
       : '[name]';
 
     const hash = loaderUtils.getHashDigest(
-      path.posix.relative(context.rootContext, context.resourcePath) + localName,
+      path.posix.relative(context.rootContext, context.resourcePath) +
+        localName,
       'md5',
       'base64',
       5
@@ -48,9 +58,9 @@ module.exports = (env, argv) => {
     );
 
     return className.replace('.module_', '_').toLowerCase();
-  }
+  };
 
-  const config =  {
+  const config = {
     entry: './src/index.js',
     resolve: {
       alias: {
@@ -59,8 +69,9 @@ module.exports = (env, argv) => {
         '@config$': path.resolve(__dirname, 'src/config.js'),
         '@enums$': path.resolve(__dirname, 'src/utils/enums.js'),
         '@helpers$': path.join(__dirname, 'src/utils/helpers'),
-        '@input': path.join(__dirname, 'src/components/input'),
         '@hooks': path.join(__dirname, 'src/hooks'),
+        '@input': path.join(__dirname, 'src/components/input'),
+        '@modal$': path.resolve(__dirname, 'src/components/Modal'),
         '@styles': path.join(__dirname, 'src/styles'),
         '@utils': path.join(__dirname, 'src/utils'),
         'react-spring$': 'react-spring/web.cjs.js',
@@ -119,8 +130,7 @@ module.exports = (env, argv) => {
             {
               loader: 'sass-loader',
               options: {
-                sourceMap: isDev,
-
+                sourceMap: isDev
               }
             }
           ]
@@ -132,7 +142,9 @@ module.exports = (env, argv) => {
               loader: 'url-loader',
               options: {
                 name(file) {
-                  const folder = /woff/.test(file) ? 'fonts' : 'images';
+                  const folder = /woff/.test(file)
+                    ? 'fonts'
+                    : 'images';
                   return `${folder}/[name].[hash:20].[ext]`;
                 },
                 limit: 8192
@@ -142,7 +154,7 @@ module.exports = (env, argv) => {
         },
         {
           test: /\.svg$/,
-          use: ['@svgr/webpack', 'url-loader'],
+          use: ['@svgr/webpack', 'url-loader']
         }
       ]
     }
@@ -185,7 +197,7 @@ module.exports = (env, argv) => {
           new TerserPlugin({
             extractComments: false
           }),
-          new OptimizeCssAssetsPlugin(),
+          new OptimizeCssAssetsPlugin()
         ]
       }
     });
