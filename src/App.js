@@ -13,7 +13,6 @@ import API from '@utils/API';
 import { getState, isInFootprint } from '@helpers';
 
 const cache = new CacheService();
-window.cache = cache;
 const api = new API();
 const initialState = getInitialState();
 
