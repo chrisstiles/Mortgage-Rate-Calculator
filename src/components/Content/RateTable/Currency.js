@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import { PaymentBadge, NCC } from './icons';
+import Tooltip from '@components/Tooltip';
 import styles from './RateTable.module.scss';
 import classNames from 'classnames';
 import { formatCurrency } from '@helpers';
@@ -26,7 +27,11 @@ export default memo(function Currency({
     >
       {text}
       {isMinPayment && showBadges && !isClosingCosts && (
-        <PaymentBadge className={styles.badge} />
+        <div className={styles.badge}>
+          <Tooltip text="Lowest payment">
+            <PaymentBadge />
+          </Tooltip>
+        </div>
       )}
     </div>
   );

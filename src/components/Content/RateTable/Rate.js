@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import Tooltip from '@components/Tooltip';
 import styles from './RateTable.module.scss';
 import { RateBadge } from './icons';
 import classNames from 'classnames';
@@ -15,7 +16,11 @@ export default memo(function Rate({ rate, apr, isMinRate }) {
       {formatPercent(rate, null, true)} <Divider />{' '}
       {formatPercent(apr, null, true)}
       {isMinRate && showBadges && (
-        <RateBadge className={styles.badge} />
+        <div className={styles.badge}>
+          <Tooltip text="Lowest rate">
+            <RateBadge />
+          </Tooltip>
+        </div>
       )}
     </div>
   );
