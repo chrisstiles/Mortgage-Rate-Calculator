@@ -14,7 +14,7 @@ import useWindowSize from '@hooks/useWindowSize';
 import { Phone } from './icons';
 import { getState } from '@helpers';
 import { keys } from '@enums';
-import { mobileSize } from '@config';
+import { mobileSize, phoneNumber } from '@config';
 
 export default memo(function Hero({
   state,
@@ -173,7 +173,7 @@ function Top() {
       <div className={styles.cta}>
         <div className={styles.phone}>
           <Phone />
-          (800) 359-2265
+          {phoneNumber}
         </div>
         <Button
           href="//www.fremontbank.com/start-your-loan?loanType=MORTGAGE"

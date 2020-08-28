@@ -167,6 +167,8 @@ module.exports = (env, argv) => {
       devServer: {
         contentBase: path.join(__dirname, 'src/views'),
         port: 8888,
+        host: '0.0.0.0',
+        useLocalIp: true,
         noInfo: true,
         quiet: true,
         hot: true,

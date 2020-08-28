@@ -1,0 +1,26 @@
+/*---------------------------*/
+/* Disclosures */
+/*---------------------------*/
+
+.wrapper {
+  max-width: 1050px;
+  margin: 70px auto 0 auto;
+  line-height: 1.6;
+  color: #565656;
+  font-size: 12px;
+
+  p {
+    font-size: inherit !important;
+    line-height: inherit !important;
+    color: inherit !important;
+    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  strong {
+    color: #444444 !important;
+  }
+}

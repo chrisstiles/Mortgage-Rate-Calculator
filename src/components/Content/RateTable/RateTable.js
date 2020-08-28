@@ -191,6 +191,16 @@ export default memo(function RateTable({
         resetFilters={resetFilters}
         setControlsOpen={setControlsOpen}
       />
+      {!isLoading && filteredRows?.length && (
+        <div className={styles.disclosure}>
+          <p>
+            * Estimated monthly payments shown include principal and
+            interest but do not include amounts for taxes and
+            insurance premiums, actual payment obligations will be
+            greater.
+          </p>
+        </div>
+      )}
     </React.Fragment>
   );
 });

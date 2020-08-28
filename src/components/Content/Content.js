@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect, memo } from 'react';
 import Header from './Header';
 import RateTable from './RateTable';
 import CTA from './CTA';
+import Disclosures from './Disclosures';
 import LoadingBar from './LoadingBar';
 import styles from './Content.module.scss';
 import getInitialFilterState, {
@@ -69,6 +70,7 @@ export default memo(function ContentWrapper({
         setControlsOpen={setControlsOpen}
         resetFilters={resetFilters}
       />
+      <Disclosures />
     </div>
   );
 });

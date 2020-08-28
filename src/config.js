@@ -10,6 +10,9 @@ const {
 module.exports = {
   /*-- Data --*/
 
+  // Marketing phone number
+  phoneNumber: '(877) 528-1514',
+
   // The app caches fetched rates in the user's browser
   // to make loading quicker. This value is the maximum
   // amount of time (in minutes) those cached rates are valid
@@ -136,7 +139,10 @@ module.exports = {
   highlightLowestRate: true,
   highlightLowestPayment: true,
 
-  // Display badge icons for lowest rate, payment and on NCC
+  // Displays a stylized No Closing Costs icon in the rate table
+  showNCCIcon: true,
+
+  // Display badge icons for lowest rate and payment
   showBadges: true,
 
   // The column and direction the rate table should be sorted by

@@ -4,7 +4,11 @@ import Tooltip from '@components/Tooltip';
 import styles from './RateTable.module.scss';
 import classNames from 'classnames';
 import { formatCurrency } from '@helpers';
-import { highlightLowestPayment, showBadges } from '@config';
+import {
+  highlightLowestPayment,
+  showBadges,
+  showNCCIcon
+} from '@config';
 
 export default memo(function Currency({
   amount,
@@ -12,7 +16,7 @@ export default memo(function Currency({
   isClosingCosts
 }) {
   const isNCCBadge =
-    isClosingCosts && showBadges && parseFloat(amount) === 0;
+    isClosingCosts && showNCCIcon && parseFloat(amount) === 0;
   const text = isNCCBadge ? (
     <NCC className={styles.ncc} />
   ) : (

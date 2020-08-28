@@ -79,7 +79,10 @@ function Top({ loanType, effectiveDate, isLoading }) {
                   [styles.loading]: isLoading
                 })}
               >
-                Effective as of {dateString} at {timeString}
+                Rates and terms effective as of {dateString} at{' '}
+                {timeString}
+                <br />
+                Subject to change without notice
               </div>
             )}
           </React.Fragment>
