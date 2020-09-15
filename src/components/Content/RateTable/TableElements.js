@@ -14,13 +14,31 @@ const columns = [
   {
     title: (
       <div className={styles.rate}>
-        Interest Rate <Divider /> APR
+        <span>Interest Rate</span>
+        <Divider />{' '}
+        <span>
+          APR<sup>1</sup>
+        </span>
       </div>
     ),
     value: sort.by.RATE
   },
-  { title: 'Closing Costs', value: sort.by.CLOSING_COSTS },
-  { title: 'Monthly Payments', value: sort.by.PAYMENT }
+  {
+    title: (
+      <React.Fragment>
+        Closing Costs<sup>3</sup>
+      </React.Fragment>
+    ),
+    value: sort.by.CLOSING_COSTS
+  },
+  {
+    title: (
+      <React.Fragment>
+        Monthly Payments<sup className={styles.asterisk}>*</sup>
+      </React.Fragment>
+    ),
+    value: sort.by.PAYMENT
+  }
 ];
 
 export function Header({ shiftY, sortState, hasData, updateSort }) {
