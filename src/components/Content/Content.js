@@ -1,9 +1,16 @@
-import React, { useState, useCallback, useEffect, memo } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  useMemo,
+  memo
+} from 'react';
 import Header from './Header';
 import RateTable from './RateTable';
 import CTA from './CTA';
 import Disclosures from './Disclosures';
 import LoadingBar from './LoadingBar';
+import { Button } from '@input';
 import styles from './Content.module.scss';
 import getInitialFilterState, {
   defaultFilters
@@ -77,7 +84,7 @@ export default memo(function ContentWrapper({
 
 const Content = memo(
   ({
-    data,
+    data: _data,
     loanType,
     shiftY,
     isLoading,
@@ -87,6 +94,25 @@ const Content = memo(
     setControlsOpen,
     resetFilters
   }) => {
+    const [showMoreClicked, setShowMoreClicked] = useState(false);
+    const data = useMemo(() => {
+      if (!_data?.first) {
+        return null;
+      }
+
+      return !showMoreClicked
+        ? _data.first
+        : Object.values(_data)
+            .filter(x => x)
+            .flat();
+    }, [_data, showMoreClicked]);
+
+    useEffect(() => {
+      if (isLoading) {
+        setShowMoreClicked(false);
+      }
+    }, [isLoading]);
+
     return (
       <div
         className={classNames(styles.content, {
@@ -111,7 +137,22 @@ const Content = memo(
           setControlsOpen={setControlsOpen}
           resetFilters={resetFilters}
         />
-        <CTA />
+        {!isLoading && (
+          <CTA>
+            {showMoreClicked ? (
+              <React.Fragment>
+                {!_data[loanType]?.second ? 'Loading...' : null}
+              </React.Fragment>
+            ) : (
+              <Button
+                theme="outline"
+                onClick={() => setShowMoreClicked(true)}
+              >
+                Show more products
+              </Button>
+            )}
+          </CTA>
+        )}
       </div>
     );
   }

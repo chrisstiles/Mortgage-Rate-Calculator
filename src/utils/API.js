@@ -18,15 +18,24 @@ import {
 } from '@helpers';
 import { cache } from '@app';
 import sampleDataPurchase from './sample-data-purchase.json';
+import sampleDataPurchaseAdditional from './sample-data-purchase-additional.json';
 import sampleDataRefinance from './sample-data-refinance.json';
+import sampleDataRefinanceAdditional from './sample-data-refinance-additional.json';
 
 export default class API {
   #callbacks = {};
   #currentState = null;
   #currentType = null;
+  // Data gets split into first and second fetches
   #currentData = {
-    purchase: null,
-    refinance: null
+    purchase: {
+      first: null,
+      second: null
+    },
+    refinance: {
+      first: null,
+      second: null
+    }
   };
   #effectiveDates = {
     purchase: null,
@@ -73,8 +82,8 @@ export default class API {
   }
 
   removeCachedData() {
-    this.#currentData.purchase = null;
-    this.#currentData.refinance = null;
+    this.#currentData.purchase = { first: null, second: null };
+    this.#currentData.refinance = { first: null, second: null };
     this.#effectiveDates = { purchase: null, refinance: null };
     cache.set(keys.CACHED_RATES_PURCHASE, null);
     cache.set(keys.CACHED_RATES_REFINANCE, null);
@@ -144,6 +153,16 @@ export default class API {
     if (useSampleData) {
       setTimeout(() => {
         this.finishFetching(sampleData[type], fetchId, type);
+
+        // Fetch additional products
+        setTimeout(() => {
+          this.finishFetching(
+            sampleData[`${type}Additional`],
+            fetchId,
+            type,
+            true
+          );
+        }, sampleLoadingTime * 5);
       }, sampleLoadingTime);
 
       return;
@@ -164,14 +183,20 @@ export default class API {
       init.body = formatRequestBody(state);
       const response = await fetch(endpoint, init);
 
-      if (!response.ok) {
+      const handleInvalidResponse = () => {
         console.error('Invalid response', response);
         this.finishFetching(null, fetchId, type);
+      };
+
+      if (!response.ok) {
+        handleInvalidResponse();
         return;
       }
 
       const json = await response.json();
       this.finishFetching(json, fetchId, type);
+
+      // TODO Add second request
     } catch (e) {
       console.error(e);
       this.finishFetching(null, fetchId, type);
@@ -179,21 +204,30 @@ export default class API {
     }
   }
 
-  finishFetching(data = [], fetchId, type) {
+  finishFetching(data = [], fetchId, type, isAdditionalData) {
     if (this.#fetchIds[type] !== fetchId) {
       return;
     }
 
-    this.#fetchIds[type] = null;
+    if (isAdditionalData) {
+      this.#fetchIds[type] = null;
+    }
+
+    const fetchKey = isAdditionalData ? 'second' : 'first';
 
     if (this.#currentType === type) {
-      this.setEffectiveDate(data?.length ? new Date() : null);
-      call(this.#callbacks.setData, formatData(data));
-      call(this.#callbacks.setIsLoading, false);
+      const newData = { ...this.#currentData[type] };
+      newData[fetchKey] = formatData(data);
+      call(this.#callbacks.setData, newData);
+
+      if (!isAdditionalData) {
+        this.setEffectiveDate(data?.length ? new Date() : null);
+        call(this.#callbacks.setIsLoading, false);
+      }
     }
 
     if (data?.length) {
-      this.#currentData[type] = data;
+      this.#currentData[type][fetchKey] = data;
       this.setCachedData();
     }
   }
@@ -272,7 +306,9 @@ function getCacheKey(type) {
 
 const sampleData = {
   purchase: sampleDataPurchase,
-  refinance: sampleDataRefinance
+  purchaseAdditional: sampleDataPurchaseAdditional,
+  refinance: sampleDataRefinance,
+  refinanceAdditional: sampleDataRefinanceAdditional
 };
 
 function effectiveDateExpired(date) {

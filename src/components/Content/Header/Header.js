@@ -20,7 +20,7 @@ export default function Header({
   const [filtersOpen, setFiltersOpen] = useState(false);
 
   useEffect(() => {
-    if (!data?.length) {
+    if (!data || !data?.first?.length) {
       setFiltersOpen(false);
     }
   }, [data]);
