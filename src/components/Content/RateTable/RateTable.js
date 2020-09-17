@@ -2,7 +2,9 @@ import React, { useState, useCallback, memo, useMemo } from 'react';
 import { Header } from './TableElements';
 import ProductRow from './ProductRow';
 import NoDataMessage from './NoDataMessage';
+import ShowMoreButton from './ShowMoreButton';
 import styles from './RateTable.module.scss';
+import usePrevious from '@hooks/usePrevious';
 import { orderBy, findKey } from 'lodash';
 import config from '@config';
 import { sort, keys } from '@enums';
@@ -11,13 +13,59 @@ import classNames from 'classnames';
 import { isNumber } from 'lodash';
 
 export default memo(function RateTable({
-  data,
+  data: _data,
+  showMoreClicked: _showMoreClicked,
+  additioanProductsLoading: _additionalProductsLoading,
+  loanType: _loanType,
   shiftY,
   isLoading,
   filterState,
   resetFilters,
-  setControlsOpen
+  setControlsOpen,
+  setShowMoreClicked
 }) {
+  // If loading is triggered by switching loan,
+  // type we display the previous loan type's
+  // data until loading is finished.
+  const prevLoanType = usePrevious(_loanType);
+  const prevData = usePrevious(_data);
+  const prevShowMoreClicked = usePrevious(_showMoreClicked);
+  const prevAdditionalProductsLoading = usePrevious(
+    _additionalProductsLoading
+  );
+  const [
+    data,
+    loanType,
+    showMoreClicked,
+    additioanProductsLoading
+  ] = useMemo(() => {
+    if (!isLoading || loanType === prevLoanType) {
+      return [
+        _data,
+        _loanType,
+        _showMoreClicked[_loanType],
+        _additionalProductsLoading
+      ];
+    }
+
+    return [
+      prevData,
+      prevLoanType,
+      _showMoreClicked[prevLoanType],
+      prevAdditionalProductsLoading
+    ];
+  }, [
+    isLoading,
+    prevLoanType,
+    prevData,
+    // prevShowMoreClicked,
+    prevAdditionalProductsLoading,
+    _data,
+    _loanType,
+    _showMoreClicked,
+    _additionalProductsLoading
+  ]);
+
   const [sortState, setSortState] = useState(() => {
     let { by, order, key } = cache.get(keys.SORT_STATE, {});
 
@@ -168,6 +216,8 @@ export default memo(function RateTable({
     ));
   }, [filteredRows, isLoading]);
 
+  const hasData = !!filteredRows?.length;
+
   return (
     <React.Fragment>
       <div
@@ -179,7 +229,7 @@ export default memo(function RateTable({
         <Header
           shiftY={shiftY}
           sortState={sortState}
-          hasData={!!filteredRows?.length}
+          hasData={hasData}
           updateSort={updateSort}
         />
         {components}
@@ -191,15 +241,23 @@ export default memo(function RateTable({
         resetFilters={resetFilters}
         setControlsOpen={setControlsOpen}
       />
-      {!isLoading && filteredRows?.length && (
-        <div className={styles.disclosure}>
-          <p>
-            * Estimated monthly payments shown include principal and
-            interest but do not include amounts for taxes and
-            insurance premiums, actual payment obligations will be
-            greater.
-          </p>
-        </div>
+      {hasData && (
+        <React.Fragment>
+          <ShowMoreButton
+            isLoading={isLoading}
+            showMoreClicked={showMoreClicked}
+            additioanProductsLoading={additioanProductsLoading}
+            setShowMoreClicked={setShowMoreClicked}
+          />
+          <div className={styles.disclosure}>
+            <p>
+              * Estimated monthly payments shown include principal and
+              interest but do not include amounts for taxes and
+              insurance premiums, actual payment obligations will be
+              greater.
+            </p>
+          </div>
+        </React.Fragment>
       )}
     </React.Fragment>
   );

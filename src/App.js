@@ -2,6 +2,7 @@ import React, {
   useEffect,
   useState,
   useCallback,
+  useMemo,
   useRef
 } from 'react';
 import Content from './components/Content';
@@ -96,7 +97,10 @@ export default function App() {
               const [city] = zipCodes[zipCode] ?? [];
 
               if (isInFootprint(zipCode)) {
-                const currentLocation = { zipCode, city };
+                const currentLocation = {
+                  zipCode,
+                  city
+                };
                 setState(currentLocation);
 
                 // Only store current location in session. This allows us
@@ -120,9 +124,31 @@ export default function App() {
     }
   }, [setState, zipCodes]);
 
+  // Manage whether additional rates are displayed
+  const [showMoreClicked, _setShowMoreClicked] = useState({
+    purchase: false,
+    refinance: false
+  });
+
+  const { loanType } = state;
+  const setShowMoreClicked = useCallback(
+    value => {
+      _setShowMoreClicked(state => {
+        return { ...state, [loanType]: value };
+      });
+    },
+    [loanType]
+  );
+
+  // Add state callbacks to API instance
   useEffect(() => {
-    api.setCallbacks({ setData, setIsLoading, setEffectiveDate });
-  }, [setData, setIsLoading, setEffectiveDate]);
+    api.setCallbacks({
+      setData,
+      setIsLoading,
+      setEffectiveDate,
+      setShowMoreClicked: _setShowMoreClicked
+    });
+  }, [setData, setIsLoading, setEffectiveDate, _setShowMoreClicked]);
 
   // Fetch initially displayed rates
   const rateInitComplete = useRef(false);
@@ -151,7 +177,9 @@ export default function App() {
         isLoading={isLoading}
         controlsHeight={controlsHeight}
         effectiveDate={effectiveDate}
-        loanType={state.loanType}
+        loanType={loanType}
+        showMoreClicked={showMoreClicked}
+        setShowMoreClicked={setShowMoreClicked}
         setControlsOpen={setControlsOpen}
       />
     </div>

@@ -148,16 +148,25 @@ export default class API {
     this.#fetchIds[type] = fetchId;
 
     call(this.#callbacks.setIsLoading, true);
+    call(this.#callbacks.setShowMoreClicked, {
+      purchase: false,
+      refinance: false
+    });
+
     this.#currentState = state;
 
     if (useSampleData) {
       setTimeout(() => {
-        this.finishFetching(sampleData[type], fetchId, type);
+        this.finishFetching(
+          sampleData[type].slice(0, 3),
+          fetchId,
+          type
+        );
 
         // Fetch additional products
         setTimeout(() => {
           this.finishFetching(
-            sampleData[`${type}Additional`],
+            sampleData[`${type}Additional`].slice(0, 3),
             fetchId,
             type,
             true

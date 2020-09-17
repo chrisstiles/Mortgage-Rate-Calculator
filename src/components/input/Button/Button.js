@@ -23,6 +23,7 @@ export default function Button({
   fontSize,
   isClose,
   closeTooltipText = 'Close',
+  disabled,
   ...restProps
 }) {
   const showArrow = theme === 'primary' && (_showArrow || !!href);
@@ -30,10 +31,11 @@ export default function Button({
     ...restProps,
     style: { ...style, color, fontSize },
     className: classNames(styles.button, {
-      [className]: !isClose || !closeTooltipText,
+      [className]: className && (!isClose || !closeTooltipText),
       [styles.arrow]: showArrow,
       [styles[theme]]: theme,
-      [styles.close]: isClose
+      [styles.close]: isClose,
+      [styles.disabled]: disabled
     })
   };
 

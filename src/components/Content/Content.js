@@ -10,7 +10,6 @@ import RateTable from './RateTable';
 import CTA from './CTA';
 import Disclosures from './Disclosures';
 import LoadingBar from './LoadingBar';
-import { Button } from '@input';
 import styles from './Content.module.scss';
 import getInitialFilterState, {
   defaultFilters
@@ -26,7 +25,9 @@ export default memo(function ContentWrapper({
   controlsHeight,
   effectiveDate,
   loanType,
-  setControlsOpen
+  showMoreClicked,
+  setControlsOpen,
+  setShowMoreClicked
 }) {
   const [filterState, _setFilterState] = useState(() => {
     return getInitialFilterState();
@@ -73,9 +74,11 @@ export default memo(function ContentWrapper({
         effectiveDate={effectiveDate}
         isLoading={isLoading}
         filterState={filterState}
+        showMoreClicked={showMoreClicked}
         setFilterState={setFilterState}
         setControlsOpen={setControlsOpen}
         resetFilters={resetFilters}
+        setShowMoreClicked={setShowMoreClicked}
       />
       <Disclosures />
     </div>
@@ -90,28 +93,23 @@ const Content = memo(
     isLoading,
     effectiveDate,
     filterState,
+    showMoreClicked,
     setFilterState,
     setControlsOpen,
-    resetFilters
+    resetFilters,
+    setShowMoreClicked
   }) => {
-    const [showMoreClicked, setShowMoreClicked] = useState(false);
     const data = useMemo(() => {
       if (!_data?.first) {
         return null;
       }
 
-      return !showMoreClicked
+      return !showMoreClicked[loanType]
         ? _data.first
         : Object.values(_data)
             .filter(x => x)
             .flat();
-    }, [_data, showMoreClicked]);
-
-    useEffect(() => {
-      if (isLoading) {
-        setShowMoreClicked(false);
-      }
-    }, [isLoading]);
+    }, [_data, showMoreClicked, loanType]);
 
     return (
       <div
@@ -132,27 +130,16 @@ const Content = memo(
         <RateTable
           data={data}
           shiftY={shiftY}
+          loanType={loanType}
           isLoading={isLoading}
           filterState={filterState}
+          showMoreClicked={showMoreClicked}
+          additioanProductsLoading={!_data?.second}
           setControlsOpen={setControlsOpen}
           resetFilters={resetFilters}
+          setShowMoreClicked={setShowMoreClicked}
         />
-        {!isLoading && (
-          <CTA>
-            {showMoreClicked ? (
-              <React.Fragment>
-                {!_data[loanType]?.second ? 'Loading...' : null}
-              </React.Fragment>
-            ) : (
-              <Button
-                theme="outline"
-                onClick={() => setShowMoreClicked(true)}
-              >
-                Show more products
-              </Button>
-            )}
-          </CTA>
-        )}
+        <CTA />
       </div>
     );
   }
