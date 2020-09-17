@@ -5,16 +5,14 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./src",
     "paths": {
-      "@conifig": ["config"],
+      "@config": ["config"],
       "@components": ["components/*"],
       "@enums": ["utils/enums"],
       "@helpers": ["utils/helpers"],
       "@hooks": ["utils/hooks/*"],
       "@inputs": ["utils/inputs"],
-      "@styles": ["styles/*"],
+      "@styles": ["styles/*"]
     }
   },
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

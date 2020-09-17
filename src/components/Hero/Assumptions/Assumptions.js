@@ -15,7 +15,8 @@ import { cache } from '@app';
 import {
   displayPulse,
   hidePulseAfterFirstVisit,
-  pulseCount
+  pulseCount,
+  darkHeroStyle
 } from '@config';
 
 export default memo(function Assumptions({
@@ -99,7 +100,8 @@ export default memo(function Assumptions({
       text={tooltipText}
       className={classNames(styles.wrapper, {
         [styles.open]: controlsOpen,
-        [styles.hasError]: errors.length
+        [styles.hasError]: errors.length,
+        [styles.dark]: darkHeroStyle
       })}
       forceHidden={!canShowTooltip || isLoading || isMobile}
       onMouseLeave={handleMouseLeave}

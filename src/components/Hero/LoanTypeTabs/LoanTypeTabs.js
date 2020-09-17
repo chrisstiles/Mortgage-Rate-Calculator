@@ -61,7 +61,11 @@ export default memo(function LoanTypeTabs({
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div
+      className={classNames(styles.wrapper, {
+        [styles.dark]: config.darkHeroStyle
+      })}
+    >
       <Label>What type of loan are you looking for?</Label>
       <div
         className={classNames(styles.tabWrapper, {

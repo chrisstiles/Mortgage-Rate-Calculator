@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import { Button } from '@input';
 import styles from './ControlButtons.module.scss';
 import classNames from 'classnames';
+import { darkHeroStyle } from '@config';
 
 export default memo(function ControlButtons({
   className,
@@ -11,7 +12,11 @@ export default memo(function ControlButtons({
   reset
 }) {
   return (
-    <div className={classNames(styles.wrapper, className)}>
+    <div
+      className={classNames(styles.wrapper, className, {
+        [styles.dark]: darkHeroStyle
+      })}
+    >
       <Button
         className={classNames(styles.reset, {
           [styles.disabled]: isLoading

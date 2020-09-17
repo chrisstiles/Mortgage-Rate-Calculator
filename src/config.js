@@ -131,6 +131,9 @@ module.exports = {
     default: { main: '#a9a9a9', text: '#8c8c8c' }
   },
 
+  // Hero can have a dark or light style
+  darkHeroStyle: false,
+
   // Switches either purchase or refinance (whichever is default)
   // to display as the first tab on the left.
   displayDefaultTabFirst: true,

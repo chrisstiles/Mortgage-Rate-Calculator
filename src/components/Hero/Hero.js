@@ -14,7 +14,8 @@ import useWindowSize from '@hooks/useWindowSize';
 import { Phone } from './icons';
 import { getState } from '@helpers';
 import { keys } from '@enums';
-import { mobileSize, phoneNumber } from '@config';
+import { mobileSize, phoneNumber, darkHeroStyle } from '@config';
+import classNames from 'classnames';
 
 export default memo(function Hero({
   state,
@@ -119,7 +120,11 @@ export default memo(function Hero({
   const isMobile = windowWidth <= mobileSize;
 
   return (
-    <div className={styles.wrapper}>
+    <div
+      className={classNames(styles.wrapper, {
+        [styles.dark]: darkHeroStyle
+      })}
+    >
       <div className={styles.content}>
         <Top />
         <div className={styles.controlsWrapper}>
@@ -161,7 +166,7 @@ export default memo(function Hero({
           setCurrentInput={setCurrentInput}
         />
       </div>
-      <Angles />
+      {darkHeroStyle && <Angles />}
     </div>
   );
 });

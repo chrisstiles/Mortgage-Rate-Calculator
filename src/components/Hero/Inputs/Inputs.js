@@ -15,6 +15,7 @@ import useResizeObserver from '@hooks/useResizeObserver';
 import useWindowSize from '@hooks/useWindowSize';
 import classNames from 'classnames';
 import { compareObjects } from '@helpers';
+import { darkHeroStyle } from '@config';
 import { keys, field } from '@enums';
 import { cache } from '@app';
 import getInitialState from '@utils/getInitialState';
@@ -97,7 +98,7 @@ export default memo(function Inputs({
       errors={visibleErrors}
       canValidate={canValidate}
       controlsOpen={controlsOpen}
-      theme={isMobile ? 'light' : 'dark'}
+      theme={isMobile || !darkHeroStyle ? 'light' : 'dark'}
       updateErrors={updateErrors}
       setCanValidate={setCanValidate}
       setCurrentInput={setCurrentInput}
@@ -122,7 +123,8 @@ export default memo(function Inputs({
     <div
       className={classNames(styles.inputWrapper, {
         [styles.open]: controlsOpen,
-        [styles.hasError]: !!visibleErrors?.length
+        [styles.hasError]: !!visibleErrors?.length,
+        [styles.dark]: darkHeroStyle
       })}
       style={{ marginBottom: controlsHeight + offset }}
     >
@@ -134,7 +136,7 @@ export default memo(function Inputs({
             <Button
               theme="minimal"
               className={styles.close}
-              color="#dcdcdc"
+              color={darkHeroStyle ? '#dcdcdc' : '#808080'}
               onClick={cancel}
               closeTooltipText="Cancel"
               isClose

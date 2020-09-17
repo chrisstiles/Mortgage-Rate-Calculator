@@ -5,15 +5,23 @@
 @import 'fonts';
 
 @mixin placeholder {
-  &::-webkit-input-placeholder {@content}
-  &:-moz-placeholder           {@content}
-  &::-moz-placeholder          {@content}
-  &:-ms-input-placeholder      {@content}  
+  &::-webkit-input-placeholder {
+    @content;
+  }
+  &:-moz-placeholder {
+    @content;
+  }
+  &::-moz-placeholder {
+    @content;
+  }
+  &:-ms-input-placeholder {
+    @content;
+  }
 }
 
 @mixin placeholderStyles($color: #9c9c9c) {
   @include placeholder {
-    color:$color;
+    color: $color;
     @content;
   }
 }
@@ -34,7 +42,7 @@
   label,
   div {
     font-family: $sansSerif;
-    letter-spacing: -.02em; // Fix for Interstate's odd letter spacing
+    letter-spacing: -0.02em; // Fix for Interstate's odd letter spacing
   }
 
   button {
@@ -43,32 +51,33 @@
   }
 
   a {
-    -webkit-tap-highlight-color:rgba(0,0,0,.2);
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.2);
   }
 }
 
 @mixin targetIE {
-  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  @media all and (-ms-high-contrast: none),
+    (-ms-high-contrast: active) {
     @content;
   }
 }
 
 @mixin inputStyles($theme: light) {
   font-family: $sansSerif;
-  display:flex;
-  border-radius:2px;
-  height:40px;
-  font-size:14px;
-  width:100%;
-  position:relative;
-  border:none;
-  flex-shrink:0;
+  display: flex;
+  border-radius: 2px;
+  height: 40px;
+  font-size: 14px;
+  width: 100%;
+  position: relative;
+  border: none;
+  flex-shrink: 0;
 
   &.focus,
   &:focus {
     .icon {
-      color:currentColor !important;
-      opacity:.8;
+      color: currentColor !important;
+      opacity: 0.8;
 
       svg,
       path {
@@ -79,37 +88,37 @@
 
   .icon,
   .input {
-    font-size:inherit;
+    font-size: inherit;
   }
 
   @if $theme == dark {
     &.dark {
-      background-color:rgba(#fff, .15);
+      background-color: rgba(#fff, 0.15);
       box-shadow: 0px 1px 4px rgba(#000, 0.1);
-      color:#fff;
+      color: #fff;
 
       .input {
-        color:#fff;
+        color: #fff;
       }
 
       .icon {
-        color:#cacaca;
+        color: #cacaca;
       }
 
       &:hover {
-        background-color:rgba(#fff, .18);
+        background-color: rgba(#fff, 0.18);
         box-shadow: 0px 1px 4px rgba(#000, 0.2);
       }
 
       &.focus,
       &:focus {
-        background-color:rgba(#fff, .3) !important;
+        background-color: rgba(#fff, 0.3) !important;
         box-shadow: 0px 1px 4px rgba(#000, 0.2);
 
         .input {
           @include placeholderStyles(#dddddd);
           @include targetIE {
-            background-color:#937878;
+            background-color: #937878;
           }
         }
       }
@@ -118,12 +127,12 @@
         background-color: rgba(#fbb2b2, 0.3);
 
         .icon {
-          color:#fff0f0;
+          color: #fff0f0;
         }
 
         .input {
-          @include placeholderStyles(rgba(253, 244, 244, .9));
-          color:#fff0f0;
+          @include placeholderStyles(rgba(253, 244, 244, 0.9));
+          color: #fff0f0;
         }
 
         &:hover {
@@ -137,73 +146,67 @@
     }
   } @else {
     background-color: #fff;
-    color:#494949;
-    box-shadow:
-      0 0 0 1px #e9e9e9,
-      0 4px 10px rgba(0, 0, 0, 0.04),
+    color: #494949;
+    box-shadow: 0 0 0 1px #e9e9e9, 0 4px 10px rgba(0, 0, 0, 0.04),
       0 1px 3px rgba(0, 0, 0, 0.07);
 
     .input {
       @include placeholderStyles(#979797);
-      color:#494949;
+      color: #494949;
     }
 
     .icon {
-      color:#888888;
+      color: #888888;
     }
 
     &:hover {
-      box-shadow:
-        0 0 0 1px #d8d8d8,
-        0 4px 10px rgba(0, 0, 0, 0.04),
+      box-shadow: 0 0 0 1px #d8d8d8, 0 4px 10px rgba(0, 0, 0, 0.04),
         0 1px 3px rgba(0, 0, 0, 0.07);
     }
-    
+
     &.focus,
     &:focus {
-      box-shadow:
-        0 0 0 1.6px $darkTeal,
-        inset 0 0 0 .6px $darkTeal;
+      box-shadow: 0 0 0 1.6px $darkTeal, inset 0 0 0 0.6px $darkTeal;
 
       .icon {
-        color:$darkTeal;
-        opacity:1;
+        color: $darkTeal;
+        opacity: 1;
 
         svg,
         path {
-          color:$darkTeal;
+          color: $darkTeal;
         }
       }
     }
 
     &.hasError {
       background-color: #fff8f7;
-      box-shadow:
-        0 0 0 1px #f3dcdc,
-        0 4px 10px rgba(0, 0, 0, 0.04),
+      box-shadow: 0 0 0 1px #f3dcdc, 0 4px 10px rgba(0, 0, 0, 0.04),
         0 1px 3px rgba(0, 0, 0, 0.07);
 
       .icon {
-        color:#9e6e6c;
+        color: #9e6e6c;
       }
 
       .input {
         @include placeholderStyles(#b4908d);
-        color:#71413f;
+        color: #71413f;
       }
 
       &:hover {
-        box-shadow:
-          0 0 0 1px #e9caca,
-          0 4px 10px rgba(0, 0, 0, 0.04),
+        box-shadow: 0 0 0 1px #e9caca, 0 4px 10px rgba(0, 0, 0, 0.04),
           0 1px 3px rgba(0, 0, 0, 0.07);
       }
 
       &.focus {
-        box-shadow:
-          0 0 0 1.6px #d47070,
-          inset 0 0 0 .6px #d47070;
+        box-shadow: 0 0 0 1.6px #d47070, inset 0 0 0 0.6px #d47070;
       }
     }
+  }
+}
+
+@mixin dark {
+  @at-root .dark & {
+    @content;
   }
 }

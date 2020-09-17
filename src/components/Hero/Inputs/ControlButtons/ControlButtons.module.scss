@@ -2,11 +2,19 @@
 /* Controls Buttons */
 /*---------------------------*/
 
+@import '@styles/mixins';
+
 .wrapper {
   display: flex;
   justify-content: space-between;
   padding: 15px 15px 17px 15px;
-  background: rgba(#fff, 0.04);
+  background-color: #efefef;
+  color: #616161;
+
+  &.dark {
+    color: #e6e6e6;
+    background-color: rgba(#fff, 0.04);
+  }
 
   > * {
     margin-right: 15px;
@@ -18,12 +26,16 @@
 }
 
 .reset {
-  color: #e6e6e6;
+  color: currentColor;
   text-transform: none;
   font-weight: 400;
 
   &:hover {
-    background-color: rgba(#fff, 0.06);
+    background-color: #e4e4e4;
+
+    @include dark {
+      background-color: rgba(#fff, 0.06);
+    }
   }
 
   &.disabled {

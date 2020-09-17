@@ -2,6 +2,8 @@
 /* Inputs */
 /*---------------------------*/
 
+@import '@styles/mixins';
+
 .inputWrapper {
   position: relative;
   pointer-events: none;
@@ -122,12 +124,16 @@ $openTransition: opacity 0.6s;
   right: 0;
   bottom: 0;
   left: 0;
-  border: 2px dashed rgba(#fff, 0.5);
-  border-top: none;
+  border: 2px dashed #cccccc;
+  border-top: none !important;
   z-index: 11;
   pointer-events: none;
   transition: $transition;
   opacity: 0;
+
+  @include dark {
+    border: 2px dashed rgba(#fff, 0.5);
+  }
 
   .top {
     position: absolute;
@@ -149,8 +155,12 @@ $openTransition: opacity 0.6s;
     &:after {
       content: '';
       display: block;
-      border-top: 2px dashed rgba(#fff, 0.5);
+      border-top: 2px dashed #cccccc;
       height: 2px;
+
+      @include dark {
+        border-top: 2px dashed rgba(#fff, 0.5);
+      }
     }
 
     &:before {
