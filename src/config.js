@@ -23,7 +23,7 @@ module.exports = {
   useSampleData: true,
   sampleLoadingTime: 2000,
 
-  /*-- API Endpoint URI --*/
+  /*-- API --*/
 
   // endpoint:
   //   'https://morris.fremontbank.com/api/external/getretailloanproducts',
@@ -33,6 +33,13 @@ module.exports = {
   // from outside fremontbank.com
   endpoint:
     'https://cors-anywhere.herokuapp.com/https://morris.fremontbank.com/api/external/getretailloanproducts',
+
+  // We fetch rates in two separate requests to speed up the calculator.
+  // The initial request gets a fixed list of products, and
+  // on the second request we send a list of plan numbers
+  // to fetch. These are what is displayed when the user clicks
+  // on the 'load more rates' button.
+  additionalPlanNumbers: ['611', '610', '607'],
 
   /*-- Form Fields --*/
 

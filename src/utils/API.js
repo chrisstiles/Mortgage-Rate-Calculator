@@ -2,7 +2,8 @@ import {
   endpoint,
   useSampleData,
   sampleLoadingTime,
-  rateCacheExpiration
+  rateCacheExpiration,
+  additionalPlanNumbers
 } from '@config';
 import { keys, requestBody, field } from '@enums';
 import { isPlainObject, round, uniqueId } from 'lodash';
@@ -182,30 +183,38 @@ export default class API {
       headers: {
         'Content-Type': 'application/json',
         'Accept-Encoding': 'gzip, deflate',
-        Accept: '*/*',
-        // TODO: Remove this header once CORS issue is resolved
-        origin: 'morris.fremontbank.com'
+        Accept: '*/*'
       }
     };
 
     try {
       init.body = formatRequestBody(state);
-      const response = await fetch(endpoint, init);
+      const firstResponse = await fetch(endpoint, init);
 
       const handleInvalidResponse = () => {
-        console.error('Invalid response', response);
+        console.error('Invalid response', firstResponse);
         this.finishFetching(null, fetchId, type);
       };
 
-      if (!response.ok) {
+      if (!firstResponse.ok) {
         handleInvalidResponse();
         return;
       }
 
-      const json = await response.json();
-      this.finishFetching(json, fetchId, type);
+      const firstData = await firstResponse.json();
+      this.finishFetching(firstData, fetchId, type);
 
-      // TODO Add second request
+      // Start second request for additional products
+      init.body = formatRequestBody(state, true);
+      const secondResponse = await fetch(endpoint, init);
+
+      if (!firstResponse.ok) {
+        handleInvalidResponse();
+        return;
+      }
+
+      const secondData = await secondResponse.json();
+      this.finishFetching(secondData, fetchId, type, true);
     } catch (e) {
       console.error(e);
       this.finishFetching(null, fetchId, type);
@@ -251,7 +260,7 @@ export default class API {
   }
 }
 
-function formatRequestBody(state) {
+function formatRequestBody(state, isSecondRequest) {
   if (!isPlainObject(state)) {
     return JSON.stringify({});
   }
@@ -269,6 +278,10 @@ function formatRequestBody(state) {
       }
     }
   });
+
+  if (isSecondRequest) {
+    request.PlanNumbers = additionalPlanNumbers;
+  }
 
   return JSON.stringify(request);
 }
