@@ -29,7 +29,6 @@ export default memo(function RateTable({
   // data until loading is finished.
   const prevLoanType = usePrevious(_loanType);
   const prevData = usePrevious(_data);
-  const prevShowMoreClicked = usePrevious(_showMoreClicked);
   const prevAdditionalProductsLoading = usePrevious(
     _additionalProductsLoading
   );
@@ -58,7 +57,6 @@ export default memo(function RateTable({
     isLoading,
     prevLoanType,
     prevData,
-    // prevShowMoreClicked,
     prevAdditionalProductsLoading,
     _data,
     _loanType,
