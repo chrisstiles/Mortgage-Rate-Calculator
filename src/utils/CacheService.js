@@ -26,6 +26,10 @@ export default class CacheService {
     });
   }
 
+  remove(key, type = 'localStorage') {
+    window[type].removeItem(key);
+  }
+
   setSession(key, data) {
     return this.set(`_${key}`, data, 'sessionStorage');
   }

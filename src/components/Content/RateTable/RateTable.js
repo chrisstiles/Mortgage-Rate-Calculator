@@ -243,6 +243,7 @@ export default memo(function RateTable({
         <React.Fragment>
           <ShowMoreButton
             isLoading={isLoading}
+            preventRender={isLoading && prevLoanType !== _loanType}
             showMoreClicked={showMoreClicked}
             additioanProductsLoading={additioanProductsLoading}
             setShowMoreClicked={setShowMoreClicked}

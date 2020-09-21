@@ -6,7 +6,7 @@ import {
   additionalPlanNumbers
 } from '@config';
 import { keys, requestBody, field } from '@enums';
-import { isPlainObject, round, uniqueId } from 'lodash';
+import { isPlainObject, round, uniqueId, shuffle } from 'lodash';
 import {
   compareObjects,
   call,
@@ -15,7 +15,8 @@ import {
   isAdjustableRate,
   isFixedRate,
   isPurchase,
-  isRefinance
+  isRefinance,
+  isValidDate
 } from '@helpers';
 import { cache } from '@app';
 import sampleDataPurchase from './sample-data-purchase.json';
@@ -53,6 +54,8 @@ export default class API {
     if (this.#currentState) {
       this.getCachedData('purchase');
       this.getCachedData('refinance');
+    } else {
+      this.removeCachedData(false);
     }
   }
 
@@ -63,10 +66,14 @@ export default class API {
     if (effectiveDate && data) {
       const date = new Date(effectiveDate);
 
-      if (!effectiveDateExpired(date)) {
+      if (isValidDate(date) && !effectiveDateExpired(date)) {
         this.#currentData[type] = data;
         this.#effectiveDates[type] = date;
+      } else {
+        this.removeCachedData(false, type);
       }
+    } else {
+      this.removeCachedData(false, type);
     }
   }
 
@@ -77,18 +84,32 @@ export default class API {
 
     if (data && effectiveDate) {
       const key = getCacheKey(type);
-      cache.set(key, { effectiveDate, data });
+      cache.set(key, {
+        effectiveDate: new Date(effectiveDate).toISOString(),
+        data
+      });
       cache.set(keys.CACHED_REQUEST_STATE, this.#currentState);
     }
   }
 
-  removeCachedData() {
-    this.#currentData.purchase = { first: null, second: null };
-    this.#currentData.refinance = { first: null, second: null };
-    this.#effectiveDates = { purchase: null, refinance: null };
-    cache.set(keys.CACHED_RATES_PURCHASE, null);
-    cache.set(keys.CACHED_RATES_REFINANCE, null);
-    cache.set(keys.CACHED_REQUEST_STATE, null);
+  removeCachedData(removeRequestState = true, type) {
+    const data = { first: null, second: null };
+
+    if (type) {
+      this.#currentData[type] = { ...data };
+      this.#effectiveDates[type] = null;
+      cache.remove(getCacheKey(type));
+    } else {
+      this.#currentData.purchase = { ...data };
+      this.#currentData.refinance = { ...data };
+      this.#effectiveDates = { purchase: null, refinance: null };
+      cache.remove(keys.CACHED_RATES_PURCHASE);
+      cache.remove(keys.CACHED_RATES_REFINANCE);
+    }
+
+    if (removeRequestState) {
+      cache.remove(keys.CACHED_REQUEST_STATE);
+    }
   }
 
   isFetching() {
@@ -159,7 +180,7 @@ export default class API {
     if (useSampleData) {
       setTimeout(() => {
         this.finishFetching(
-          sampleData[type].slice(0, 3),
+          shuffle(sampleData[type]).slice(0, 5),
           fetchId,
           type
         );
@@ -167,7 +188,7 @@ export default class API {
         // Fetch additional products
         setTimeout(() => {
           this.finishFetching(
-            sampleData[`${type}Additional`].slice(0, 3),
+            shuffle(sampleData[`${type}Additional`]).slice(0, 5),
             fetchId,
             type,
             true
@@ -338,6 +359,6 @@ function effectiveDateExpired(date) {
     return true;
   }
 
-  const diff = getTimeDifference(date, new Date(), 'minutes');
+  const diff = getTimeDifference(date, new Date());
   return diff === null || diff > rateCacheExpiration;
 }

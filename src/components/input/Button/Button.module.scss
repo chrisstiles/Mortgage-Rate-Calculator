@@ -3,6 +3,7 @@
 /*---------------------------*/
 
 @import '@styles/colors';
+@import '@styles/mixins';
 
 .button {
   display: inline-flex;
@@ -24,6 +25,7 @@
   border-radius: 0;
 
   &.disabled {
+    @include noSelect;
     pointer-events: none;
     filter: grayscale(100%);
     opacity: 0.8;

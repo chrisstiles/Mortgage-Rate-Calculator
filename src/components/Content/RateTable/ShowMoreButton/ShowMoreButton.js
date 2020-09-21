@@ -5,28 +5,30 @@ import styles from './ShowMoreButton.module.scss';
 export default memo(function ShowMoreButton({
   showMoreClicked,
   additioanProductsLoading,
+  isLoading,
   setShowMoreClicked
 }) {
   if (showMoreClicked && !additioanProductsLoading) {
     return null;
   }
 
-  const isLoading = showMoreClicked && additioanProductsLoading;
+  const isLoadingAdditional =
+    showMoreClicked && additioanProductsLoading;
 
   return (
     <div className={styles.wrapper}>
       <Button
-        disabled={isLoading}
+        disabled={isLoading || isLoadingAdditional}
         theme="outline"
         onClick={() => setShowMoreClicked(true)}
       >
-        {isLoading ? 'Loading...' : 'Load more rates'}
+        {isLoadingAdditional ? 'Loading...' : 'Load more rates'}
       </Button>
     </div>
   );
 },
 shouldPreventRender);
 
-function shouldPreventRender(_, nextProps) {
-  return nextProps.isLoading;
+function shouldPreventRender(prevProps, nextProps) {
+  return prevProps.preventRender && nextProps.preventRender;
 }

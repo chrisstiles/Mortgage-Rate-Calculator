@@ -257,8 +257,8 @@ export function getLoanTerm(months, type) {
   }
 }
 
-// Returns the time difference (defaults to milliseconds)
-export function getTimeDifference(a, b, unit) {
+// Returns the time difference in minutes
+export function getTimeDifference(a, b) {
   a = new Date(a);
   b = new Date(b);
 
@@ -267,16 +267,8 @@ export function getTimeDifference(a, b, unit) {
     return null;
   }
 
-  let diffMs = Math.abs(b - a);
-  let diff = diffMs;
+  a = new Date(a.toISOString());
+  b = new Date(b.toISOString());
 
-  if (unit === 'minutes') {
-    diff = Math.round(((diffMs % 86400000) % 3600000) / 60000);
-  } else if (unit === 'hours') {
-    diff = Math.floor((diffMs % 86400000) / 3600000);
-  } else if (unit === 'days') {
-    diff = Math.floor(diffMs / 86400000);
-  }
-
-  return diff;
+  return Math.floor((b.getTime() - a.getTime()) / 1000 / 60);
 }
