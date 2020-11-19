@@ -20,19 +20,19 @@ module.exports = {
 
   // Whether or not to use sample data to prevent
   // continuously loading data from MORRIS API in
-  useSampleData: true,
+  useSampleData: false,
   sampleLoadingTime: 2000,
 
   /*-- API --*/
 
-  // endpoint:
-  //   'https://morris.fremontbank.com/api/external/getretailloanproducts',
+  endpoint:
+    'https://morris.fremontbank.com/api/external/getretailloanproducts',
 
   // TODO: This is currently using a proxy
   // to get around CORS issue making requests
   // from outside fremontbank.com
-  endpoint:
-    'https://cors-anywhere.herokuapp.com/https://morris.fremontbank.com/api/external/getretailloanproducts',
+  // endpoint:
+  //   'https://cors-anywhere.herokuapp.com/https://morris.fremontbank.com/api/external/getretailloanproducts',
 
   // We fetch rates in two separate requests to speed up the calculator.
   // The initial request gets a fixed list of products, and
