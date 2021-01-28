@@ -8,7 +8,7 @@ export default memo(function Product({ product, isLoading }) {
     : colors[product.term] ?? colors.default;
   let term = [product.term];
 
-  if (product.isAdjustable) {
+  if (product.isAdjustable && product.term) {
     const termArr = term[0].split('/');
     term = [termArr[0], <span key="slash">/</span>, termArr[1]];
   }

@@ -316,7 +316,7 @@ function formatData(data) {
     .map(p => {
       // Converts term value to be formatted based on product
       // IE: fixed: 30, adjustable: 5/1
-      p.term = getLoanTerm(p.months, p.type);
+      p.term = getLoanTerm(p);
       p.isAdjustable = isAdjustableRate(p.type);
       p.isFixed = isFixedRate(p.type);
       p.payment = round(p.payment, 2);

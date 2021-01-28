@@ -224,7 +224,12 @@ export function isValidDate(date) {
   return date instanceof Date && !isNaN(date);
 }
 
-export function getLoanTerm(months, type) {
+export function getLoanTerm({
+  months,
+  timePeriodOfInitialRate,
+  type,
+  planDescription
+}) {
   if (!months || !type) {
     console.error('Undefined term or product type');
     return null;
@@ -238,19 +243,33 @@ export function getLoanTerm(months, type) {
 
     return String(Number(months) / 12);
   } else if (type.trim().match(/^adjustable/i)) {
-    const termArr = months.split('/');
-    const fixedTerm = Number(termArr[0]);
+    if (timePeriodOfInitialRate && !isNaN(timePeriodOfInitialRate)) {
+      const fixedMonths = Number(timePeriodOfInitialRate);
+      const fixedYears = fixedMonths / 12;
 
-    if (
-      termArr.length === 1 ||
-      isNaN(fixedTerm) ||
-      fixedTerm % 12 !== 0
-    ) {
-      console.error('Invalid adjustable term', months);
-      return null;
+      if (fixedMonths % 12 !== 0 || isNaN(fixedYears)) {
+        console.error(
+          'Invalid adjustable term. Fixed time period:',
+          timePeriodOfInitialRate
+        );
+        return null;
+      }
+
+      return `${fixedYears}/1`;
+    } else {
+      const termArr = months.split('/');
+      const fixedTerm = Number(termArr[0]);
+
+      if (
+        (termArr.length === 1,
+        isNaN(fixedTerm) || fixedTerm % 12 !== 0)
+      ) {
+        console.error('Invalid adjustable term. Months:', months);
+        return null;
+      }
+
+      return `${fixedTerm / 12}/1`;
     }
-
-    return `${fixedTerm / 12}/1`;
   } else {
     console.error('Invalid product type', type);
     return null;
